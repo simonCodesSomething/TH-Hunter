@@ -1,0 +1,32 @@
+[
+  {
+    "id": "th-001",
+    "name": "'67 Camaro",
+    "type": "STH",
+    "year" :2026,
+    "series": "Mainline",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for spectraflame paint and real rider rubber tires. Check the base for the small green STH logo."
+  },
+  {
+    "id": "th-002",
+    "name": "Rodger Dodger",
+    "type": "TH",
+      "year" :2026,
+    "series": "Mainline",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Regular Treasure Hunts have the flame logo on the card/blister, not spectraflame paint."
+  },
+  {
+    "id": "th-003",
+    "name": "Twin Mill",
+    "type": "STH",
+      "year" :2026,
+    "series": "Mainline",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "STH cars never appear on a card with a visible TH flame logo printed on the packaging like regular Treasure Hunts do."
+  }
+]
