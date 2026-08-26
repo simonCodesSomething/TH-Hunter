@@ -1,66 +1,56 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { NavigationContainer, DarkTheme } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import BrowseScreen from "./src/screens/BrowseScreen";
 import CheatSheetScreen from "./src/screens/CheatSheetScreen";
+import HuntScreen from "./src/screens/HuntScreen";
+import BottomTabs from "./src/components/BottomTabs";
 
-type RootTabParamList = {
-  Browse: undefined;
-  CheatSheet: undefined;
-};
-
-const Tab = createBottomTabNavigator<RootTabParamList>();
-
-const theme = {
-  ...DarkTheme,
-  colors: {
-    ...DarkTheme.colors,
-    background: "#000",
-    card: "#111113",
-    border: "#1c1c1e",
-  },
-};
+type Tab = "browse" | "cheatsheet" | "hunt";
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState<Tab>("browse");
+
+  const renderScreen = () => {
+    switch (activeTab) {
+      case "browse":
+        return <BrowseScreen />;
+
+      case "cheatsheet":
+        return <CheatSheetScreen />;
+
+      case "hunt":
+        return <HuntScreen />;
+
+      default:
+        return <BrowseScreen />;
+    }
+  };
+
   return (
-    <NavigationContainer theme={theme}>
-      <StatusBar style="light" />
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+        <View style={styles.screen}>
+          {renderScreen()}
+        </View>
 
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          tabBarActiveTintColor: "#ff8c00",
-          tabBarInactiveTintColor: "#8e8e93",
-          tabBarStyle: {
-            backgroundColor: "#111113",
-            borderTopColor: "#1c1c1e",
-          },
-          tabBarIcon: ({ color, size }) => {
-            const iconName =
-              route.name === "Browse"
-                ? "search"
-                : "information-circle";
-
-            return (
-              <Ionicons
-                name={iconName}
-                size={size}
-                color={color}
-              />
-            );
-          },
-        })}
-      >
-        <Tab.Screen name="Browse" component={BrowseScreen} />
-        <Tab.Screen
-          name="CheatSheet"
-          component={CheatSheetScreen}
-          options={{ title: "How to Spot Them" }}
+        <BottomTabs
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
-      </Tab.Navigator>
-    </NavigationContainer>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#000000",
+  },
+
+  screen: {
+    flex: 1,
+  },
+});
