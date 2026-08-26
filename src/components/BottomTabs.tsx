@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  Pressable,
-  Text,
-  View,
-} from "react-native";
+import { Pressable, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { styles } from "../styles/tabs.styles";
-
-type Tab = "browse" | "cheatsheet" | "hunt";
+import type { Tab } from "../types/tabs";
 
 interface BottomTabsProps {
   activeTab: Tab;
@@ -17,7 +12,6 @@ interface BottomTabsProps {
 
 interface TabItem {
   key: Tab;
-  label: string;
   icon: keyof typeof Ionicons.glyphMap;
   activeIcon: keyof typeof Ionicons.glyphMap;
 }
@@ -25,20 +19,21 @@ interface TabItem {
 const TABS: TabItem[] = [
   {
     key: "browse",
-    label: "Browse",
     icon: "grid-outline",
     activeIcon: "grid",
   },
-
   {
     key: "hunt",
-    label: "Hunt",
     icon: "flame-outline",
     activeIcon: "flame",
   },
-    {
+  {
+    key: "collection",
+    icon: "cube-outline",
+    activeIcon: "cube",
+  },
+  {
     key: "cheatsheet",
-    label: "Cheat Sheet",
     icon: "list-outline",
     activeIcon: "list",
   },
@@ -51,16 +46,21 @@ export default function BottomTabs({
   return (
     <View style={styles.container}>
       {TABS.map((tab) => {
-        const active =
-          activeTab === tab.key;
+        const active = activeTab === tab.key;
 
         return (
           <Pressable
             key={tab.key}
-            style={styles.tab}
-            onPress={() =>
-              onTabChange(tab.key)
-            }
+            style={({ pressed }) => [
+              styles.tab,
+              pressed && styles.tabPressed,
+            ]}
+            onPress={() => onTabChange(tab.key)}
+            accessibilityRole="tab"
+            accessibilityState={{
+              selected: active,
+            }}
+            hitSlop={6}
           >
             <Ionicons
               name={
@@ -68,24 +68,13 @@ export default function BottomTabs({
                   ? tab.activeIcon
                   : tab.icon
               }
-              size={24}
+              size={26}
               color={
                 active
                   ? "#FBBF24"
-                  : "#77777C"
+                  : "#FFFFFF"
               }
             />
-
-            <Text
-              style={[
-                styles.label,
-                active
-                  ? styles.labelActive
-                  : undefined,
-              ]}
-            >
-              {tab.label}
-            </Text>
           </Pressable>
         );
       })}

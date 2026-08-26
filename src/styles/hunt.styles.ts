@@ -442,4 +442,54 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 8,
   },
+  yearSection: {
+  marginBottom: 18,
+},
+
+yearSectionHeader: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  paddingHorizontal: 14,
+  marginBottom: 10,
+},
+
+yearSelectedLabel: {
+  color: "#FBBF24",
+  fontSize: 14,
+  fontWeight: "900",
+},
+
+yearRow: {
+  paddingHorizontal: 14,
+  gap: 8,
+},
+
+yearChip: {
+  minWidth: 64,
+  height: 38,
+  paddingHorizontal: 14,
+  borderRadius: 19,
+  backgroundColor: "#111111",
+  borderWidth: 1,
+  borderColor: "#292929",
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+yearChipActive: {
+  backgroundColor: "#FBBF24",
+  borderColor: "#FBBF24",
+},
+
+yearChipText: {
+  color: "#8E8E93",
+  fontSize: 13,
+  fontWeight: "800",
+},
+
+yearChipTextActive: {
+  color: "#111111",
+  fontWeight: "900",
+},
 });

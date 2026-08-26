@@ -1,32 +1,2702 @@
 [
   {
-    "id": "th-001",
-    "name": "'67 Camaro",
-    "type": "STH",
-    "year" :2026,
-    "series": "Mainline",
-    "caseLetter": "C",
-    "imageKey": "placeholder",
-    "idTips": "Look for spectraflame paint and real rider rubber tires. Check the base for the small green STH logo."
-  },
-  {
-    "id": "th-002",
-    "name": "Rodger Dodger",
+    "id": "th-2018-001",
+    "name": "Sting Rod II",
     "type": "TH",
-      "year" :2026,
-    "series": "Mainline",
-    "caseLetter": "D",
+    "year": 2018,
+    "series": "Dino Riders",
+    "caseLetter": "A",
     "imageKey": "placeholder",
-    "idTips": "Regular Treasure Hunts have the flame logo on the card/blister, not spectraflame paint."
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
   },
   {
-    "id": "th-003",
-    "name": "Twin Mill",
-    "type": "STH",
-      "year" :2026,
-    "series": "Mainline",
+    "id": "th-2018-002",
+    "name": "El Viento",
+    "type": "TH",
+    "year": 2018,
+    "series": "X-Raycers",
     "caseLetter": "B",
     "imageKey": "placeholder",
-    "idTips": "STH cars never appear on a card with a visible TH flame logo printed on the packaging like regular Treasure Hunts do."
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2018-003",
+    "name": "Tanknator",
+    "type": "TH",
+    "year": 2018,
+    "series": "HW Ride-Ons",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2018-004",
+    "name": "Street Stealth",
+    "type": "TH",
+    "year": 2018,
+    "series": "HW Moto",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2018-005",
+    "name": "Zombot",
+    "type": "TH",
+    "year": 2018,
+    "series": "HW Robots",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2018-006",
+    "name": "Rockster",
+    "type": "TH",
+    "year": 2018,
+    "series": "HW Sports",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2018-007",
+    "name": "Blitzspeeder",
+    "type": "TH",
+    "year": 2018,
+    "series": "Super Chromes",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2018-008",
+    "name": "Rrroadster",
+    "type": "TH",
+    "year": 2018,
+    "series": "Holiday Racers",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2018-009",
+    "name": "Kool Kombi",
+    "type": "TH",
+    "year": 2018,
+    "series": "HW Art Cars",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2018-010",
+    "name": "Bump Around",
+    "type": "TH",
+    "year": 2018,
+    "series": "HW Fun Park",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2018-011",
+    "name": "Hollowback",
+    "type": "TH",
+    "year": 2018,
+    "series": "HW Glow Wheels",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2018-012",
+    "name": "Quick Bite",
+    "type": "TH",
+    "year": 2018,
+    "series": "Fast Foodie",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2018-013",
+    "name": "Ratical Racer",
+    "type": "TH",
+    "year": 2018,
+    "series": "Street Beasts",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2018-014",
+    "name": "1989 Batmobile",
+    "type": "TH",
+    "year": 2018,
+    "series": "Batman",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2018-015",
+    "name": "Crate Racer",
+    "type": "TH",
+    "year": 2018,
+    "series": "Experimotors",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2018-001",
+    "name": "Datsun 620",
+    "type": "STH",
+    "year": 2018,
+    "series": "HW Hot Trucks",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-002",
+    "name": "'68 Chevy Nova",
+    "type": "STH",
+    "year": 2018,
+    "series": "HW Flames",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-003",
+    "name": "Porsche 934.5",
+    "type": "STH",
+    "year": 2018,
+    "series": "Nightburnerz",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-004",
+    "name": "2015 Ford Mustang GT",
+    "type": "STH",
+    "year": 2018,
+    "series": "HW Speed Graphics",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-005",
+    "name": "Nissan Skyline 2000 GT-R",
+    "type": "STH",
+    "year": 2018,
+    "series": "Then and Now",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-006",
+    "name": "Indy 500 Oval",
+    "type": "STH",
+    "year": 2018,
+    "series": "Legends of Speed",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-007",
+    "name": "'68 Mustang",
+    "type": "STH",
+    "year": 2018,
+    "series": "Tooned",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-008",
+    "name": "'17 Camaro ZL1",
+    "type": "STH",
+    "year": 2018,
+    "series": "Muscle Mania",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-009",
+    "name": "'52 Chevy",
+    "type": "STH",
+    "year": 2018,
+    "series": "HW Metro",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-010",
+    "name": "Lamborghini Aventador",
+    "type": "STH",
+    "year": 2018,
+    "series": "HW Exotics",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-011",
+    "name": "King Kuda",
+    "type": "STH",
+    "year": 2018,
+    "series": "Checkmate",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-012",
+    "name": "'17 Audi RS6 Avant",
+    "type": "STH",
+    "year": 2018,
+    "series": "Factory Fresh",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-013",
+    "name": "'70 Ford Escort RS1600",
+    "type": "STH",
+    "year": 2018,
+    "series": "HW 50th Race Team",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-014",
+    "name": "Fiat 500",
+    "type": "STH",
+    "year": 2018,
+    "series": "HW Daredevils",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2018-015",
+    "name": "Cruella de Vil",
+    "type": "STH",
+    "year": 2018,
+    "series": "HW Screen Time",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "th-2019-001",
+    "name": "Bazoomka",
+    "type": "TH",
+    "year": 2019,
+    "series": "HW Ride-Ons",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2019-002",
+    "name": "Sting Rod",
+    "type": "TH",
+    "year": 2019,
+    "series": "Dino Riders",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2019-003",
+    "name": "69 Chevelle",
+    "type": "TH",
+    "year": 2019,
+    "series": "X-Raycers",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2019-004",
+    "name": "Twin Mill",
+    "type": "TH",
+    "year": 2019,
+    "series": "HW Game Over",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2019-005",
+    "name": "Honda Monkey Z50",
+    "type": "TH",
+    "year": 2019,
+    "series": "HW Moto",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2019-006",
+    "name": "Humvee",
+    "type": "TH",
+    "year": 2019,
+    "series": "Baja Blazers",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2019-007",
+    "name": "Corvette Stingray",
+    "type": "TH",
+    "year": 2019,
+    "series": "Super Chromes",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2019-008",
+    "name": "Head Starter",
+    "type": "TH",
+    "year": 2019,
+    "series": "Experimotors",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2019-009",
+    "name": "HW Armored Truck",
+    "type": "TH",
+    "year": 2019,
+    "series": "HW Rescue",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2019-010",
+    "name": "Custom Ford Bronco",
+    "type": "TH",
+    "year": 2019,
+    "series": "HW Hot Trucks",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2019-011",
+    "name": "Fast-Bed Hauler",
+    "type": "TH",
+    "year": 2019,
+    "series": "HW Metro",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2019-012",
+    "name": "Cyber Speeder",
+    "type": "TH",
+    "year": 2019,
+    "series": "HW Space",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2019-013",
+    "name": "Sharkruiser",
+    "type": "TH",
+    "year": 2019,
+    "series": "Street Beasts",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2019-014",
+    "name": "Batman: The Animated Series",
+    "type": "TH",
+    "year": 2019,
+    "series": "Batman",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2019-015",
+    "name": "67 Camaro",
+    "type": "TH",
+    "year": 2019,
+    "series": "HW Art Cars",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2019-001",
+    "name": "'90 Honda Civic EF",
+    "type": "STH",
+    "year": 2019,
+    "series": "HW Speed Graphics",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-002",
+    "name": "Nissan Skyline GT-R BNR34",
+    "type": "STH",
+    "year": 2019,
+    "series": "Nissan",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-003",
+    "name": "Corvette Grand Sport Roadster",
+    "type": "STH",
+    "year": 2019,
+    "series": "HW Roadsters",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-004",
+    "name": "Volkswagen T2 Pickup",
+    "type": "STH",
+    "year": 2019,
+    "series": "Volkswagen",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-005",
+    "name": "Back to the Future Time Machine - Hover Mode",
+    "type": "STH",
+    "year": 2019,
+    "series": "HW Screen Time",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-006",
+    "name": "Mazda REPU",
+    "type": "STH",
+    "year": 2019,
+    "series": "Nightburnerz",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-007",
+    "name": "92 Ford Mustang",
+    "type": "STH",
+    "year": 2019,
+    "series": "Speed Blur",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-008",
+    "name": "68 Mercury Cougar",
+    "type": "STH",
+    "year": 2019,
+    "series": "HW Flames",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-009",
+    "name": "69 Corvette Racer",
+    "type": "STH",
+    "year": 2019,
+    "series": "HW Race Day",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-010",
+    "name": "'18 Dodge Challenger SRT Demon",
+    "type": "STH",
+    "year": 2019,
+    "series": "Muscle Mania",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-011",
+    "name": "Street Creeper",
+    "type": "STH",
+    "year": 2019,
+    "series": "Rod Squad",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-012",
+    "name": "Lamborghini Aventador J",
+    "type": "STH",
+    "year": 2019,
+    "series": "HW Exotics",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-013",
+    "name": "Tesla Model S",
+    "type": "STH",
+    "year": 2019,
+    "series": "HW Green Speed",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-014",
+    "name": "Morris Mini",
+    "type": "STH",
+    "year": 2019,
+    "series": "HW Race Team",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2019-015",
+    "name": "Porsche 911 GT3 RS",
+    "type": "STH",
+    "year": 2019,
+    "series": "Factory Fresh",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "th-2020-001",
+    "name": "Bubble Matic",
+    "type": "TH",
+    "year": 2020,
+    "series": "Experimotors",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2020-002",
+    "name": "Mercedes-Benz Unimog 1300",
+    "type": "TH",
+    "year": 2020,
+    "series": "HW Metro",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2020-003",
+    "name": "Grass Chomper",
+    "type": "TH",
+    "year": 2020,
+    "series": "HW Ride-Ons",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2020-004",
+    "name": "Buns of Steel",
+    "type": "TH",
+    "year": 2020,
+    "series": "Fast Foodie",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2020-005",
+    "name": "Batman: Arkham Asylum Batmobile",
+    "type": "TH",
+    "year": 2020,
+    "series": "Batman",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2020-006",
+    "name": "Circle Trucker",
+    "type": "TH",
+    "year": 2020,
+    "series": "Track Stars",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2020-007",
+    "name": "Dodge Charger Daytona",
+    "type": "TH",
+    "year": 2020,
+    "series": "Tooned",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2020-008",
+    "name": "2013 Hot Wheels Chevy Camaro Special Edition",
+    "type": "TH",
+    "year": 2020,
+    "series": "HW Dream Garage",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2020-009",
+    "name": "Power Pistons",
+    "type": "TH",
+    "year": 2020,
+    "series": "X-Raycers",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2020-010",
+    "name": "Custom '56 Ford Truck",
+    "type": "TH",
+    "year": 2020,
+    "series": "HW Art Cars",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2020-011",
+    "name": "Dune Daddy",
+    "type": "TH",
+    "year": 2020,
+    "series": "Olympic Games Tokyo 2020",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2020-012",
+    "name": "Tricera-Truck",
+    "type": "TH",
+    "year": 2020,
+    "series": "Street Beasts",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2020-013",
+    "name": "The Beatles Yellow Submarine",
+    "type": "TH",
+    "year": 2020,
+    "series": "Screen Time",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2020-014",
+    "name": "Chevy Silverado",
+    "type": "TH",
+    "year": 2020,
+    "series": "HW Rescue",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2020-015",
+    "name": "Dodge Viper RT/10",
+    "type": "TH",
+    "year": 2020,
+    "series": "HW Race Team",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2020-001",
+    "name": "Nissan Skyline GT-R BNR32",
+    "type": "STH",
+    "year": 2020,
+    "series": "HW Turbo",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-002",
+    "name": "Ford GT-40",
+    "type": "STH",
+    "year": 2020,
+    "series": "HW Race Day",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-003",
+    "name": "67 Jeepster Commando",
+    "type": "STH",
+    "year": 2020,
+    "series": "Baja Blazers",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-004",
+    "name": "Porsche 918 Spyder",
+    "type": "STH",
+    "year": 2020,
+    "series": "Porsche",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-005",
+    "name": "'88 Honda CR-X",
+    "type": "STH",
+    "year": 2020,
+    "series": "Honda",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-006",
+    "name": "Mazda RX-7",
+    "type": "STH",
+    "year": 2020,
+    "series": "Speed Blur",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-007",
+    "name": "'17 Nissan GT-R R35",
+    "type": "STH",
+    "year": 2020,
+    "series": "HW Speed Graphics",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-008",
+    "name": "'84 Audi Sport Quattro",
+    "type": "STH",
+    "year": 2020,
+    "series": "Factory Fresh",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-009",
+    "name": "Lamborghini Sesto Elemento",
+    "type": "STH",
+    "year": 2020,
+    "series": "HW Exotics",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-010",
+    "name": "'57 Chevy",
+    "type": "STH",
+    "year": 2020,
+    "series": "Rod Squad",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-011",
+    "name": "69 Chevy Pickup",
+    "type": "STH",
+    "year": 2020,
+    "series": "HW Hot Trucks",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-012",
+    "name": "65 Ford Galaxie",
+    "type": "STH",
+    "year": 2020,
+    "series": "HW Flames",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-013",
+    "name": "'18 Dodge Challenger SRT Demon",
+    "type": "STH",
+    "year": 2020,
+    "series": "Muscle Mania",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-014",
+    "name": "'17 Pagani Huayra Roadster",
+    "type": "STH",
+    "year": 2020,
+    "series": "HW Roadsters",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2020-015",
+    "name": "'64 Chevy Chevelle SS",
+    "type": "STH",
+    "year": 2020,
+    "series": "Nightburnerz",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "th-2021-001",
+    "name": "BAJA Bone Shaker",
+    "type": "TH",
+    "year": 2021,
+    "series": "Holiday Racers",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2021-002",
+    "name": "Street Wiener",
+    "type": "TH",
+    "year": 2021,
+    "series": "Fast Foodie",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2021-003",
+    "name": "Custom '77 Dodge Van",
+    "type": "TH",
+    "year": 2021,
+    "series": "HW Art Cars",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2021-004",
+    "name": "Motosaurus",
+    "type": "TH",
+    "year": 2021,
+    "series": "Dino Riders",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2021-005",
+    "name": "Skull Shaker",
+    "type": "TH",
+    "year": 2021,
+    "series": "Experimotors",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2021-006",
+    "name": "Tred Shredder",
+    "type": "TH",
+    "year": 2021,
+    "series": "HW Daredevils",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2021-007",
+    "name": "Deora II",
+    "type": "TH",
+    "year": 2021,
+    "series": "HW Dream Garage",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2021-008",
+    "name": "Mustang Funny Car",
+    "type": "TH",
+    "year": 2021,
+    "series": "HW Race Day",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2021-009",
+    "name": "Chrysler Pacifica",
+    "type": "TH",
+    "year": 2021,
+    "series": "HW Metro",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2021-010",
+    "name": "'91 Mazda MX-5 Miata",
+    "type": "TH",
+    "year": 2021,
+    "series": "Then and Now",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2021-011",
+    "name": "Ollie Rocket",
+    "type": "TH",
+    "year": 2021,
+    "series": "HW Space",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2021-012",
+    "name": "1978 Dodge Li'l Red Express Truck",
+    "type": "TH",
+    "year": 2021,
+    "series": "HW Hot Trucks",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2021-013",
+    "name": "Justice League Batmobile",
+    "type": "TH",
+    "year": 2021,
+    "series": "Batman",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2021-014",
+    "name": "'65 Ford Galaxie",
+    "type": "TH",
+    "year": 2021,
+    "series": "Muscle Mania",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2021-015",
+    "name": "Lamborghini Countach Police Car",
+    "type": "TH",
+    "year": 2021,
+    "series": "HW Rescue",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2021-001",
+    "name": "Nissan 300ZX Twin Turbo",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Turbo",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-002",
+    "name": "Corvette Grand Sport Roadster",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Race Day",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-003",
+    "name": "Rodger Dodger",
+    "type": "STH",
+    "year": 2021,
+    "series": "Mattel Games",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-004",
+    "name": "95 Mazda RX-7",
+    "type": "STH",
+    "year": 2021,
+    "series": "Factory Fresh",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-005",
+    "name": "Corvette C7 Z06 Convertible",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Speed Graphics",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-006",
+    "name": "Mazda RX-3",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Drift",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-007",
+    "name": "2020 Ford Mustang Shelby GT500",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Torque",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-008",
+    "name": "'71 Datsun 510",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW J-Imports",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-009",
+    "name": "Porsche 356A Outlaw",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Speed Graphics",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-010",
+    "name": "2018 Honda Civic Type R",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW J-Imports",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-011",
+    "name": "'68 Mercury Cougar",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Flames",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-012",
+    "name": "2019 Audi R8 Spyder",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Exotics",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-013",
+    "name": "'64 Nova Wagon Gasser",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Race Team",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-014",
+    "name": "'49 Ford F1",
+    "type": "STH",
+    "year": 2021,
+    "series": "HW Hot Trucks",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2021-015",
+    "name": "Shelby Cobra 427 S/C",
+    "type": "STH",
+    "year": 2021,
+    "series": "Muscle Mania",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "th-2022-001",
+    "name": "The Dark Knight Batmobile",
+    "type": "TH",
+    "year": 2022,
+    "series": "Batman",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2022-002",
+    "name": "Quick Bite",
+    "type": "TH",
+    "year": 2022,
+    "series": "Fast Foodie",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2022-003",
+    "name": "Pixel Shaker",
+    "type": "TH",
+    "year": 2022,
+    "series": "HW Ride-Ons",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2022-004",
+    "name": "Tooned Twin Mill",
+    "type": "TH",
+    "year": 2022,
+    "series": "Tooned",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2022-005",
+    "name": "Draftnator",
+    "type": "TH",
+    "year": 2022,
+    "series": "HW Speed Team",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2022-006",
+    "name": "'17 Jeep Wrangler",
+    "type": "TH",
+    "year": 2022,
+    "series": "Mud Studs",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2022-007",
+    "name": "Duck N' Roll",
+    "type": "TH",
+    "year": 2022,
+    "series": "Street Beast",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2022-008",
+    "name": "Morris Mini",
+    "type": "TH",
+    "year": 2022,
+    "series": "Compact Kings",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2022-009",
+    "name": "Gotta Go",
+    "type": "TH",
+    "year": 2022,
+    "series": "Experimotors",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2022-010",
+    "name": "'87 Dodge D100",
+    "type": "TH",
+    "year": 2022,
+    "series": "HW Daredevils",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2022-011",
+    "name": "'58 Impala",
+    "type": "TH",
+    "year": 2022,
+    "series": "HW Art Cars",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2022-012",
+    "name": "HW Warp Speeder",
+    "type": "TH",
+    "year": 2022,
+    "series": "X-Racers",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2022-013",
+    "name": "'98 Subaru Impreza 22B STI-Version",
+    "type": "TH",
+    "year": 2022,
+    "series": "Rally Champs",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2022-014",
+    "name": "Muscle and Blown",
+    "type": "TH",
+    "year": 2022,
+    "series": "HW Drift",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2022-015",
+    "name": "'71 Mustang Funny Car",
+    "type": "TH",
+    "year": 2022,
+    "series": "HW Drag Strip",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2022-001",
+    "name": "'55 Chevy",
+    "type": "STH",
+    "year": 2022,
+    "series": "Chevy Bel Air",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-002",
+    "name": "'73 BMW 3.0 CSL Race Car",
+    "type": "STH",
+    "year": 2022,
+    "series": "Retro Racers",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-003",
+    "name": "Dodge Van",
+    "type": "STH",
+    "year": 2022,
+    "series": "HW Metro",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-004",
+    "name": "'63 Studebaker Champ",
+    "type": "STH",
+    "year": 2022,
+    "series": "HW Hot Trucks",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-005",
+    "name": "2020 Corvette",
+    "type": "STH",
+    "year": 2022,
+    "series": "Factory Fresh",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-006",
+    "name": "'99 Honda Civic Type R EK9",
+    "type": "STH",
+    "year": 2022,
+    "series": "HW Hatchbacks",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-007",
+    "name": "Volkswagen Kafer Racer",
+    "type": "STH",
+    "year": 2022,
+    "series": "HW Contoured",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-008",
+    "name": "2020 Jaguar F-Type",
+    "type": "STH",
+    "year": 2022,
+    "series": "HW Turbo",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-009",
+    "name": "Custom '18 Ford Mustang GT",
+    "type": "STH",
+    "year": 2022,
+    "series": "Spoiler Alert",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-010",
+    "name": "Nissan Skyline H/T 2000GT-X",
+    "type": "STH",
+    "year": 2022,
+    "series": "HW J-Imports",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-011",
+    "name": "'71 Lamborghini Miura SV",
+    "type": "STH",
+    "year": 2022,
+    "series": "HW Exotics",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-012",
+    "name": "'84 Mustang SVO",
+    "type": "STH",
+    "year": 2022,
+    "series": "Muscle Mania",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-013",
+    "name": "'94 Audi Avant RS2",
+    "type": "STH",
+    "year": 2022,
+    "series": "HW Wagons",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-014",
+    "name": "'32 Ford",
+    "type": "STH",
+    "year": 2022,
+    "series": "Rod Squad",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2022-015",
+    "name": "'81 Camaro",
+    "type": "STH",
+    "year": 2022,
+    "series": "Then and Now",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "th-2023-001",
+    "name": "Raijin Express",
+    "type": "TH",
+    "year": 2023,
+    "series": "HW Haulers",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2023-002",
+    "name": "Surf Crate",
+    "type": "TH",
+    "year": 2023,
+    "series": "Surf's Up",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2023-003",
+    "name": "BMW R nineT Racer",
+    "type": "TH",
+    "year": 2023,
+    "series": "HW Moto",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2023-004",
+    "name": "Mad Propz",
+    "type": "TH",
+    "year": 2023,
+    "series": "Sky Show",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2023-005",
+    "name": "Mod Rod",
+    "type": "TH",
+    "year": 2023,
+    "series": "HW 55 Race Team",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2023-006",
+    "name": "Donut Drifter",
+    "type": "TH",
+    "year": 2023,
+    "series": "Sweet Rides",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2023-007",
+    "name": "Rise 'N Climb",
+    "type": "TH",
+    "year": 2023,
+    "series": "HW Sports",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2023-008",
+    "name": "Ducati 1199 Panigale",
+    "type": "TH",
+    "year": 2023,
+    "series": "Factory Fresh",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2023-009",
+    "name": "'95 Jeep Cherokee",
+    "type": "TH",
+    "year": 2023,
+    "series": "Mud Stud",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2023-010",
+    "name": "Toyota Land Cruiser",
+    "type": "TH",
+    "year": 2023,
+    "series": "Then and Now",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2023-011",
+    "name": "Madfast",
+    "type": "TH",
+    "year": 2023,
+    "series": "HW Drag Strip",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2023-012",
+    "name": "Time Shifter",
+    "type": "TH",
+    "year": 2023,
+    "series": "HW Metro",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2023-013",
+    "name": "Tooned Volkswagen Golf Mk1",
+    "type": "TH",
+    "year": 2023,
+    "series": "Tooned",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2023-014",
+    "name": "2020 Ram 1500 Rebel",
+    "type": "TH",
+    "year": 2023,
+    "series": "HW Rescue",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2023-015",
+    "name": "Volkswagen \"Baja Bug\"",
+    "type": "TH",
+    "year": 2023,
+    "series": "Baja Blazer",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2023-001",
+    "name": "Classic TV Series Batmobile",
+    "type": "STH",
+    "year": 2023,
+    "series": "Batman",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-002",
+    "name": "Mercedes-Benz 300 SL",
+    "type": "STH",
+    "year": 2023,
+    "series": "Retro Racers",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-003",
+    "name": "'68 COPO Camaro",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Art Cars",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-004",
+    "name": "Lotus Evija",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Green Speed",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-005",
+    "name": "'68 Mazda Cosmo Sport",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW J-Imports",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-006",
+    "name": "Renault Sport R.S. 01",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Turbo",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-007",
+    "name": "'68 Corvette - Gas Monkey Garage",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Dream Garage",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-008",
+    "name": "Glory Chaser",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Roadsters",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-009",
+    "name": "'82 Toyota Supra",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW: The '80s",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-010",
+    "name": "'69 Shelby GT-500",
+    "type": "STH",
+    "year": 2023,
+    "series": "Muscle Mania",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-011",
+    "name": "'65 Mercury Comet Cyclone",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Gassers",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-012",
+    "name": "Mighty K",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Hot Trucks",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-013",
+    "name": "Porsche 935",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Exotics",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-014",
+    "name": "Datsun 510 Wagon",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Wagons",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2023-015",
+    "name": "Volvo 240 Drift Wagon",
+    "type": "STH",
+    "year": 2023,
+    "series": "HW Slammed",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "th-2024-001",
+    "name": "'47 Chevy Fleetline",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW First Response",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2024-002",
+    "name": "Ain't Fare",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Fast Transit",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2024-003",
+    "name": "Tooligan",
+    "type": "TH",
+    "year": 2024,
+    "series": "Experimotors",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2024-004",
+    "name": "Custom '53 Chevy",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Rod Squad",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2024-005",
+    "name": "Batman Forever Batmobile",
+    "type": "TH",
+    "year": 2024,
+    "series": "Batman",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2024-006",
+    "name": "Ford Mustang Mach-E 1400",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Green Speed",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2024-007",
+    "name": "Draggin' Wagon",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Ride-Ons",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2024-008",
+    "name": "Purple Passion",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Art Cars",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2024-009",
+    "name": "Honda Super Cub Custom",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Metro",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2024-010",
+    "name": "Bone Shaker",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Track Champs",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2024-011",
+    "name": "Car-de-Asada",
+    "type": "TH",
+    "year": 2024,
+    "series": "Fast Foodies",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2024-012",
+    "name": "Hot Wheels Ford Transit Connect",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Vans",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2024-013",
+    "name": "DMC DeLorean",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Rolling Metal",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2024-014",
+    "name": "'59 Chevy Impala",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Celebration Racers",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2024-015",
+    "name": "Porsche 928 Safari",
+    "type": "TH",
+    "year": 2024,
+    "series": "HW Dirt",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2024-001",
+    "name": "Ford Escort RS2000",
+    "type": "STH",
+    "year": 2024,
+    "series": "Factory Fresh",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-002",
+    "name": "'18 Camaro SS",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW Dream Garage",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-003",
+    "name": "BMW 507",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW Roadsters",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-004",
+    "name": "'89 Mercedes-Benz 560 SEC AMG",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW Modified",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-005",
+    "name": "'60s Fiat 500D Modificado",
+    "type": "STH",
+    "year": 2024,
+    "series": "Compact Kings",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-006",
+    "name": "'71 El Camino",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW Hot Trucks",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-007",
+    "name": "Audi 90 Quattro",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW Turbo",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-008",
+    "name": "Volvo P1800 Gasser",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW Reverse Rake",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-009",
+    "name": "Mitsubishi Pajero Evolution",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW J-Imports",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-010",
+    "name": "Mazda 787B",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW Race Day",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-011",
+    "name": "'77 Pontiac Firebird",
+    "type": "STH",
+    "year": 2024,
+    "series": "Muscle Mania",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-012",
+    "name": "'96 Nissan 180SX Type X",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW: The '90s",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-013",
+    "name": "Celero GT",
+    "type": "STH",
+    "year": 2024,
+    "series": "Quarter Mile Heroes",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-014",
+    "name": "Lamborghini Huracan LP 620-2 Super Trofeo",
+    "type": "STH",
+    "year": 2024,
+    "series": "HW Exotics",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2024-015",
+    "name": "'83 Chevy Silverado",
+    "type": "STH",
+    "year": 2024,
+    "series": "Then and Now",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "th-2025-001",
+    "name": "Ford Performance Supervan 4",
+    "type": "TH",
+    "year": 2025,
+    "series": "HW First Response",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2025-002",
+    "name": "Fish'd & Chip'd",
+    "type": "TH",
+    "year": 2025,
+    "series": "HW Designed By",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2025-003",
+    "name": "Mailed It!",
+    "type": "TH",
+    "year": 2025,
+    "series": "HW Metro",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2025-004",
+    "name": "Pedal Driver",
+    "type": "TH",
+    "year": 2025,
+    "series": "HW Ride-Ons",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2025-005",
+    "name": "Rig Storm",
+    "type": "TH",
+    "year": 2025,
+    "series": "X-Raycers",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2025-006",
+    "name": "'85 Honda City Turbo II",
+    "type": "TH",
+    "year": 2025,
+    "series": "HW J-Imports",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2025-007",
+    "name": "Birthday Burner",
+    "type": "TH",
+    "year": 2025,
+    "series": "HW Celebration Racers",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2025-008",
+    "name": "Chill Mill",
+    "type": "TH",
+    "year": 2025,
+    "series": "Fast Foodies",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2025-009",
+    "name": "Nissan Leaf Nismo RC 02",
+    "type": "TH",
+    "year": 2025,
+    "series": "HW EV",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2025-010",
+    "name": "Chevroletor",
+    "type": "TH",
+    "year": 2025,
+    "series": "Track Aces",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2025-011",
+    "name": "Honda S800 Racing",
+    "type": "TH",
+    "year": 2025,
+    "series": "Compact Kings",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2025-012",
+    "name": "Shark Bite",
+    "type": "TH",
+    "year": 2025,
+    "series": "Experimotors",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2025-013",
+    "name": "1966 Triumph Tiger 100",
+    "type": "TH",
+    "year": 2025,
+    "series": "Moto",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2025-014",
+    "name": "'84 Audi Sport quattro",
+    "type": "TH",
+    "year": 2025,
+    "series": "Wild Widebody",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2025-015",
+    "name": "Triumph TR6",
+    "type": "TH",
+    "year": 2025,
+    "series": "Track Champs",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2025-001",
+    "name": "'87 Audi quattro",
+    "type": "STH",
+    "year": 2025,
+    "series": "Factory Fresh",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-002",
+    "name": "Hirohata Merc",
+    "type": "STH",
+    "year": 2025,
+    "series": "Rod Squad",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-003",
+    "name": "Hi-Roller ll",
+    "type": "STH",
+    "year": 2025,
+    "series": "HW Art Cars",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-004",
+    "name": "1975 Datsun Sunny Truck B120",
+    "type": "STH",
+    "year": 2025,
+    "series": "HW Hot Trucks",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-005",
+    "name": "Aston Martin DB4GT High-Speed Edition",
+    "type": "STH",
+    "year": 2025,
+    "series": "HW Dream Garage",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-006",
+    "name": "'20 Jeep Gladiator",
+    "type": "STH",
+    "year": 2025,
+    "series": "HW Dirt",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-007",
+    "name": "Porsche 911 Rallye",
+    "type": "STH",
+    "year": 2025,
+    "series": "Safari Mode",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-008",
+    "name": "'71 Mustang Funny Car",
+    "type": "STH",
+    "year": 2025,
+    "series": "Mustang 60",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-009",
+    "name": "'62 Corvette Gasser",
+    "type": "STH",
+    "year": 2025,
+    "series": "HW Reverse Rake",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-010",
+    "name": "McLaren Speedtail",
+    "type": "STH",
+    "year": 2025,
+    "series": "HW Exotics",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-011",
+    "name": "'94 Bugatti EB110 SS",
+    "type": "STH",
+    "year": 2025,
+    "series": "HW Race Day",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-012",
+    "name": "'73 Honda Civic Custom",
+    "type": "STH",
+    "year": 2025,
+    "series": "Then and Now",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-013",
+    "name": "'20 Dodge Charger Hellcat",
+    "type": "STH",
+    "year": 2025,
+    "series": "Muscle Mania",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-014",
+    "name": "BMW M3 Wagon",
+    "type": "STH",
+    "year": 2025,
+    "series": "HW Wagons",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2025-015",
+    "name": "Ford RS200",
+    "type": "STH",
+    "year": 2025,
+    "series": "Peak Pursuit",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "th-2026-001",
+    "name": "'87 Buick Regal GNX",
+    "type": "TH",
+    "year": 2026,
+    "series": "Nightspeed",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2026-002",
+    "name": "'92 Dodge Viper RT/10",
+    "type": "TH",
+    "year": 2026,
+    "series": "Drop Tops",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2026-003",
+    "name": "Electro Silhouette",
+    "type": "TH",
+    "year": 2026,
+    "series": "HW EV",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2026-004",
+    "name": "Hot Wheengs",
+    "type": "TH",
+    "year": 2026,
+    "series": "X-Raycers",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2026-005",
+    "name": "Cone Shaker",
+    "type": "TH",
+    "year": 2026,
+    "series": "HW Starting Grid",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2026-006",
+    "name": "2016 Ford GT Race",
+    "type": "TH",
+    "year": 2026,
+    "series": "Exoticars",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2026-007",
+    "name": "2 Jet Z",
+    "type": "TH",
+    "year": 2026,
+    "series": "HW Dream Garage",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2026-008",
+    "name": "Total Disposal",
+    "type": "TH",
+    "year": 2026,
+    "series": "HW Heavyweights",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2026-009",
+    "name": "Amaru GTC",
+    "type": "TH",
+    "year": 2026,
+    "series": "HW Dirt",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2026-010",
+    "name": "Sweet Driver",
+    "type": "TH",
+    "year": 2026,
+    "series": "Sweet Rides",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2026-011",
+    "name": "Mad Manga",
+    "type": "TH",
+    "year": 2026,
+    "series": "Hot Wheels Let's Race",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for the Treasure Hunt flame symbol on the vehicle and packaging."
+  },
+  {
+    "id": "th-2026-012",
+    "name": "Ford Model A Custom '31",
+    "type": "TH",
+    "year": 2026,
+    "series": "Rod Squad",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for the hidden Treasure Hunt flame symbol on the vehicle."
+  },
+  {
+    "id": "th-2026-013",
+    "name": "Fast Fish",
+    "type": "TH",
+    "year": 2026,
+    "series": "Team Wheels",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle carefully for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2026-014",
+    "name": "Nissan Skyline HT 2000GT-X",
+    "type": "TH",
+    "year": 2026,
+    "series": "Screen Time",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for the small Treasure Hunt flame symbol."
+  },
+  {
+    "id": "th-2026-015",
+    "name": "Gazella GT",
+    "type": "TH",
+    "year": 2026,
+    "series": "Trophy Case",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Check the vehicle and packaging for the Treasure Hunt flame symbol."
+  },
+  {
+    "id": "sth-2026-001",
+    "name": "Drift Ender",
+    "type": "STH",
+    "year": 2026,
+    "series": "Truckin' Along",
+    "caseLetter": "A",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-002",
+    "name": "Ford Mustang GTD",
+    "type": "STH",
+    "year": 2026,
+    "series": "Factory Fresh",
+    "caseLetter": "B",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-003",
+    "name": "Ferrari F40 Competizione",
+    "type": "STH",
+    "year": 2026,
+    "series": "Ferrari",
+    "caseLetter": "C",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-004",
+    "name": "'64 Impala",
+    "type": "STH",
+    "year": 2026,
+    "series": "Layin' Low",
+    "caseLetter": "D",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-005",
+    "name": "'87 Ford Sierra Cosworth",
+    "type": "STH",
+    "year": 2026,
+    "series": "HW Euro",
+    "caseLetter": "E",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-006",
+    "name": "Honda Civic Custom",
+    "type": "STH",
+    "year": 2026,
+    "series": "Drag Racers",
+    "caseLetter": "F",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-007",
+    "name": "Custom Otto",
+    "type": "STH",
+    "year": 2026,
+    "series": "Mattel",
+    "caseLetter": "G",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-008",
+    "name": "Lotus Sport Elise",
+    "type": "STH",
+    "year": 2026,
+    "series": "Compact Kings",
+    "caseLetter": "H",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-009",
+    "name": "Subaru Impreza",
+    "type": "STH",
+    "year": 2026,
+    "series": "HW J-Imports",
+    "caseLetter": "J",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-010",
+    "name": "'94 Toyota Supra",
+    "type": "STH",
+    "year": 2026,
+    "series": "Tooned",
+    "caseLetter": "K",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-011",
+    "name": "Nissan Maxima Drift Car",
+    "type": "STH",
+    "year": 2026,
+    "series": "Wagons",
+    "caseLetter": "L",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-012",
+    "name": "Porsche 911 Carrera RS 2.7",
+    "type": "STH",
+    "year": 2026,
+    "series": "Then and Now",
+    "caseLetter": "M",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-013",
+    "name": "'23 Ram 1500",
+    "type": "STH",
+    "year": 2026,
+    "series": "HW Dirt",
+    "caseLetter": "N",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-014",
+    "name": "'70 Plymouth AAR Cuda",
+    "type": "STH",
+    "year": 2026,
+    "series": "HW Torque",
+    "caseLetter": "P",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
+  },
+  {
+    "id": "sth-2026-015",
+    "name": "'67 Pontiac Firebird 400",
+    "type": "STH",
+    "year": 2026,
+    "series": "Cool Classics",
+    "caseLetter": "Q",
+    "imageKey": "placeholder",
+    "idTips": "Look for Spectraflame paint, Real Rider wheels, and the hidden TH symbol."
   }
 ]

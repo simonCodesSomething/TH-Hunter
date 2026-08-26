@@ -1,4 +1,3 @@
-
 import React, {
   useCallback,
   useEffect,
@@ -14,9 +13,8 @@ import {
 } from "react-native";
 import {
   Ionicons,
+  MaterialCommunityIcons,
 } from "@expo/vector-icons";
-
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import carData from "../data/thstData.json";
 import {
@@ -64,6 +62,16 @@ const TYPE_META: Record<
 
 export default function HuntScreen() {
   const [foundIds, setFoundIds] = useState<string[]>([]);
+  const [selectedYear, setSelectedYear] =
+    useState<number>(CURRENT_YEAR);
+
+  /*
+   * Available years
+   */
+  const years = useMemo(() => {
+    return [...new Set(cars.map((car) => car.year ?? CURRENT_YEAR))]
+      .sort((a, b) => b - a);
+  }, []);
 
   /*
    * Load saved hunt progress
@@ -89,40 +97,41 @@ export default function HuntScreen() {
   );
 
   /*
-   * Current year cars
+   * Cars for selected year
    */
-  const currentYearCars = useMemo(() => {
+  const selectedYearCars = useMemo(() => {
     return cars.filter(
-      (car) => (car.year ?? CURRENT_YEAR) === CURRENT_YEAR
+      (car) =>
+        (car.year ?? CURRENT_YEAR) === selectedYear
     );
-  }, []);
+  }, [selectedYear]);
 
   /*
    * TH cars
    */
   const thCars = useMemo(() => {
-    return currentYearCars.filter(
+    return selectedYearCars.filter(
       (car) => car.type === "TH"
     );
-  }, [currentYearCars]);
+  }, [selectedYearCars]);
 
   /*
    * STH cars
    */
   const sthCars = useMemo(() => {
-    return currentYearCars.filter(
+    return selectedYearCars.filter(
       (car) => car.type === "STH"
     );
-  }, [currentYearCars]);
+  }, [selectedYearCars]);
 
   /*
-   * Found cars
+   * Found cars for selected year
    */
   const foundCars = useMemo(() => {
-    return currentYearCars.filter((car) =>
+    return selectedYearCars.filter((car) =>
       foundIds.includes(car.id)
     );
-  }, [currentYearCars, foundIds]);
+  }, [selectedYearCars, foundIds]);
 
   /*
    * Found TH
@@ -163,12 +172,17 @@ export default function HuntScreen() {
   /*
    * Overall progress
    */
-  const totalCars = thCars.length + sthCars.length;
-  const totalFound = foundTH.length + foundSTH.length;
+  const totalCars =
+    thCars.length + sthCars.length;
+
+  const totalFound =
+    foundTH.length + foundSTH.length;
 
   const overallProgress =
     totalCars > 0
-      ? Math.round((totalFound / totalCars) * 100)
+      ? Math.round(
+          (totalFound / totalCars) * 100
+        )
       : 0;
 
   /*
@@ -193,11 +207,18 @@ export default function HuntScreen() {
 
   /*
    * Reset hunt progress
+   *
+   * Only resets cars from the currently
+   * selected year.
    */
   const handleResetHunt = useCallback(() => {
+    if (foundCars.length === 0) {
+      return;
+    }
+
     Alert.alert(
       "Reset Hunt",
-      "This will remove all TH and STH finds from your hunt progress.",
+      `This will remove all ${selectedYear} TH and STH finds from your hunt progress.`,
       [
         {
           text: "Cancel",
@@ -217,7 +238,7 @@ export default function HuntScreen() {
         },
       ]
     );
-  }, [foundCars]);
+  }, [foundCars, selectedYear]);
 
   /*
    * Car card
@@ -366,32 +387,10 @@ export default function HuntScreen() {
   /*
    * Empty state
    */
-  if (totalCars === 0) {
+  if (selectedYearCars.length === 0) {
     return (
       <View style={styles.container}>
-        <View style={styles.emptyState}>
-          <MaterialCommunityIcons
-            name="car-outline"
-            size={54}
-            color="#FBBF24"
-          />
-
-          <Text style={styles.emptyTitle}>
-            No Hunt Data
-          </Text>
-
-          <Text style={styles.emptyText}>
-            No {CURRENT_YEAR} Treasure Hunt data is
-            available yet.
-          </Text>
-        </View>
-      </View>
-    );
-  }
-
-  return (
-    <View style={styles.container}>
-              <View style={styles.header}>
+        <View style={styles.header}>
           <View>
             <Text style={styles.title}>
               HUNT
@@ -418,13 +417,145 @@ export default function HuntScreen() {
             />
           </Pressable>
         </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.yearRow}
+        >
+          {years.map((year) => {
+            const active =
+              selectedYear === year;
+
+            return (
+              <Pressable
+                key={year}
+                style={[
+                  styles.yearChip,
+                  active &&
+                    styles.yearChipActive,
+                ]}
+                onPress={() =>
+                  setSelectedYear(year)
+                }
+              >
+                <Text
+                  style={[
+                    styles.yearChipText,
+                    active &&
+                      styles.yearChipTextActive,
+                  ]}
+                >
+                  {year}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+
+        <View style={styles.emptyState}>
+          <MaterialCommunityIcons
+            name="car-outline"
+            size={54}
+            color="#FBBF24"
+          />
+
+          <Text style={styles.emptyTitle}>
+            No Hunt Data
+          </Text>
+
+          <Text style={styles.emptyText}>
+            No {selectedYear} Treasure Hunt data
+            is available yet.
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      {/* HEADER */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>
+            HUNT
+          </Text>
+
+          <Text style={styles.subtitle}>
+            Track your Treasure Hunt finds
+          </Text>
+        </View>
+
+        <Pressable
+          hitSlop={10}
+          onPress={() =>
+            Alert.alert(
+              "How Hunt Works",
+              "Tap a TH or STH to mark it as found. Your progress is saved automatically."
+            )
+          }
+        >
+          <Ionicons
+            name="information-circle-outline"
+            size={30}
+            color="#FBBF24"
+          />
+        </Pressable>
+      </View>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
       >
-        {/* HEADER */}
+        {/* YEAR SELECTOR */}
 
+        <View style={styles.yearSection}>
+          <View style={styles.yearSectionHeader}>
+            <Text style={styles.sectionTitle}>
+              HUNT YEAR
+            </Text>
 
+            <Text style={styles.yearSelectedLabel}>
+              {selectedYear}
+            </Text>
+          </View>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.yearRow}
+          >
+            {years.map((year) => {
+              const active =
+                selectedYear === year;
+
+              return (
+                <Pressable
+                  key={year}
+                  style={[
+                    styles.yearChip,
+                    active &&
+                      styles.yearChipActive,
+                  ]}
+                  onPress={() =>
+                    setSelectedYear(year)
+                  }
+                >
+                  <Text
+                    style={[
+                      styles.yearChipText,
+                      active &&
+                        styles.yearChipTextActive,
+                    ]}
+                  >
+                    {year}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        </View>
 
         {/* OVERALL PROGRESS */}
 
@@ -434,7 +565,7 @@ export default function HuntScreen() {
               <Text
                 style={styles.heroEyebrow}
               >
-                {CURRENT_YEAR} HUNT
+                {selectedYear} HUNT
               </Text>
 
               <Text style={styles.heroTitle}>
@@ -491,7 +622,7 @@ export default function HuntScreen() {
           <Text
             style={styles.sectionSubtitle}
           >
-            {CURRENT_YEAR} Treasure Hunts
+            {selectedYear} Treasure Hunts
           </Text>
         </View>
 
@@ -650,7 +781,8 @@ export default function HuntScreen() {
 
         {/* COMPLETE */}
 
-        {totalFound === totalCars ? (
+        {totalFound === totalCars &&
+        totalCars > 0 ? (
           <View style={styles.completeCard}>
             <View
               style={styles.completeIcon}
@@ -672,7 +804,7 @@ export default function HuntScreen() {
               style={styles.completeText}
             >
               You've found every{" "}
-              {CURRENT_YEAR} TH and STH.
+              {selectedYear} TH and STH.
             </Text>
           </View>
         ) : null}
@@ -774,7 +906,7 @@ export default function HuntScreen() {
 
         {/* RESET */}
 
-        {foundIds.length > 0 ? (
+        {foundCars.length > 0 ? (
           <Pressable
             style={styles.resetButton}
             onPress={handleResetHunt}
@@ -788,7 +920,7 @@ export default function HuntScreen() {
             <Text
               style={styles.resetText}
             >
-              Reset Hunt Progress
+              Reset {selectedYear} Hunt Progress
             </Text>
           </Pressable>
         ) : null}
