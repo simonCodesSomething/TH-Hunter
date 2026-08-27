@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "space-between",
     paddingHorizontal: 18,
-    paddingTop: 8,
+    paddingTop: 18,
     paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#1F1F1F",
@@ -30,6 +30,19 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.4,
   },
 
+  eyebrow: {
+    color: "#FBBF24",
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 1.2,
+  },
+
+  headerContent: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: 12,
+  },
+
   subtitle: {
     color: "#A1A1A6",
     fontSize: 14,
@@ -38,7 +51,10 @@ export const styles = StyleSheet.create({
   },
 
   infoButton: {
-    marginTop: 1,
+    width: 48,
+    height: 48,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   searchRow: {
@@ -69,17 +85,6 @@ export const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 15,
     paddingVertical: 0,
-  },
-
-  filterButton: {
-    width: 54,
-    minHeight: 54,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#111111",
-    borderWidth: 1,
-    borderColor: "#343434",
-    borderRadius: 13,
   },
 
   typeSelector: {
@@ -281,6 +286,12 @@ export const styles = StyleSheet.create({
     backgroundColor: "#D8D8D8",
   },
 
+  carPhoto: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+
   typeBadge: {
     position: "absolute",
     top: 6,
@@ -307,6 +318,18 @@ export const styles = StyleSheet.create({
     height: 23,
     borderRadius: 12,
     backgroundColor: "#34D399",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  photoButton: {
+    position: "absolute",
+    right: 6,
+    bottom: 6,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(17, 17, 17, 0.78)",
     alignItems: "center",
     justifyContent: "center",
   },

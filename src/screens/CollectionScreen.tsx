@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  Image,
   Pressable,
   ScrollView,
   Text,
@@ -7,9 +8,15 @@ import {
   View,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 import carData from "../data/thstData.json";
-import { getFoundIds, toggleFoundId } from "../utils/storage";
+import {
+  getCollectionPhotos,
+  getFoundIds,
+  saveCollectionPhoto,
+  toggleFoundId,
+} from "../utils/storage";
 import { styles } from "../styles/collection.styles";
 
 type CarType = "TH" | "STH";
@@ -60,6 +67,7 @@ export default function CollectionScreen({
   onProgressPress,
 }: CollectionScreenProps) {
   const [foundIds, setFoundIds] = useState<string[]>([]);
+  const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
   const [query, setQuery] = useState("");
   const [filterType, setFilterType] =
     useState<FilterType>("ALL");
@@ -68,6 +76,32 @@ export default function CollectionScreen({
 
   useEffect(() => {
     void getFoundIds().then(setFoundIds);
+    void getCollectionPhotos().then(setCollectionPhotos);
+  }, []);
+
+  const handlePickPhoto = useCallback(async (carId: string) => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permission.granted) {
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.85,
+    });
+
+    if (result.canceled) {
+      return;
+    }
+
+    const next = await saveCollectionPhoto(
+      carId,
+      result.assets[0].uri
+    );
+    setCollectionPhotos(next);
   }, []);
 
   const handleToggleFound = useCallback(
@@ -152,6 +186,7 @@ export default function CollectionScreen({
 
   const renderCarCard = (car: Car) => {
     const meta = TYPE_META[car.type];
+    const photoUri = collectionPhotos[car.id];
 
     return (
       <Pressable
@@ -162,13 +197,17 @@ export default function CollectionScreen({
         }
       >
         <View style={styles.carImage}>
-          <View style={styles.carGraphic}>
-            <MaterialCommunityIcons
-              name="car-sports"
-              size={44}
-              color="#111111"
-            />
-          </View>
+          {photoUri ? (
+            <Image source={{ uri: photoUri }} style={styles.carPhoto} />
+          ) : (
+            <View style={styles.carGraphic}>
+              <MaterialCommunityIcons
+                name="car-sports"
+                size={44}
+                color="#111111"
+              />
+            </View>
+          )}
 
           <View
             style={[
@@ -190,6 +229,18 @@ export default function CollectionScreen({
               color="#111111"
             />
           </View>
+
+          <Pressable
+            style={styles.photoButton}
+            onPress={() => void handlePickPhoto(car.id)}
+            hitSlop={8}
+          >
+            <Ionicons
+              name={photoUri ? "camera" : "camera-outline"}
+              size={16}
+              color="#FFFFFF"
+            />
+          </Pressable>
         </View>
 
         <Text
@@ -216,6 +267,7 @@ export default function CollectionScreen({
 
       <View style={styles.header}>
         <View>
+          <Text style={styles.eyebrow}>TH HUNTER</Text>
           <Text style={styles.title}>
             COLLECTION
           </Text>

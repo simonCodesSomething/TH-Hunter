@@ -5,7 +5,9 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
+  Pressable,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 import type { CheatSheetSection } from "../types";
 
@@ -40,11 +42,26 @@ const SECTIONS: CheatSheetSection[] = [
   },
 ];
 
-export default function CheatSheetScreen() {
+interface CheatSheetScreenProps {
+  onBack: () => void;
+}
+
+export default function CheatSheetScreen({
+  onBack,
+}: CheatSheetScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>How to spot them</Text>
+        <View style={styles.header}>
+          <Text style={styles.title}>How to spot them</Text>
+          <Pressable
+            style={styles.closeButton}
+            onPress={onBack}
+            hitSlop={10}
+          >
+            <Ionicons name="close" size={28} color="#FFFFFF" />
+          </Pressable>
+        </View>
 
         {SECTIONS.map((section) => (
           <View key={section.title} style={styles.section}>
@@ -78,6 +95,23 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "700",
     marginBottom: 16,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: 18,
+    paddingBottom: 20,
+  },
+  closeButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#111111",
+    borderWidth: 1,
+    borderColor: "#292929",
   },
   section: {
     backgroundColor: "#1c1c1e",

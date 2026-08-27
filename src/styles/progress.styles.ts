@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 18,
+    paddingTop: 18,
     paddingBottom: 18,
   },
 
@@ -27,6 +28,13 @@ export const styles = StyleSheet.create({
     lineHeight: 36,
     fontWeight: "900",
     letterSpacing: 0.4,
+  },
+
+  eyebrow: {
+    color: "#FBBF24",
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 1.2,
   },
 
   subtitle: {
@@ -202,6 +210,17 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
   },
 
+  progressPhotos: {
+    gap: 8,
+    paddingTop: 12,
+  },
+
+  progressPhoto: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+  },
+
   /* YEAR HERO */
 
   yearHeroCard: {
@@ -346,7 +365,8 @@ export const styles = StyleSheet.create({
   },
 
   milestone: {
-    width: "31.8%",
+    width: "30%",
+    flexGrow: 1,
     minHeight: 126,
     padding: 12,
     backgroundColor: "#111111",

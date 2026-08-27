@@ -18,11 +18,6 @@ interface TabItem {
 
 const TABS: TabItem[] = [
   {
-    key: "browse",
-    icon: "grid-outline",
-    activeIcon: "grid",
-  },
-  {
     key: "hunt",
     icon: "flame-outline",
     activeIcon: "flame",
@@ -33,9 +28,14 @@ const TABS: TabItem[] = [
     activeIcon: "cube",
   },
   {
-    key: "cheatsheet",
-    icon: "list-outline",
-    activeIcon: "list",
+    key: "browse",
+    icon: "grid-outline",
+    activeIcon: "grid",
+  },
+  {
+    key: "about",
+    icon: "information-circle-outline",
+    activeIcon: "information-circle",
   },
 ];
 
@@ -53,6 +53,7 @@ export default function BottomTabs({
             key={tab.key}
             style={({ pressed }) => [
               styles.tab,
+              active && styles.tabActive,
               pressed && styles.tabPressed,
             ]}
             onPress={() => onTabChange(tab.key)}
@@ -68,12 +69,13 @@ export default function BottomTabs({
                   ? tab.activeIcon
                   : tab.icon
               }
-              size={26}
+              size={30}
               color={
                 active
-                  ? "#FBBF24"
-                  : "#FFFFFF"
+                  ? "#0A1722"
+                  : "#F3F7FA"
               }
+              style={styles.tabIcon}
             />
           </Pressable>
         );

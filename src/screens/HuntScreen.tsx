@@ -6,11 +6,13 @@ import React, {
 } from "react";
 import {
   Alert,
+  Image,
   Pressable,
   ScrollView,
   Text,
   View,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -18,12 +20,15 @@ import {
 
 import carData from "../data/thstData.json";
 import {
+  getCollectionPhotos,
   getFoundIds,
+  saveCollectionPhoto,
   toggleFoundId,
 } from "../utils/storage";
 import { styles } from "../styles/hunt.styles";
 
 type CarType = "TH" | "STH";
+type HuntView = CarType;
 
 interface Car {
   id: string;
@@ -38,7 +43,7 @@ interface Car {
 
 const cars = carData as Car[];
 
-const CURRENT_YEAR = 2026;
+const CURRENT_YEAR = new Date().getFullYear();
 
 const TYPE_META: Record<
   CarType,
@@ -62,8 +67,13 @@ const TYPE_META: Record<
 
 export default function HuntScreen() {
   const [foundIds, setFoundIds] = useState<string[]>([]);
+  const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
   const [selectedYear, setSelectedYear] =
     useState<number>(CURRENT_YEAR);
+  const [selectedType, setSelectedType] =
+    useState<HuntView>("STH");
+  const [showYearChips, setShowYearChips] =
+    useState(true);
 
   /*
    * Available years
@@ -83,306 +93,176 @@ export default function HuntScreen() {
     };
 
     void loadProgress();
+    void getCollectionPhotos().then(setCollectionPhotos);
   }, []);
 
-  /*
-   * Toggle a car as found
-   */
-  const handleToggleFound = useCallback(
-    async (id: string) => {
-      const nextIds = await toggleFoundId(id);
-      setFoundIds(nextIds);
-    },
-    []
-  );
+  const handlePickPhoto = useCallback(async (carId: string) => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-  /*
-   * Cars for selected year
-   */
-  const selectedYearCars = useMemo(() => {
-    return cars.filter(
-      (car) =>
-        (car.year ?? CURRENT_YEAR) === selectedYear
-    );
-  }, [selectedYear]);
-
-  /*
-   * TH cars
-   */
-  const thCars = useMemo(() => {
-    return selectedYearCars.filter(
-      (car) => car.type === "TH"
-    );
-  }, [selectedYearCars]);
-
-  /*
-   * STH cars
-   */
-  const sthCars = useMemo(() => {
-    return selectedYearCars.filter(
-      (car) => car.type === "STH"
-    );
-  }, [selectedYearCars]);
-
-  /*
-   * Found cars for selected year
-   */
-  const foundCars = useMemo(() => {
-    return selectedYearCars.filter((car) =>
-      foundIds.includes(car.id)
-    );
-  }, [selectedYearCars, foundIds]);
-
-  /*
-   * Found TH
-   */
-  const foundTH = useMemo(() => {
-    return thCars.filter((car) =>
-      foundIds.includes(car.id)
-    );
-  }, [thCars, foundIds]);
-
-  /*
-   * Found STH
-   */
-  const foundSTH = useMemo(() => {
-    return sthCars.filter((car) =>
-      foundIds.includes(car.id)
-    );
-  }, [sthCars, foundIds]);
-
-  /*
-   * Missing TH
-   */
-  const missingTH = useMemo(() => {
-    return thCars.filter(
-      (car) => !foundIds.includes(car.id)
-    );
-  }, [thCars, foundIds]);
-
-  /*
-   * Missing STH
-   */
-  const missingSTH = useMemo(() => {
-    return sthCars.filter(
-      (car) => !foundIds.includes(car.id)
-    );
-  }, [sthCars, foundIds]);
-
-  /*
-   * Overall progress
-   */
-  const totalCars =
-    thCars.length + sthCars.length;
-
-  const totalFound =
-    foundTH.length + foundSTH.length;
-
-  const overallProgress =
-    totalCars > 0
-      ? Math.round(
-          (totalFound / totalCars) * 100
-        )
-      : 0;
-
-  /*
-   * TH progress
-   */
-  const thProgress =
-    thCars.length > 0
-      ? Math.round(
-          (foundTH.length / thCars.length) * 100
-        )
-      : 0;
-
-  /*
-   * STH progress
-   */
-  const sthProgress =
-    sthCars.length > 0
-      ? Math.round(
-          (foundSTH.length / sthCars.length) * 100
-        )
-      : 0;
-
-  /*
-   * Reset hunt progress
-   *
-   * Only resets cars from the currently
-   * selected year.
-   */
-  const handleResetHunt = useCallback(() => {
-    if (foundCars.length === 0) {
+    if (!permission.granted) {
       return;
     }
 
-    Alert.alert(
-      "Reset Hunt",
-      `This will remove all ${selectedYear} TH and STH finds from your hunt progress.`,
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Reset",
-          style: "destructive",
-          onPress: async () => {
-            for (const car of foundCars) {
-              await toggleFoundId(car.id);
-            }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.85,
+    });
 
-            const nextIds = await getFoundIds();
-            setFoundIds(nextIds);
+    if (result.canceled) {
+      return;
+    }
+
+    const next = await saveCollectionPhoto(carId, result.assets[0].uri);
+    setCollectionPhotos(next);
+  }, []);
+
+    /*
+     * Toggle a car as found
+     */
+    const handleToggleFound = useCallback(
+      async (id: string) => {
+        const nextIds = await toggleFoundId(id);
+        setFoundIds(nextIds);
+      },
+      []
+    );
+
+    /*
+     * Cars for selected year
+     */
+    const selectedYearCars = useMemo(() => {
+      return cars.filter(
+        (car) =>
+          (car.year ?? CURRENT_YEAR) === selectedYear
+      );
+    }, [selectedYear]);
+
+    const thCars = useMemo(
+      () => selectedYearCars.filter((car) => car.type === "TH"),
+      [selectedYearCars]
+    );
+
+    const sthCars = useMemo(
+      () => selectedYearCars.filter((car) => car.type === "STH"),
+      [selectedYearCars]
+    );
+
+    const foundCars = useMemo(
+      () => selectedYearCars.filter((car) => foundIds.includes(car.id)),
+      [selectedYearCars, foundIds]
+    );
+
+    const foundTH = useMemo(
+      () => thCars.filter((car) => foundIds.includes(car.id)),
+      [thCars, foundIds]
+    );
+
+    const foundSTH = useMemo(() => sthCars.filter((car) => foundIds.includes(car.id)), [sthCars, foundIds]);
+
+    /*
+     * Missing cars
+     */
+    const missingTH = useMemo(
+      () => thCars.filter((car) => !foundIds.includes(car.id)),
+      [thCars, foundIds]
+    );
+
+    const missingSTH = useMemo(
+      () => sthCars.filter((car) => !foundIds.includes(car.id)),
+      [sthCars, foundIds]
+    );
+
+    /*
+     * Selected type progress
+     */
+    const selectedTypeCars = selectedType === "TH" ? thCars : sthCars;
+    const selectedTypeFound = selectedType === "TH" ? foundTH : foundSTH;
+    const selectedTypeProgress = selectedTypeCars.length > 0
+      ? Math.round((selectedTypeFound.length / selectedTypeCars.length) * 100)
+      : 0;
+
+    /*
+     * Reset hunt progress
+     */
+    const handleResetHunt = useCallback(() => {
+      if (foundCars.length === 0) {
+        return;
+      }
+
+      Alert.alert(
+        "Reset Hunt",
+        `This will remove all ${selectedYear} TH and STH finds from your hunt progress.`,
+        [
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Reset",
+            style: "destructive",
+            onPress: async () => {
+              for (const car of foundCars) {
+                await toggleFoundId(car.id);
+              }
+              setFoundIds(await getFoundIds());
+            },
           },
-        },
-      ]
-    );
-  }, [foundCars, selectedYear]);
+        ]
+      );
+    }, [foundCars, selectedYear]);
 
-  /*
-   * Car card
-   */
-  const renderCarCard = (car: Car) => {
-    const isFound = foundIds.includes(car.id);
-    const meta = TYPE_META[car.type];
+    /*
+     * Car card
+     */
+    const renderCarCard = (car: Car) => {
+      const isFound = foundIds.includes(car.id);
+      const meta = TYPE_META[car.type];
+      const photoUri = collectionPhotos[car.id];
 
-    return (
-      <Pressable
-        key={car.id}
-        style={[
-          styles.carCard,
-          isFound
-            ? styles.carCardFound
-            : undefined,
-        ]}
-        onPress={() =>
-          void handleToggleFound(car.id)
-        }
-      >
-        <View style={styles.carImage}>
-          <View style={styles.carGraphic}>
-            <MaterialCommunityIcons
-              name="car-sports"
-              size={42}
-              color="#111111"
-            />
-          </View>
-
-          <View
-            style={[
-              styles.typeBadge,
-              {
-                backgroundColor: meta.color,
-              },
-            ]}
-          >
-            <Text style={styles.typeBadgeText}>
-              {car.type}
-            </Text>
-          </View>
-
-          {isFound ? (
-            <View style={styles.foundBadge}>
-              <Ionicons
-                name="checkmark"
-                size={16}
-                color="#111111"
-              />
-            </View>
-          ) : null}
-        </View>
-
-        <Text
-          style={styles.carName}
-          numberOfLines={2}
+      return (
+        <Pressable
+          key={car.id}
+          style={[styles.carCard, isFound ? styles.carCardFound : undefined]}
+          onPress={() => void handleToggleFound(car.id)}
         >
-          {car.name}
-        </Text>
+          <View style={styles.carImage}>
+            {photoUri ? (
+              <Image source={{ uri: photoUri }} style={styles.carPhoto} />
+            ) : (
+              <View style={styles.carGraphic}>
+                <MaterialCommunityIcons name="car-sports" size={42} color="#111111" />
+              </View>
+            )}
 
-        <Text style={styles.carSeries}>
-          {car.series}
-        </Text>
-      </Pressable>
-    );
-  };
+            <View style={[styles.typeBadge, { backgroundColor: meta.color }]}>
+              <Text style={styles.typeBadgeText}>{car.type}</Text>
+            </View>
 
-  /*
-   * Progress card
-   */
-  const renderProgressCard = (
-    type: CarType,
-    total: number,
-    found: number,
-    progress: number
-  ) => {
-    const meta = TYPE_META[type];
+            {isFound ? (
+              <View style={styles.foundBadge}>
+                <Ionicons name="checkmark" size={16} color="#111111" />
+              </View>
+            ) : null}
 
-    return (
-      <View style={styles.progressCard}>
-        <View style={styles.progressHeader}>
-          <View
-            style={[
-              styles.progressIcon,
-              {
-                backgroundColor: meta.color,
-              },
-            ]}
-          >
-            <MaterialCommunityIcons
-              name={meta.icon}
-              size={24}
-              color="#111111"
-            />
+            <Pressable
+              style={styles.photoButton}
+              onPress={(event) => {
+                event.stopPropagation();
+                void handlePickPhoto(car.id);
+              }}
+              hitSlop={8}
+            >
+              <Ionicons name={photoUri ? "camera" : "camera-outline"} size={16} color="#FFFFFF" />
+            </Pressable>
           </View>
 
-          <View
-            style={styles.progressTitleContainer}
-          >
-            <Text
-              style={[
-                styles.progressTitle,
-                {
-                  color: meta.color,
-                },
-              ]}
-            >
-              {meta.title}
-            </Text>
-
-            <Text
-              style={styles.progressSubtitle}
-            >
-              {found} of {total} found
-            </Text>
-          </View>
-
-          <Text
-            style={[
-              styles.progressPercentage,
-              {
-                color: meta.color,
-              },
-            ]}
-          >
-            {progress}%
+          <Text style={styles.carName} numberOfLines={2}>
+            {car.name}
           </Text>
-        </View>
 
-        <View style={styles.progressTrack}>
-          <View
-            style={[
-              styles.progressFill,
-              {
-                width: `${progress}%`,
-                backgroundColor: meta.color,
-              },
-            ]}
-          />
-        </View>
-      </View>
-    );
-  };
+          <Text style={styles.carSeries}>{car.series}</Text>
+        </Pressable>
+      );
+    };
 
   /*
    * Empty state
@@ -478,6 +358,7 @@ export default function HuntScreen() {
       {/* HEADER */}
       <View style={styles.header}>
         <View>
+          <Text style={styles.eyebrow}>TH HUNTER</Text>
           <Text style={styles.title}>
             HUNT
           </Text>
@@ -488,6 +369,7 @@ export default function HuntScreen() {
         </View>
 
         <Pressable
+          style={styles.infoButton}
           hitSlop={10}
           onPress={() =>
             Alert.alert(
@@ -498,7 +380,7 @@ export default function HuntScreen() {
         >
           <Ionicons
             name="information-circle-outline"
-            size={30}
+            size={31}
             color="#FBBF24"
           />
         </Pressable>
@@ -511,50 +393,99 @@ export default function HuntScreen() {
         {/* YEAR SELECTOR */}
 
         <View style={styles.yearSection}>
-          <View style={styles.yearSectionHeader}>
+          <Pressable
+            style={styles.yearSectionHeader}
+            onPress={() => setShowYearChips((visible) => !visible)}
+          >
             <Text style={styles.sectionTitle}>
               HUNT YEAR
             </Text>
 
-            <Text style={styles.yearSelectedLabel}>
-              {selectedYear}
-            </Text>
-          </View>
+            <View style={styles.yearHeaderAction}>
+              <Text
+                style={[
+                  styles.yearSelectedLabel,
+                  { color: TYPE_META[selectedType].color },
+                ]}
+              >
+                {selectedYear}
+              </Text>
+              <Ionicons
+                name={showYearChips ? "chevron-down" : "chevron-up"}
+                size={20}
+                color={TYPE_META[selectedType].color}
+              />
+            </View>
+          </Pressable>
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.yearRow}
-          >
-            {years.map((year) => {
-              const active =
-                selectedYear === year;
+          {showYearChips && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.yearRow}
+            >
+              {years.map((year) => {
+                const active =
+                  selectedYear === year;
+
+                return (
+                  <Pressable
+                    key={year}
+                    style={[
+                      styles.yearChip,
+                      active && {
+                        backgroundColor: "#111111",
+                        borderColor: TYPE_META[selectedType].color,
+                      },
+                    ]}
+                    onPress={() =>
+                      setSelectedYear(year)
+                    }
+                  >
+                    <Text
+                      style={[
+                        styles.yearChipText,
+                          active && {
+                            color: TYPE_META[selectedType].color,
+                          },
+                      ]}
+                    >
+                      {year}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          )}
+
+          <View style={styles.typeRow}>
+            {(["STH", "TH"] as HuntView[]).map((type) => {
+              const active = selectedType === type;
 
               return (
                 <Pressable
-                  key={year}
+                  key={type}
                   style={[
-                    styles.yearChip,
-                    active &&
-                      styles.yearChipActive,
+                    styles.typeChip,
+                    active && {
+                      backgroundColor: TYPE_META[type].color,
+                      borderColor: TYPE_META[type].color,
+                    },
                   ]}
-                  onPress={() =>
-                    setSelectedYear(year)
-                  }
+                  onPress={() => setSelectedType(type)}
                 >
                   <Text
                     style={[
-                      styles.yearChipText,
-                      active &&
-                        styles.yearChipTextActive,
+                      styles.typeChipText,
+                      active && styles.typeChipTextActive,
                     ]}
                   >
-                    {year}
+                    {type === "TH" ? "TREASURE HUNTS" : "SUPER TREASURE HUNTS"}
                   </Text>
                 </Pressable>
               );
             })}
-          </ScrollView>
+          </View>
         </View>
 
         {/* OVERALL PROGRESS */}
@@ -563,31 +494,41 @@ export default function HuntScreen() {
           <View style={styles.heroTop}>
             <View>
               <Text
-                style={styles.heroEyebrow}
+                style={[styles.heroEyebrow,
+                  { color: TYPE_META[selectedType].color },
+                ]}
               >
-                {selectedYear} HUNT
+                {selectedYear} {TYPE_META[selectedType].title}
               </Text>
 
-              <Text style={styles.heroTitle}>
-                {totalFound} / {totalCars}
+              <Text
+                style={[
+                  styles.heroTitle,
+                  { color: TYPE_META[selectedType].color },
+                ]}
+              >
+                {selectedTypeFound.length} / {selectedTypeCars.length}
               </Text>
 
               <Text
                 style={styles.heroSubtitle}
               >
-                Treasure Hunts collected
+                {TYPE_META[selectedType].title} found
               </Text>
             </View>
 
             <View
-              style={styles.progressCircle}
+                style={[
+                  styles.progressCircle,
+                  { borderColor: TYPE_META[selectedType].color },
+                ]}
             >
               <Text
                 style={
                   styles.progressCircleValue
                 }
               >
-                {overallProgress}%
+                {selectedTypeProgress}%
               </Text>
 
               <Text
@@ -605,40 +546,13 @@ export default function HuntScreen() {
               style={[
                 styles.heroFill,
                 {
-                  width: `${overallProgress}%`,
+                  width: `${selectedTypeProgress}%`,
+                  backgroundColor: TYPE_META[selectedType].color,
                 },
               ]}
             />
           </View>
         </View>
-
-        {/* YOUR PROGRESS */}
-
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            YOUR PROGRESS
-          </Text>
-
-          <Text
-            style={styles.sectionSubtitle}
-          >
-            {selectedYear} Treasure Hunts
-          </Text>
-        </View>
-
-        {renderProgressCard(
-          "TH",
-          thCars.length,
-          foundTH.length,
-          thProgress
-        )}
-
-        {renderProgressCard(
-          "STH",
-          sthCars.length,
-          foundSTH.length,
-          sthProgress
-        )}
 
         {/* NEXT TO HUNT */}
 
@@ -651,17 +565,12 @@ export default function HuntScreen() {
           <Text style={styles.sectionTitle}>
             NEXT TO HUNT
           </Text>
-
-          <Text
-            style={styles.sectionSubtitle}
-          >
-            Cars still missing
-          </Text>
         </View>
 
         {/* TH */}
 
-        {missingTH.length > 0 ? (
+        {selectedType === "TH" &&
+        missingTH.length > 0 ? (
           <View style={styles.huntSection}>
             <View
               style={styles.huntSectionHeader}
@@ -721,7 +630,8 @@ export default function HuntScreen() {
 
         {/* STH */}
 
-        {missingSTH.length > 0 ? (
+        {selectedType === "STH" &&
+        missingSTH.length > 0 ? (
           <View style={styles.huntSection}>
             <View
               style={styles.huntSectionHeader}
@@ -781,8 +691,8 @@ export default function HuntScreen() {
 
         {/* COMPLETE */}
 
-        {totalFound === totalCars &&
-        totalCars > 0 ? (
+        {selectedTypeFound.length === selectedTypeCars.length &&
+        selectedTypeCars.length > 0 ? (
           <View style={styles.completeCard}>
             <View
               style={styles.completeIcon}
@@ -803,15 +713,15 @@ export default function HuntScreen() {
             <Text
               style={styles.completeText}
             >
-              You've found every{" "}
-              {selectedYear} TH and STH.
+              You've found every {selectedYear}{" "}
+              {TYPE_META[selectedType].title}.
             </Text>
           </View>
         ) : null}
 
         {/* RECENT FINDS */}
 
-        {foundCars.length > 0 ? (
+        {selectedTypeFound.length > 0 ? (
           <>
             <View
               style={styles.sectionHeader}
@@ -825,14 +735,14 @@ export default function HuntScreen() {
               <Text
                 style={styles.sectionSubtitle}
               >
-                {foundCars.length} found
+                {selectedTypeFound.length} found
               </Text>
             </View>
 
             <View
               style={styles.recentList}
             >
-              {foundCars
+              {selectedTypeFound
                 .slice()
                 .reverse()
                 .slice(0, 5)
@@ -861,11 +771,18 @@ export default function HuntScreen() {
                           },
                         ]}
                       >
-                        <MaterialCommunityIcons
-                          name="car-sports"
-                          size={22}
-                          color="#111111"
-                        />
+                        {collectionPhotos[car.id] ? (
+                          <Image
+                            source={{ uri: collectionPhotos[car.id] }}
+                            style={styles.recentPhoto}
+                          />
+                        ) : (
+                          <MaterialCommunityIcons
+                            name="car-sports"
+                            size={22}
+                            color="#111111"
+                          />
+                        )}
                       </View>
 
                       <View

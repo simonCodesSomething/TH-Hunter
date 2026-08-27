@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -9,11 +10,17 @@ import {
   View,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../styles/browse.styles"
 
 import carData from "../data/thstData.json";
-import { getFoundIds, toggleFoundId } from "../utils/storage";
+import {
+  getCollectionPhotos,
+  getFoundIds,
+  saveCollectionPhoto,
+  toggleFoundId,
+} from "../utils/storage";
 
 type CarType = "TH" | "STH";
 
@@ -70,7 +77,6 @@ export default function BrowseScreen() {
   const [query, setQuery] = useState("");
   const [filterType, setFilterType] = useState<FilterType>("ALL");
 const [selectedYear, setSelectedYear] = useState<number | null>(null);
-const [expandedYears, setExpandedYears] = useState<number[]>([]);
 const years = useMemo(() => {
   return [...new Set(typedCarData.map((car) => car.year))].sort(
     (a, b) => b - a
@@ -83,17 +89,37 @@ useEffect(() => {
   }
 
   setSelectedYear((current) => current ?? years[0]);
-
-  setExpandedYears((current) =>
-    current.length > 0 ? current : [years[0]]
-  );
 }, [years]);
   const [foundIds, setFoundIds] = useState<string[]>([]);
+  const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
 
   const scrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
     void getFoundIds().then(setFoundIds);
+    void getCollectionPhotos().then(setCollectionPhotos);
+  }, []);
+
+  const handlePickPhoto = useCallback(async (carId: string) => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permission.granted) {
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.85,
+    });
+
+    if (result.canceled) {
+      return;
+    }
+
+    const next = await saveCollectionPhoto(carId, result.assets[0].uri);
+    setCollectionPhotos(next);
   }, []);
 
   const handleToggleFound = useCallback(async (id: string) => {
@@ -112,20 +138,6 @@ useEffect(() => {
 
   const handleYearPress = useCallback((year: number) => {
     setSelectedYear(year);
-
-    setExpandedYears((current) =>
-      current.includes(year)
-        ? current
-        : [...current, year]
-    );
-  }, []);
-
-  const toggleYear = useCallback((year: number) => {
-    setExpandedYears((current) =>
-      current.includes(year)
-        ? current.filter((item) => item !== year)
-        : [...current, year]
-    );
   }, []);
 
 
@@ -154,6 +166,7 @@ const sections = useMemo<YearSection[]>(() => {
   const renderCarCard = (car: Car) => {
     const meta = TYPE_META[car.type];
     const isFound = foundIds.includes(car.id);
+    const photoUri = collectionPhotos[car.id];
 
     return (
       <Pressable
@@ -162,13 +175,17 @@ const sections = useMemo<YearSection[]>(() => {
         onPress={() => void handleToggleFound(car.id)}
       >
         <View style={styles.carImage}>
-          <View style={styles.cardGraphic}>
-            <MaterialCommunityIcons
-              name="car-sports"
-              size={44}
-              color="#111111"
-            />
-          </View>
+          {photoUri ? (
+            <Image source={{ uri: photoUri }} style={styles.carPhoto} />
+          ) : (
+            <View style={styles.cardGraphic}>
+              <MaterialCommunityIcons
+                name="car-sports"
+                size={44}
+                color="#111111"
+              />
+            </View>
+          )}
 
           <View
             style={[
@@ -184,6 +201,21 @@ const sections = useMemo<YearSection[]>(() => {
               <Ionicons name="checkmark" size={13} color="#000" />
             </View>
           )}
+
+          <Pressable
+            style={styles.photoButton}
+            onPress={(event) => {
+              event.stopPropagation();
+              void handlePickPhoto(car.id);
+            }}
+            hitSlop={8}
+          >
+            <Ionicons
+              name={photoUri ? "camera" : "camera-outline"}
+              size={16}
+              color="#FFFFFF"
+            />
+          </Pressable>
         </View>
 
         <Text style={styles.carName} numberOfLines={2}>
@@ -201,7 +233,8 @@ return (
   <View style={styles.container}>
     {/* FIXED HEADER */}
     <View style={styles.header}>
-      <View>
+      <View style={styles.headerContent}>
+        <Text style={styles.eyebrow}>TH HUNTER</Text>
         <Text style={styles.title}>BROWSE</Text>
         <Text style={styles.subtitle}>
           Treasure Hunts (TH) & Super Treasure Hunts (STH)
@@ -261,24 +294,6 @@ return (
           )}
         </View>
 
-        <Pressable
-          style={styles.filterButton}
-          onPress={() =>
-            setFilterType((current) =>
-              current === "ALL"
-                ? "TH"
-                : current === "TH"
-                  ? "STH"
-                  : "ALL"
-            )
-          }
-        >
-          <Ionicons
-            name="options-outline"
-            size={25}
-            color="#FFFFFF"
-          />
-        </Pressable>
       </View>
 
       <View style={styles.typeSelector}>
@@ -353,8 +368,6 @@ return (
       {sections
   .filter((section) => section.year === selectedYear)
   .map((section) => {
-        const isExpanded = expandedYears.includes(section.year);
-
         const sectionCars = section.cars.filter((car) => {
           if (filterType !== "ALL" && car.type !== filterType) {
             return false;
@@ -380,9 +393,8 @@ return (
 
         return (
           <View key={section.year} style={styles.yearSection}>
-            <Pressable
+            <View
               style={styles.yearHeader}
-              onPress={() => toggleYear(section.year)}
             >
               <Text style={styles.yearTitle}>
                 {section.year}
@@ -393,24 +405,14 @@ return (
                   {section.cars.length} Total
                 </Text>
 
-                <Ionicons
-                  name={
-                    isExpanded
-                      ? "chevron-up"
-                      : "chevron-down"
-                  }
-                  size={23}
-                  color="#FFFFFF"
-                />
               </View>
-            </Pressable>
+            </View>
 
-            {isExpanded && (
-              <>
+            <>
                 <BrowseCategory
-                  type="TH"
+                  type="STH"
                   cars={sectionCars.filter(
-                    (car) => car.type === "TH"
+                    (car) => car.type === "STH"
                   )}
                   foundIds={foundIds}
                   onToggleFound={handleToggleFound}
@@ -418,9 +420,9 @@ return (
                 />
 
                 <BrowseCategory
-                  type="STH"
+                  type="TH"
                   cars={sectionCars.filter(
-                    (car) => car.type === "STH"
+                    (car) => car.type === "TH"
                   )}
                   foundIds={foundIds}
                   onToggleFound={handleToggleFound}
@@ -432,8 +434,7 @@ return (
                     No TH / STH cars match your search.
                   </Text>
                 )}
-              </>
-            )}
+            </>
           </View>
         );
       })}

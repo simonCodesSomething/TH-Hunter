@@ -2,16 +2,17 @@ import React, { useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
-  Pressable,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import BrowseScreen from "./src/screens/BrowseScreen";
 import HuntScreen from "./src/screens/HuntScreen";
 import CollectionScreen from "./src/screens/CollectionScreen";
 import CheatSheetScreen from "./src/screens/CheatSheetScreen";
+import AboutScreen from "./src/screens/AboutScreen";
+import PrivacyPolicyScreen from "./src/screens/PrivacyPolicyScreen";
+import TermsOfUseScreen from "./src/screens/TermsOfUseScreen";
 import ProgressScreen from "./src/screens/ProgressScreen";
 
 import BottomTabs from "./src/components/BottomTabs";
@@ -22,10 +23,15 @@ const { width } = Dimensions.get("window");
 
 export default function App() {
   const [activeTab, setActiveTab] =
-    useState<Tab>("browse");
+    useState<Tab>("hunt");
 
   const [showProgress, setShowProgress] =
     useState(false);
+  const [showCheatSheet, setShowCheatSheet] =
+    useState(false);
+  const [legalScreen, setLegalScreen] = useState<
+    "privacy" | "terms" | null
+  >(null);
 
   const progressTranslateX = useRef(
     new Animated.Value(width)
@@ -59,6 +65,12 @@ export default function App() {
     });
   };
 
+  const handleTabChange = (tab: Tab) => {
+    setShowCheatSheet(false);
+    setLegalScreen(null);
+    setActiveTab(tab);
+  };
+
   /*
    * Render bottom-tab screen
    */
@@ -77,8 +89,28 @@ export default function App() {
           />
         );
 
-      case "cheatsheet":
-        return <CheatSheetScreen />;
+      case "about":
+        if (legalScreen === "privacy") {
+          return <PrivacyPolicyScreen onBack={() => setLegalScreen(null)} />;
+        }
+
+        if (legalScreen === "terms") {
+          return <TermsOfUseScreen onBack={() => setLegalScreen(null)} />;
+        }
+
+        return showCheatSheet ? (
+          <CheatSheetScreen
+            onBack={() => setShowCheatSheet(false)}
+          />
+        ) : (
+          <AboutScreen
+            onCheatSheetPress={() =>
+              setShowCheatSheet(true)
+            }
+            onPrivacyPress={() => setLegalScreen("privacy")}
+            onTermsPress={() => setLegalScreen("terms")}
+          />
+        );
 
       default:
         return <BrowseScreen />;
@@ -115,7 +147,7 @@ export default function App() {
         {!showProgress && (
           <BottomTabs
             activeTab={activeTab}
-            onTabChange={setActiveTab}
+            onTabChange={handleTabChange}
           />
         )}
 
@@ -138,36 +170,17 @@ export default function App() {
               ],
             }}
           >
-            {/* BACK BUTTON */}
+            <ProgressScreen
+              onClose={closeProgress}
+            />
 
-            <View
-              style={{
-                position: "absolute",
-                top: 8,
-                left: 14,
-                zIndex: 10,
+            <BottomTabs
+              activeTab={activeTab}
+              onTabChange={(tab) => {
+                handleTabChange(tab);
+                closeProgress();
               }}
-            >
-              <Pressable
-                onPress={closeProgress}
-                hitSlop={10}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Ionicons
-                  name="chevron-back"
-                  size={28}
-                  color="#FFFFFF"
-                />
-              </Pressable>
-            </View>
-
-            <ProgressScreen />
+            />
           </Animated.View>
         )}
       </View>

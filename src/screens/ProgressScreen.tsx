@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
+  Image,
   Pressable,
   ScrollView,
   Text,
@@ -12,7 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import carData from "../data/thstData.json";
-import { getFoundIds } from "../utils/storage";
+import { getCollectionPhotos, getFoundIds } from "../utils/storage";
 import { styles } from "../styles/progress.styles";
 
 type CarType = "TH" | "STH";
@@ -50,9 +51,15 @@ const TYPE_META: Record<
     icon: "fire",
   },
 };
+interface ProgressScreenProps {
+  onClose: () => void;
+}
 
-export default function ProgressScreen() {
+export default function ProgressScreen({
+  onClose,
+}: ProgressScreenProps) {
   const [foundIds, setFoundIds] = useState<string[]>([]);
+  const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
   const [selectedYear, setSelectedYear] = useState<number | null>(
     null
   );
@@ -62,6 +69,7 @@ export default function ProgressScreen() {
    */
   useEffect(() => {
     void getFoundIds().then(setFoundIds);
+    void getCollectionPhotos().then(setCollectionPhotos);
   }, []);
 
   /*
@@ -254,6 +262,7 @@ export default function ProgressScreen() {
 
       <View style={styles.header}>
         <View>
+          <Text style={styles.eyebrow}>TH HUNTER</Text>
           <Text style={styles.title}>
             PROGRESS
           </Text>
@@ -263,13 +272,17 @@ export default function ProgressScreen() {
           </Text>
         </View>
 
-        <View style={styles.headerIcon}>
-          <Ionicons
-            name="stats-chart"
-            size={23}
-            color="#FBBF24"
-          />
-        </View>
+<Pressable
+  style={styles.headerIcon}
+  onPress={onClose}
+  hitSlop={10}
+>
+  <Ionicons
+    name="close"
+    size={28}
+    color="#FFFFFF"
+  />
+</Pressable>
       </View>
 
       <ScrollView
@@ -439,6 +452,9 @@ export default function ProgressScreen() {
           found={thFound.length}
           total={thCars.length}
           percentage={thPercentage}
+          photoUris={thCars
+            .map((car) => collectionPhotos[car.id])
+            .filter((uri): uri is string => Boolean(uri))}
         />
 
         <ProgressCard
@@ -448,6 +464,9 @@ export default function ProgressScreen() {
           found={sthFound.length}
           total={sthCars.length}
           percentage={sthPercentage}
+          photoUris={sthCars
+            .map((car) => collectionPhotos[car.id])
+            .filter((uri): uri is string => Boolean(uri))}
         />
 
         {/* YEAR HISTORY */}
@@ -698,6 +717,7 @@ interface ProgressCardProps {
   found: number;
   total: number;
   percentage: number;
+  photoUris: string[];
 }
 
 function ProgressCard({
@@ -707,6 +727,7 @@ function ProgressCard({
   found,
   total,
   percentage,
+  photoUris,
 }: ProgressCardProps) {
   return (
     <View style={styles.progressCard}>
@@ -762,6 +783,22 @@ function ProgressCard({
           ]}
         />
       </View>
+
+      {photoUris.length > 0 && (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.progressPhotos}
+        >
+          {photoUris.map((uri, index) => (
+            <Image
+              key={`${uri}-${index}`}
+              source={{ uri }}
+              style={styles.progressPhoto}
+            />
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 }

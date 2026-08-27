@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "space-between",
     paddingHorizontal: 18,
+    paddingTop: 18,
     marginBottom: 18,
   },
 
@@ -27,6 +28,20 @@ export const styles = StyleSheet.create({
     lineHeight: 36,
     fontWeight: "900",
     letterSpacing: 0.4,
+  },
+
+  eyebrow: {
+    color: "#FBBF24",
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 1.2,
+  },
+
+  infoButton: {
+    width: 48,
+    height: 48,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   subtitle: {
@@ -120,7 +135,7 @@ export const styles = StyleSheet.create({
   },
 
   nextSectionHeader: {
-    marginTop: 14,
+    marginTop: 0,
   },
 
   sectionTitle: {
@@ -275,6 +290,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
+  carPhoto: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+
   typeBadge: {
     position: "absolute",
     top: 6,
@@ -301,6 +322,18 @@ export const styles = StyleSheet.create({
     height: 25,
     borderRadius: 13,
     backgroundColor: "#FBBF24",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  photoButton: {
+    position: "absolute",
+    right: 6,
+    bottom: 6,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(17, 17, 17, 0.78)",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -385,6 +418,12 @@ export const styles = StyleSheet.create({
     marginRight: 11,
   },
 
+  recentPhoto: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 21,
+  },
+
   recentInfo: {
     flex: 1,
   },
@@ -460,21 +499,28 @@ yearSelectedLabel: {
   fontWeight: "900",
 },
 
-yearRow: {
-  paddingHorizontal: 14,
+yearHeaderAction: {
+  flexDirection: "row",
+  alignItems: "center",
   gap: 8,
 },
 
-yearChip: {
-  minWidth: 64,
-  height: 38,
+yearRow: {
   paddingHorizontal: 14,
-  borderRadius: 19,
-  backgroundColor: "#111111",
-  borderWidth: 1,
-  borderColor: "#292929",
+  gap: 8,
+  paddingBottom: 12,
+},
+
+yearChip: {
+  minWidth: 62,
+  height: 42,
+  paddingHorizontal: 13,
   alignItems: "center",
   justifyContent: "center",
+  backgroundColor: "#151515",
+  borderWidth: 1,
+  borderColor: "#252525",
+  borderRadius: 10,
 },
 
 yearChipActive: {
@@ -483,13 +529,46 @@ yearChipActive: {
 },
 
 yearChipText: {
-  color: "#8E8E93",
-  fontSize: 13,
-  fontWeight: "800",
+  color: "#E5E5E5",
+  fontSize: 14,
+  fontWeight: "700",
 },
 
 yearChipTextActive: {
   color: "#111111",
   fontWeight: "900",
+},
+
+typeRow: {
+  flexDirection: "row",
+  gap: 8,
+  paddingHorizontal: 12,
+  paddingTop: 6,
+},
+
+typeChip: {
+  flex: 1,
+  height: 36,
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "#111111",
+  borderWidth: 1,
+  borderColor: "#292929",
+  borderRadius: 10,
+},
+
+typeChipActive: {
+  backgroundColor: "#FBBF24",
+  borderColor: "#FBBF24",
+},
+
+typeChipText: {
+  color: "#8E8E93",
+  fontSize: 12,
+  fontWeight: "900",
+},
+
+typeChipTextActive: {
+  color: "#111111",
 },
 });

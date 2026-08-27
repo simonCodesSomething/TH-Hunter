@@ -1,6 +1,6 @@
 export type Tab =
   | "browse"
-  | "cheatsheet"
+  | "about"
   | "hunt"
   | "collection"
   | "progress";

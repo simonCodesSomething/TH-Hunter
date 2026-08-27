@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 18,
+    paddingTop: 18,
     paddingBottom: 18,
   },
 
@@ -27,6 +28,13 @@ export const styles = StyleSheet.create({
     lineHeight: 36,
     fontWeight: "900",
     letterSpacing: 0.4,
+  },
+
+  eyebrow: {
+    color: "#FBBF24",
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 1.2,
   },
 
   subtitle: {
@@ -284,6 +292,12 @@ export const styles = StyleSheet.create({
     backgroundColor: "#D8D8D8",
   },
 
+  carPhoto: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+
   typeBadge: {
     position: "absolute",
     top: 6,
@@ -310,6 +324,18 @@ export const styles = StyleSheet.create({
     height: 25,
     borderRadius: 13,
     backgroundColor: "#FBBF24",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  photoButton: {
+    position: "absolute",
+    right: 6,
+    bottom: 6,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(17, 17, 17, 0.78)",
     alignItems: "center",
     justifyContent: "center",
   },
