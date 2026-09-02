@@ -8,6 +8,7 @@ export interface Car {
   caseLetter: string;
   imageKey: string;
   idTips: string;
+  year: number;
 }
 
 export interface CheatSheetSection {

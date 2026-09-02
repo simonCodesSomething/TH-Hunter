@@ -4,8 +4,8 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import type { Car, CarType } from "../types";
 
 const TYPE_COLORS: Record<CarType, string> = {
-  TH: "#ff8c00",
-  STH: "#e8c400",
+  TH: "#FBBF24",
+  STH: "#EF4444",
 };
 
 interface CarCardProps {

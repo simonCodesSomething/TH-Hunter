@@ -12,24 +12,10 @@ import {
 } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import carData from "../data/thstData.json";
 import { getCollectionPhotos, getFoundIds } from "../utils/storage";
 import { styles } from "../styles/progress.styles";
-
-type CarType = "TH" | "STH";
-
-interface Car {
-  id: string;
-  name: string;
-  type: CarType;
-  year: number;
-  series: string;
-  caseLetter: string;
-  imageKey: string;
-  idTips: string;
-}
-
-const typedCarData = carData as Car[];
+import { useCarData } from "../data/CarDataProvider";
+import type { Car, CarType } from "../types";
 
 const TYPE_META: Record<
   CarType,
@@ -58,6 +44,7 @@ interface ProgressScreenProps {
 export default function ProgressScreen({
   onClose,
 }: ProgressScreenProps) {
+  const { cars: typedCarData } = useCarData();
   const [foundIds, setFoundIds] = useState<string[]>([]);
   const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
   const [selectedYear, setSelectedYear] = useState<number | null>(

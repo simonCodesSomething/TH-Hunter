@@ -23,6 +23,22 @@ npx expo start
 Then scan the QR code with Expo Go (iOS/Android), or press `i` / `a` for a
 simulator/emulator, or `w` for a web preview.
 
+## Supabase REST connection
+
+Copy [`.env.example`](.env.example) to `.env` and set the Supabase project URL
+and anonymous key from **Project Settings > API**. Expo exposes variables with
+the `EXPO_PUBLIC_` prefix to the app at build time. Restart Expo after changing
+the file.
+
+## Supabase cars table
+
+1. Open the Supabase SQL Editor and run [`supabase/schema.sql`](supabase/schema.sql).
+2. Generate the import file with `npm run export:cars`.
+3. In Supabase, open the `cars` table, choose **Import data from CSV**, and select [`supabase/cars.csv`](supabase/cars.csv).
+
+The schema enables read access for the app's anonymous and authenticated clients.
+Keep write access restricted to the Supabase dashboard or server-side tooling.
+
 ## Before you ship
 
 1. **Replace the placeholder dataset.** `src/data/thstData.json` has 3 sample

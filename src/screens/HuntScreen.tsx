@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -13,12 +14,12 @@ import {
   View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import DropDownPicker from "react-native-dropdown-picker";
 import {
   Ionicons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import carData from "../data/thstData.json";
 import {
   getCollectionPhotos,
   getFoundIds,
@@ -26,22 +27,11 @@ import {
   toggleFoundId,
 } from "../utils/storage";
 import { styles } from "../styles/hunt.styles";
+import { useCarData } from "../data/CarDataProvider";
+import type { Car } from "../types";
 
 type CarType = "TH" | "STH";
 type HuntView = CarType;
-
-interface Car {
-  id: string;
-  name: string;
-  type: CarType;
-  series: string;
-  caseLetter: string;
-  imageKey: string;
-  idTips: string;
-  year?: number;
-}
-
-const cars = carData as Car[];
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -66,14 +56,19 @@ const TYPE_META: Record<
 };
 
 export default function HuntScreen() {
+  const { cars } = useCarData();
   const [foundIds, setFoundIds] = useState<string[]>([]);
   const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
   const [selectedYear, setSelectedYear] =
     useState<number>(CURRENT_YEAR);
   const [selectedType, setSelectedType] =
     useState<HuntView>("STH");
+  const [selectedCase, setSelectedCase] =
+    useState<string | "ALL">("ALL");
+  const [caseDropdownOpen, setCaseDropdownOpen] =
+    useState(false);
   const [showYearChips, setShowYearChips] =
-    useState(true);
+    useState(false);
 
   /*
    * Available years
@@ -174,15 +169,58 @@ export default function HuntScreen() {
       [sthCars, foundIds]
     );
 
+    const filteredMissingTH = useMemo(
+      () => missingTH.filter((car) => selectedCase === "ALL" || car.caseLetter === selectedCase),
+      [missingTH, selectedCase]
+    );
+
+    const filteredMissingSTH = useMemo(
+      () => missingSTH.filter((car) => selectedCase === "ALL" || car.caseLetter === selectedCase),
+      [missingSTH, selectedCase]
+    );
+
     /*
      * Selected type progress
      */
-    const selectedTypeCars = selectedType === "TH" ? thCars : sthCars;
-    const selectedTypeFound = selectedType === "TH" ? foundTH : foundSTH;
+    const caseOptions = useMemo(() => {
+      const options = (selectedType === "TH" ? thCars : sthCars).map((car) => car.caseLetter);
+      return [...new Set(options)].sort((a, b) => a.localeCompare(b));
+    }, [selectedType, thCars, sthCars]);
+
+    const caseItems = useMemo(
+      () => [
+        { label: "ALL CASES", value: "ALL" },
+        ...caseOptions.map((caseLetter) => ({
+          label: `CASE ${caseLetter}`,
+          value: caseLetter,
+        })),
+      ],
+      [caseOptions]
+    );
+
+    useEffect(() => {
+      if (selectedCase !== "ALL" && !caseOptions.includes(selectedCase)) {
+        setSelectedCase("ALL");
+      }
+    }, [caseOptions, selectedCase]);
+
+    const filteredTypeCars = useMemo(() => {
+      return (selectedType === "TH" ? thCars : sthCars).filter(
+        (car) => selectedCase === "ALL" || car.caseLetter === selectedCase
+      );
+    }, [selectedCase, selectedType, thCars, sthCars]);
+
+    const filteredTypeFound = useMemo(() => {
+      return (selectedType === "TH" ? foundTH : foundSTH).filter(
+        (car) => selectedCase === "ALL" || car.caseLetter === selectedCase
+      );
+    }, [selectedCase, selectedType, foundTH, foundSTH]);
+
+    const selectedTypeCars = filteredTypeCars;
+    const selectedTypeFound = filteredTypeFound;
     const selectedTypeProgress = selectedTypeCars.length > 0
       ? Math.round((selectedTypeFound.length / selectedTypeCars.length) * 100)
       : 0;
-
     /*
      * Reset hunt progress
      */
@@ -486,11 +524,38 @@ export default function HuntScreen() {
               );
             })}
           </View>
+
+          <View style={styles.caseDropdownWrap}>
+            <DropDownPicker
+              open={caseDropdownOpen}
+              value={selectedCase}
+              items={caseItems}
+              setOpen={setCaseDropdownOpen}
+              setValue={(callback) => {
+                const nextValue = callback(selectedCase);
+                if (nextValue !== null) {
+                  setSelectedCase(nextValue);
+                }
+              }}
+              listMode="SCROLLVIEW"
+              style={styles.caseDropdown}
+              dropDownContainerStyle={styles.caseDropdownMenu}
+              textStyle={styles.caseDropdownText}
+              listItemContainerStyle={styles.caseDropdownItem}
+              listItemLabelStyle={styles.caseDropdownItemText}
+              placeholder="ALL CASES"
+            />
+          </View>
         </View>
 
         {/* OVERALL PROGRESS */}
 
-        <View style={styles.heroCard}>
+        <View
+          style={[
+            styles.heroCard,
+            { borderColor: TYPE_META[selectedType].color },
+          ]}
+        >
           <View style={styles.heroTop}>
             <View>
               <Text
@@ -570,7 +635,7 @@ export default function HuntScreen() {
         {/* TH */}
 
         {selectedType === "TH" &&
-        missingTH.length > 0 ? (
+        filteredMissingTH.length > 0 ? (
           <View style={styles.huntSection}>
             <View
               style={styles.huntSectionHeader}
@@ -608,7 +673,7 @@ export default function HuntScreen() {
                   },
                 ]}
               >
-                {missingTH.length}
+                {filteredMissingTH.length}
               </Text>
             </View>
 
@@ -621,7 +686,7 @@ export default function HuntScreen() {
                 styles.cardsRow
               }
             >
-              {missingTH
+              {filteredMissingTH
                 .slice(0, 10)
                 .map(renderCarCard)}
             </ScrollView>
@@ -631,7 +696,7 @@ export default function HuntScreen() {
         {/* STH */}
 
         {selectedType === "STH" &&
-        missingSTH.length > 0 ? (
+        filteredMissingSTH.length > 0 ? (
           <View style={styles.huntSection}>
             <View
               style={styles.huntSectionHeader}
@@ -669,7 +734,7 @@ export default function HuntScreen() {
                   },
                 ]}
               >
-                {missingSTH.length}
+                {filteredMissingSTH.length}
               </Text>
             </View>
 
@@ -682,7 +747,7 @@ export default function HuntScreen() {
                 styles.cardsRow
               }
             >
-              {missingSTH
+              {filteredMissingSTH
                 .slice(0, 10)
                 .map(renderCarCard)}
             </ScrollView>
@@ -693,9 +758,17 @@ export default function HuntScreen() {
 
         {selectedTypeFound.length === selectedTypeCars.length &&
         selectedTypeCars.length > 0 ? (
-          <View style={styles.completeCard}>
+          <View
+            style={[
+              styles.completeCard,
+              { borderColor: TYPE_META[selectedType].color },
+            ]}
+          >
             <View
-              style={styles.completeIcon}
+              style={[
+                styles.completeIcon,
+                { backgroundColor: TYPE_META[selectedType].color },
+              ]}
             >
               <Ionicons
                 name="checkmark"

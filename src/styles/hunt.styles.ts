@@ -571,4 +571,45 @@ typeChipText: {
 typeChipTextActive: {
   color: "#111111",
 },
+
+caseDropdownWrap: {
+  paddingHorizontal: 12,
+  paddingTop: 12,
+  zIndex: 10,
+},
+
+caseDropdown: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  height: 42,
+  paddingHorizontal: 14,
+  borderRadius: 10,
+  backgroundColor: "#111111",
+  borderWidth: 1,
+  borderColor: "#292929",
+},
+
+caseDropdownText: {
+  color: "#FFFFFF",
+  fontSize: 13,
+  fontWeight: "900",
+  letterSpacing: 0.4,
+},
+
+caseDropdownMenu: {
+  backgroundColor: "#101010",
+  borderColor: "#292929",
+  borderRadius: 10,
+},
+
+caseDropdownItem: {
+  minHeight: 42,
+},
+
+caseDropdownItemText: {
+  color: "#FFFFFF",
+  fontSize: 13,
+  fontWeight: "800",
+},
 });

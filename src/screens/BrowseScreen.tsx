@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {
   Alert,
   Image,
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -14,31 +15,14 @@ import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../styles/browse.styles"
 
-import carData from "../data/thstData.json";
 import {
   getCollectionPhotos,
   getFoundIds,
   saveCollectionPhoto,
   toggleFoundId,
 } from "../utils/storage";
-
-type CarType = "TH" | "STH";
-
-interface Car {
-  id: string;
-  name: string;
-  type: CarType;
-  series: string;
-  year: number;
-  caseLetter: string;
-  imageKey: string;
-  idTips: string;
-  /**
-   * Add year to thstData.json when your historical data is ready.
-   * Current records without a year are treated as the latest year.
-   */
-  //year?: number;
-}
+import { useCarData } from "../data/CarDataProvider";
+import type { Car, CarType } from "../types";
 
 interface YearSection {
   year: number;
@@ -48,10 +32,6 @@ interface YearSection {
 }
 
 type FilterType = "ALL" | CarType;
-
-//const YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018];
-
-const typedCarData = carData as Car[];
 
 const TYPE_META: Record<
   CarType,
@@ -74,6 +54,7 @@ const TYPE_META: Record<
 };
 
 export default function BrowseScreen() {
+  const { cars: typedCarData } = useCarData();
   const [query, setQuery] = useState("");
   const [filterType, setFilterType] = useState<FilterType>("ALL");
 const [selectedYear, setSelectedYear] = useState<number | null>(null);
@@ -92,6 +73,14 @@ useEffect(() => {
 }, [years]);
   const [foundIds, setFoundIds] = useState<string[]>([]);
   const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [draftFilterType, setDraftFilterType] = useState<FilterType>("ALL");
+  const [draftSelectedYear, setDraftSelectedYear] = useState<number | null>(null);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [expandedCategories, setExpandedCategories] = useState<Record<CarType, boolean>>({
+    TH: true,
+    STH: true,
+  });
 
   const scrollRef = useRef<ScrollView>(null);
 
@@ -140,7 +129,32 @@ useEffect(() => {
     setSelectedYear(year);
   }, []);
 
+  const toggleCategory = useCallback((type: CarType) => {
+    setExpandedCategories((current) => ({
+      ...current,
+      [type]: !current[type],
+    }));
+  }, []);
 
+  const hasActiveFilters =
+    filterType !== "ALL" ||
+    (years.length > 0 && selectedYear !== null && selectedYear !== years[0]);
+
+  const openFilterModal = () => {
+    setDraftFilterType(filterType);
+    setDraftSelectedYear(selectedYear);
+    setShowFilterModal(true);
+  };
+
+  const applyFilters = () => {
+    setFilterType(draftFilterType);
+    setSelectedYear(draftSelectedYear ?? years[0] ?? null);
+    setShowFilterModal(false);
+  };
+
+  const cancelFilters = () => {
+    setShowFilterModal(false);
+  };
 
 const sections = useMemo<YearSection[]>(() => {
   return years.map((year) => {
@@ -163,71 +177,8 @@ const sections = useMemo<YearSection[]>(() => {
 
   
 
-  const renderCarCard = (car: Car) => {
-    const meta = TYPE_META[car.type];
-    const isFound = foundIds.includes(car.id);
-    const photoUri = collectionPhotos[car.id];
-
-    return (
-      <Pressable
-        key={car.id}
-        style={styles.carCard}
-        onPress={() => void handleToggleFound(car.id)}
-      >
-        <View style={styles.carImage}>
-          {photoUri ? (
-            <Image source={{ uri: photoUri }} style={styles.carPhoto} />
-          ) : (
-            <View style={styles.cardGraphic}>
-              <MaterialCommunityIcons
-                name="car-sports"
-                size={44}
-                color="#111111"
-              />
-            </View>
-          )}
-
-          <View
-            style={[
-              styles.typeBadge,
-              { backgroundColor: meta.color },
-            ]}
-          >
-            <Text style={styles.typeBadgeText}>{car.type}</Text>
-          </View>
-
-          {isFound && (
-            <View style={styles.foundBadge}>
-              <Ionicons name="checkmark" size={13} color="#000" />
-            </View>
-          )}
-
-          <Pressable
-            style={styles.photoButton}
-            onPress={(event) => {
-              event.stopPropagation();
-              void handlePickPhoto(car.id);
-            }}
-            hitSlop={8}
-          >
-            <Ionicons
-              name={photoUri ? "camera" : "camera-outline"}
-              size={16}
-              color="#FFFFFF"
-            />
-          </Pressable>
-        </View>
-
-        <Text style={styles.carName} numberOfLines={2}>
-          {car.name}
-        </Text>
-
-<Text style={styles.carNumber}>
-  Case {car.caseLetter} · {car.type} #{getCarNumber(car, typedCarData)}
-</Text>
-      </Pressable>
-    );
-  };
+  const selectedCarPhoto = selectedCar ? collectionPhotos[selectedCar.id] : null;
+  const selectedCarIsFound = selectedCar ? foundIds.includes(selectedCar.id) : false;
 
 return (
   <View style={styles.container}>
@@ -294,63 +245,112 @@ return (
           )}
         </View>
 
+        <Pressable
+          style={styles.filterButton}
+          onPress={openFilterModal}
+          hitSlop={6}
+          accessibilityRole="button"
+          accessibilityLabel="Filter browse results"
+        >
+          <Ionicons
+            name="options-outline"
+            size={19}
+            color="#FBBF24"
+          />
+          {hasActiveFilters && (
+            <View style={styles.filterIndicator} />
+          )}
+        </Pressable>
       </View>
 
-      <View style={styles.typeSelector}>
-        {(["ALL", "TH", "STH"] as FilterType[]).map((type) => {
-          const active = filterType === type;
-
-          return (
-            <Pressable
-              key={type}
-              style={[
-                styles.typeSelectorItem,
-                active && styles.typeSelectorItemActive,
-              ]}
-              onPress={() => setFilterType(type)}
-            >
-              <Text
-                style={[
-                  styles.typeSelectorText,
-                  active && styles.typeSelectorTextActive,
-                ]}
-              >
-                {type}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.yearRow}
+      <Modal
+        visible={showFilterModal}
+        transparent
+        animationType="slide"
+        onRequestClose={cancelFilters}
       >
-        {years.map((year) => {
-          const active = selectedYear === year;
+        <View style={styles.modalBackdrop}>
+          <View style={styles.filterModal}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>FILTER OPTIONS</Text>
+              <Pressable onPress={cancelFilters} hitSlop={10}>
+                <Ionicons name="close" size={24} color="#FFFFFF" />
+              </Pressable>
+            </View>
 
-          return (
-            <Pressable
-              key={year}
-              style={[
-                styles.yearChip,
-                active && styles.yearChipActive,
-              ]}
-              onPress={() => handleYearPress(year)}
-            >
-              <Text
-                style={[
-                  styles.yearChipText,
-                  active && styles.yearChipTextActive,
-                ]}
-              >
-                {year}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+            <Text style={styles.modalSectionTitle}>TYPE</Text>
+            <View style={styles.modalChipRow}>
+              {(["ALL", "TH", "STH"] as FilterType[]).map((type) => {
+                const active = draftFilterType === type;
+
+                return (
+                  <Pressable
+                    key={type}
+                    style={[
+                      styles.filterChip,
+                      active && styles.filterChipActive,
+                    ]}
+                    onPress={() => setDraftFilterType(type)}
+                  >
+                    {type !== "ALL" && (
+                      <View
+                        style={[
+                          styles.filterDot,
+                          { backgroundColor: TYPE_META[type].color },
+                        ]}
+                      />
+                    )}
+                    <Text
+                      style={[
+                        styles.filterText,
+                        active && styles.filterTextActive,
+                      ]}
+                    >
+                      {type === "ALL" ? "All" : type}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+
+            <Text style={styles.modalSectionTitle}>YEAR</Text>
+            <View style={styles.modalChipRow}>
+              {years.map((year) => {
+                const active = draftSelectedYear === year;
+
+                return (
+                  <Pressable
+                    key={year}
+                    style={[
+                      styles.yearChip,
+                      active && styles.yearChipActive,
+                    ]}
+                    onPress={() => setDraftSelectedYear(year)}
+                  >
+                    <Text
+                      style={[
+                        styles.yearText,
+                        active && styles.yearTextActive,
+                      ]}
+                    >
+                      {year}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+
+            <View style={styles.modalActions}>
+              <Pressable style={styles.cancelButton} onPress={cancelFilters}>
+                <Text style={styles.cancelButtonText}>CANCEL</Text>
+              </Pressable>
+              <Pressable style={styles.applyButton} onPress={applyFilters}>
+                <Text style={styles.applyButtonText}>APPLY</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
       {selectedSection && (
         <View style={styles.selectedYearSummary}>
@@ -393,52 +393,138 @@ return (
 
         return (
           <View key={section.year} style={styles.yearSection}>
-            <View
-              style={styles.yearHeader}
-            >
-              <Text style={styles.yearTitle}>
-                {section.year}
-              </Text>
+            <View style={styles.yearHeader}>
+              <Text style={styles.yearTitle}>{section.year}</Text>
 
               <View style={styles.yearHeaderRight}>
-                <Text style={styles.yearTotal}>
-                  {section.cars.length} Total
-                </Text>
-
+                <Text style={styles.yearTotal}>{section.cars.length} Total</Text>
               </View>
             </View>
 
             <>
-                <BrowseCategory
-                  type="STH"
-                  cars={sectionCars.filter(
-                    (car) => car.type === "STH"
-                  )}
-                  foundIds={foundIds}
-                  onToggleFound={handleToggleFound}
-                  renderCarCard={renderCarCard}
-                />
+              <BrowseCategory
+                type="STH"
+                cars={sectionCars.filter((car) => car.type === "STH")}
+                foundIds={foundIds}
+                collectionPhotos={collectionPhotos}
+                onSelectCar={setSelectedCar}
+                expanded={expandedCategories.STH}
+                onToggle={() => toggleCategory("STH")}
+              />
 
-                <BrowseCategory
-                  type="TH"
-                  cars={sectionCars.filter(
-                    (car) => car.type === "TH"
-                  )}
-                  foundIds={foundIds}
-                  onToggleFound={handleToggleFound}
-                  renderCarCard={renderCarCard}
-                />
+              <BrowseCategory
+                type="TH"
+                cars={sectionCars.filter((car) => car.type === "TH")}
+                foundIds={foundIds}
+                collectionPhotos={collectionPhotos}
+                onSelectCar={setSelectedCar}
+                expanded={expandedCategories.TH}
+                onToggle={() => toggleCategory("TH")}
+              />
 
-                {sectionCars.length === 0 && (
-                  <Text style={styles.empty}>
-                    No TH / STH cars match your search.
-                  </Text>
-                )}
+              {sectionCars.length === 0 && (
+                <Text style={styles.empty}>No TH / STH cars match your search.</Text>
+              )}
             </>
           </View>
         );
       })}
     </ScrollView>
+
+    <Modal
+      visible={selectedCar !== null}
+      transparent
+      animationType="slide"
+      onRequestClose={() => setSelectedCar(null)}
+    >
+      <View style={styles.detailModalBackdrop}>
+        <View style={styles.detailModal}>
+          <View style={styles.detailHeader}>
+            <Text style={styles.detailTitle}>{selectedCar?.name ?? "Car Details"}</Text>
+            <Pressable onPress={() => setSelectedCar(null)} hitSlop={10}>
+              <Ionicons name="close" size={24} color="#FFFFFF" />
+            </Pressable>
+          </View>
+
+          <View style={styles.detailImageWrap}>
+            {selectedCarPhoto ? (
+              <Image source={{ uri: selectedCarPhoto }} style={styles.detailImage} />
+            ) : (
+              <View style={styles.detailImagePlaceholder}>
+                <MaterialCommunityIcons name="car-sports" size={52} color="#111111" />
+              </View>
+            )}
+          </View>
+
+          {selectedCar && (
+            <>
+              <View style={styles.detailMetaRow}>
+                <View
+                  style={[
+                    styles.detailTypeBadge,
+                    { backgroundColor: TYPE_META[selectedCar.type].color },
+                  ]}
+                >
+                  <Text style={styles.detailTypeBadgeText}>{selectedCar.type}</Text>
+                </View>
+                <Text style={styles.detailYear}>{selectedCar.year}</Text>
+              </View>
+
+              <Text style={styles.detailSeries}>{selectedCar.series}</Text>
+
+              <View style={styles.detailGrid}>
+                <View style={styles.detailStat}>
+                  <Text style={styles.detailStatLabel}>Case</Text>
+                  <Text style={styles.detailStatValue}>{selectedCar.caseLetter}</Text>
+                </View>
+                <View style={styles.detailStat}>
+                  <Text style={styles.detailStatLabel}>Number</Text>
+                  <Text style={styles.detailStatValue}>
+                    {getCarNumber(selectedCar, typedCarData)}
+                  </Text>
+                </View>
+                <View style={styles.detailStat}>
+                  <Text style={styles.detailStatLabel}>Status</Text>
+                  <Text style={styles.detailStatValue}>
+                    {selectedCarIsFound ? "Collected" : "Missing"}
+                  </Text>
+                </View>
+              </View>
+
+              <Text style={styles.detailNotesTitle}>Notes</Text>
+              <Text style={styles.detailNotes}>{selectedCar.idTips}</Text>
+            </>
+          )}
+
+          <View style={styles.detailActions}>
+            {selectedCar && (
+              <Pressable
+                style={[
+                  styles.detailToggleButton,
+                  selectedCarIsFound && styles.detailToggleButtonActive,
+                ]}
+                onPress={() => {
+                  void handleToggleFound(selectedCar.id);
+                }}
+              >
+                <Text style={styles.detailToggleButtonText}>
+                  {selectedCarIsFound ? "MARK MISSING" : "MARK FOUND"}
+                </Text>
+              </Pressable>
+            )}
+
+            {selectedCar && (
+              <Pressable
+                style={styles.detailPhotoButton}
+                onPress={() => void handlePickPhoto(selectedCar.id)}
+              >
+                <Text style={styles.detailPhotoButtonText}>ADD PHOTO</Text>
+              </Pressable>
+            )}
+          </View>
+        </View>
+      </View>
+    </Modal>
   </View>
 );
 }
@@ -447,14 +533,20 @@ interface BrowseCategoryProps {
   type: CarType;
   cars: Car[];
   foundIds: string[];
-  onToggleFound: (id: string) => Promise<void>;
-  renderCarCard: (car: Car) => React.ReactNode;
+  collectionPhotos: Record<string, string>;
+  onSelectCar: (car: Car) => void;
+  expanded: boolean;
+  onToggle: () => void;
 }
 
 function BrowseCategory({
   type,
   cars,
-  renderCarCard,
+  foundIds,
+  collectionPhotos,
+  onSelectCar,
+  expanded,
+  onToggle,
 }: BrowseCategoryProps) {
   if (cars.length === 0) {
     return null;
@@ -464,59 +556,55 @@ function BrowseCategory({
 
   return (
     <View style={styles.category}>
-      <View style={styles.categoryHeader}>
-        <View
-          style={[
-            styles.categoryIcon,
-            { backgroundColor: meta.color },
-          ]}
-        >
-          <MaterialCommunityIcons
-            name={meta.icon}
-            size={24}
-            color="#111111"
-          />
+      <Pressable style={styles.categoryHeader} onPress={onToggle}>
+        <View style={[styles.categoryIcon, { backgroundColor: meta.color }]}>
+          <MaterialCommunityIcons name={meta.icon} size={24} color="#111111" />
           <Text style={styles.categoryIconText}>{type}</Text>
         </View>
 
         <View style={styles.categoryTitleContainer}>
-          <Text
-            style={[
-              styles.categoryTitle,
-              { color: meta.color },
-            ]}
-          >
-            {meta.title}
-          </Text>
-
-          <Text style={styles.categorySubtitle}>
-            {cars.length} {cars.length === 1 ? "Car" : "Cars"}
-          </Text>
+          <Text style={[styles.categoryTitle, { color: meta.color }]}>{meta.title}</Text>
+          <Text style={styles.categorySubtitle}>{cars.length} {cars.length === 1 ? "Car" : "Cars"}</Text>
         </View>
 
-        <Text
-          style={[
-            styles.categoryCount,
-            { color: meta.color },
-          ]}
-        >
-          {cars.length}
-        </Text>
-
         <Ionicons
-          name="chevron-forward"
+          name={expanded ? "chevron-up" : "chevron-down"}
           size={23}
           color={meta.color}
         />
-      </View>
+      </Pressable>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.cardsRow}
-      >
-        {cars.map(renderCarCard)}
-      </ScrollView>
+      {expanded && (
+        <View style={styles.listContainer}>
+          {cars.map((car) => {
+            const photoUri = collectionPhotos[car.id];
+
+            return (
+              <Pressable
+                key={car.id}
+                style={styles.listItem}
+                onPress={() => onSelectCar(car)}
+              >
+                <View style={styles.listThumb}>
+                  {photoUri ? (
+                    <Image source={{ uri: photoUri }} style={styles.listThumbImage} />
+                  ) : (
+                    <View style={styles.listThumbPlaceholder}>
+                      <MaterialCommunityIcons name="car-sports" size={28} color="#111111" />
+                    </View>
+                  )}
+                </View>
+
+                <View style={styles.listInfo}>
+                  <Text style={styles.listName} numberOfLines={1}>{car.name}</Text>
+                  <Text style={styles.listMeta}>{car.series}</Text>
+                  <Text style={styles.listCase}>Case {car.caseLetter}</Text>
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+      )}
     </View>
   );
 }

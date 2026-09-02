@@ -14,7 +14,7 @@ import type { CheatSheetSection } from "../types";
 const SECTIONS: CheatSheetSection[] = [
   {
     title: "Super Treasure Hunt (STH)",
-    color: "#e8c400",
+    color: "#EF4444",
     points: [
       "Spectraflame paint job — a translucent, metallic finish over the base metal.",
       "Real Riders — rubber tires instead of the standard hard plastic wheels.",
@@ -24,7 +24,7 @@ const SECTIONS: CheatSheetSection[] = [
   },
   {
     title: "Treasure Hunt (TH)",
-    color: "#ff8c00",
+    color: "#FBBF24",
     points: [
       "Look for the small flame logo printed directly on the blister card.",
       "Standard paint and wheels — the packaging callout is the main tell.",

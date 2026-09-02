@@ -7,11 +7,11 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
+ 
 interface PrivacyPolicyScreenProps {
   onBack: () => void;
 }
-
+ 
 export default function PrivacyPolicyScreen({
   onBack,
 }: PrivacyPolicyScreenProps) {
@@ -27,41 +27,55 @@ export default function PrivacyPolicyScreen({
             <Ionicons name="close" size={28} color="#FFFFFF" />
           </Pressable>
         </View>
-
-        <Text style={styles.updated}>Last updated: August 26, 2026</Text>
-
+ 
+        <Text style={styles.updated}>Last updated: September 2, 2026</Text>
+ 
         <Text style={styles.body}>
-          Hot Wheels Hunter is designed to keep your collection information on
-          your device. This policy explains what the app stores and how it is
-          used.
+          TH Hunter is designed to keep your collection information on your
+          device. This policy explains what the app stores, what it fetches,
+          and how it is used.
         </Text>
-
+ 
         <Section title="Information stored on your device">
-          The app stores your found-car selections, and any collection photos
-          you choose, locally on your device. These items are used only to show
-          your collection and progress.
+          The app stores your found-car selections, collection progress, and
+          any collection photos you choose, locally on your device. This data
+          is kept in the app's local state and is used only to show your
+          collection and progress to you.
         </Section>
-
+ 
         <Section title="Photos">
-          Photos are selected through your device photo library. Hot Wheels
-          Hunter does not upload your photos to a server or share them with us.
+          Photos are selected through your device photo library. TH Hunter
+          does not upload your photos to a server or share them with us.
         </Section>
-
+ 
+        <Section title="App content data">
+          TH Hunter connects to a backend service (Supabase) to retrieve
+          reference data used by the app, such as car listings and other
+          catalog information. This connection is read-only: the app does not
+          create accounts, and no personal information, collection data, or
+          photos are ever sent to or stored on this backend.
+        </Section>
+ 
+        <Section title="Accounts and personal information">
+          TH Hunter does not require or support account creation and does not
+          collect names, email addresses, or other personal information.
+        </Section>
+ 
         <Section title="Data sharing">
-          The app does not sell, rent, or share your collection data. Opening an
-          external support link may be handled by your browser and is subject to
-          that service's privacy policy.
+          The app does not sell, rent, or share your collection data. Opening
+          an external support link may be handled by your browser and is
+          subject to that service's privacy policy.
         </Section>
-
+ 
         <Section title="Changes to this policy">
-          This policy may be updated as the app changes. The latest version will
-          be included in the app.
+          This policy may be updated as the app changes. The latest version
+          will be included in the app.
         </Section>
       </ScrollView>
     </View>
   );
 }
-
+ 
 function Section({ title, children }: { title: string; children: string }) {
   return (
     <View style={styles.section}>
@@ -70,7 +84,7 @@ function Section({ title, children }: { title: string; children: string }) {
     </View>
   );
 }
-
+ 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#000000" },
   content: { padding: 18, paddingBottom: 40 },
@@ -116,3 +130,4 @@ const styles = StyleSheet.create({
   },
   body: { color: "#A1A1A6", fontSize: 14, lineHeight: 21 },
 });
+ 

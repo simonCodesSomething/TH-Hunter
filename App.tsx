@@ -18,10 +18,12 @@ import ProgressScreen from "./src/screens/ProgressScreen";
 import BottomTabs from "./src/components/BottomTabs";
 
 import type { Tab } from "./src/types/tabs";
+import { CarDataProvider, useCarData } from "./src/data/CarDataProvider";
 
 const { width } = Dimensions.get("window");
 
-export default function App() {
+function AppContent() {
+  const { loading, error } = useCarData();
   const [activeTab, setActiveTab] =
     useState<Tab>("hunt");
 
@@ -70,6 +72,25 @@ export default function App() {
     setLegalScreen(null);
     setActiveTab(tab);
   };
+
+  if (loading || error) {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#000000", alignItems: "center", justifyContent: "center", padding: 24 }}>
+        <View>
+          <View style={{ alignItems: "center" }}>
+            <Animated.Text style={{ color: "#FBBF24", fontSize: 24, fontWeight: "900" }}>
+              {error ? "CAR DATA UNAVAILABLE" : "LOADING CAR DATA"}
+            </Animated.Text>
+            {error ? (
+              <Animated.Text style={{ color: "#A1A1A6", fontSize: 14, textAlign: "center", marginTop: 10 }}>
+                {error}
+              </Animated.Text>
+            ) : null}
+          </View>
+        </View>
+      </View>
+    );
+  }
 
   /*
    * Render bottom-tab screen
@@ -186,5 +207,13 @@ export default function App() {
       </View>
     </SafeAreaView>
     </SafeAreaProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <CarDataProvider>
+      <AppContent />
+    </CarDataProvider>
   );
 }
