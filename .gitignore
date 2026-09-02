@@ -3,6 +3,11 @@ node_modules/
 
 # Expo
 .expo/
+dist/
+build/
+.env
+.env.*
+!.env.example
 
 # Environment and local configuration
 .env
@@ -21,3 +26,7 @@ pnpm-debug.log*
 .idea/
 *.swp
 *.swo
+
+android/.gradle/
+android/build/
+ios/build/
