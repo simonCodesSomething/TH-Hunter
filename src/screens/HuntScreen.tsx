@@ -8,13 +8,13 @@ import React, {
 import {
   Alert,
   Image,
+  Modal,
   Pressable,
   ScrollView,
   Text,
   View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import DropDownPicker from "react-native-dropdown-picker";
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -69,6 +69,7 @@ export default function HuntScreen() {
     useState(false);
   const [showYearChips, setShowYearChips] =
     useState(false);
+  const caseCarouselRef = useRef<ScrollView | null>(null);
 
   /*
    * Available years
@@ -99,7 +100,7 @@ export default function HuntScreen() {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+       mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 0.85,
@@ -425,6 +426,7 @@ export default function HuntScreen() {
       </View>
 
       <ScrollView
+        nestedScrollEnabled
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
       >
@@ -526,25 +528,91 @@ export default function HuntScreen() {
           </View>
 
           <View style={styles.caseDropdownWrap}>
-            <DropDownPicker
-              open={caseDropdownOpen}
-              value={selectedCase}
-              items={caseItems}
-              setOpen={setCaseDropdownOpen}
-              setValue={(callback) => {
-                const nextValue = callback(selectedCase);
-                if (nextValue !== null) {
-                  setSelectedCase(nextValue);
-                }
-              }}
-              listMode="SCROLLVIEW"
+            <Pressable
               style={styles.caseDropdown}
-              dropDownContainerStyle={styles.caseDropdownMenu}
-              textStyle={styles.caseDropdownText}
-              listItemContainerStyle={styles.caseDropdownItem}
-              listItemLabelStyle={styles.caseDropdownItemText}
-              placeholder="ALL CASES"
-            />
+              onPress={() => setCaseDropdownOpen(true)}
+            >
+              <Text style={styles.caseDropdownText}>
+                {selectedCase === "ALL" ? "ALL CASES" : `CASE ${selectedCase}`}
+              </Text>
+              <Ionicons name="chevron-down" size={18} color="#FFFFFF" />
+            </Pressable>
+
+            <Modal
+              visible={caseDropdownOpen}
+              transparent
+              animationType="slide"
+              onRequestClose={() => setCaseDropdownOpen(false)}
+            >
+              <View style={styles.caseModalOverlay}>
+                <Pressable
+                  style={styles.caseModalBackdrop}
+                  onPress={() => setCaseDropdownOpen(false)}
+                />
+
+                <View style={styles.caseModalContent}>
+                  <View style={styles.caseModalHeader}>
+                    <Text style={styles.caseModalTitle}>SELECT CASE</Text>
+                    <Pressable
+                      style={styles.caseModalClose}
+                      onPress={() => setCaseDropdownOpen(false)}
+                      hitSlop={8}
+                    >
+                      <Ionicons name="close" size={22} color="#FFFFFF" />
+                    </Pressable>
+                  </View>
+
+                  <ScrollView
+                    ref={caseCarouselRef}
+                    onLayout={() => {
+                      const selectedIndex = caseItems.findIndex(
+                        (item) => item.value === selectedCase
+                      );
+
+                      caseCarouselRef.current?.scrollTo({
+                        y: Math.max(selectedIndex, 0) * 56,
+                        animated: false,
+                      });
+                    }}
+                    showsVerticalScrollIndicator={false}
+                    snapToInterval={56}
+                    snapToAlignment="center"
+                    decelerationRate="fast"
+                    contentContainerStyle={styles.caseCarousel}
+                  >
+                    {caseItems.map((item) => {
+                      const active = item.value === selectedCase;
+
+                      return (
+                        <Pressable
+                          key={item.value}
+                          style={[
+                            styles.caseCarouselItem,
+                            active && {
+                              backgroundColor: TYPE_META[selectedType].color,
+                              borderColor: TYPE_META[selectedType].color,
+                            },
+                          ]}
+                          onPress={() => {
+                            setSelectedCase(item.value);
+                            setCaseDropdownOpen(false);
+                          }}
+                        >
+                          <Text
+                            style={[
+                              styles.caseCarouselText,
+                              active && styles.caseCarouselTextActive,
+                            ]}
+                          >
+                            {item.label}
+                          </Text>
+                        </Pressable>
+                      );
+                    })}
+                  </ScrollView>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
 

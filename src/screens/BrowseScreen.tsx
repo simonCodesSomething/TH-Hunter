@@ -12,8 +12,13 @@ import {
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "../styles/browse.styles"
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  detailModalStyle,
+  detailActionsStyle,
+  filterModalStyle,
+  styles,
+} from "../styles/browse.styles";
 
 import {
   getCollectionPhotos,
@@ -54,23 +59,24 @@ const TYPE_META: Record<
 };
 
 export default function BrowseScreen() {
+  const insets = useSafeAreaInsets();
   const { cars: typedCarData } = useCarData();
   const [query, setQuery] = useState("");
   const [filterType, setFilterType] = useState<FilterType>("ALL");
-const [selectedYear, setSelectedYear] = useState<number | null>(null);
-const years = useMemo(() => {
-  return [...new Set(typedCarData.map((car) => car.year))].sort(
-    (a, b) => b - a
-  );
-}, []);
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const years = useMemo(() => {
+    return [...new Set(typedCarData.map((car) => car.year))].sort(
+      (a, b) => b - a
+    );
+  }, [typedCarData]);
 
-useEffect(() => {
-  if (years.length === 0) {
-    return;
-  }
+  useEffect(() => {
+    if (years.length === 0) {
+      return;
+    }
 
-  setSelectedYear((current) => current ?? years[0]);
-}, [years]);
+    setSelectedYear((current) => current ?? years[0]);
+  }, [years]);
   const [foundIds, setFoundIds] = useState<string[]>([]);
   const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -96,12 +102,12 @@ useEffect(() => {
       return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 0.85,
-    });
+const result = await ImagePicker.launchImageLibraryAsync({
+   mediaTypes: ['images'],
+  allowsEditing: true,
+  aspect: [4, 3],
+  quality: 0.85,
+});
 
     if (result.canceled) {
       return;
@@ -115,8 +121,6 @@ useEffect(() => {
     const next = await toggleFoundId(id);
     setFoundIds(next);
   }, []);
-
-  
 
   const handleInfoPress = useCallback(() => {
     Alert.alert(
@@ -156,8 +160,8 @@ useEffect(() => {
     setShowFilterModal(false);
   };
 
-const sections = useMemo<YearSection[]>(() => {
-  return years.map((year) => {
+  const sections = useMemo<YearSection[]>(() => {
+    return years.map((year) => {
       const cars = typedCarData.filter(
         (car) => (car.year ?? 2026) === year
       );
@@ -169,19 +173,17 @@ const sections = useMemo<YearSection[]>(() => {
         sthCount: cars.filter((car) => car.type === "STH").length,
       };
     });
-}, [years]);
+  }, [years, typedCarData]);
 
   const selectedSection = sections.find(
     (section) => section.year === selectedYear
   );
 
-  
-
   const selectedCarPhoto = selectedCar ? collectionPhotos[selectedCar.id] : null;
   const selectedCarIsFound = selectedCar ? foundIds.includes(selectedCar.id) : false;
 
-return (
-  <View style={styles.container}>
+  return (
+    <View style={styles.container}>
     {/* FIXED HEADER */}
     <View style={styles.header}>
       <View style={styles.headerContent}>
@@ -270,7 +272,7 @@ return (
         onRequestClose={cancelFilters}
       >
         <View style={styles.modalBackdrop}>
-          <View style={styles.filterModal}>
+          <View style={filterModalStyle(insets.bottom)}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>FILTER OPTIONS</Text>
               <Pressable onPress={cancelFilters} hitSlop={10}>
@@ -365,9 +367,9 @@ return (
         </View>
       )}
 
-      {sections
-  .filter((section) => section.year === selectedYear)
-  .map((section) => {
+            {sections
+              .filter((section) => section.year === selectedYear)
+              .map((section) => {
         const sectionCars = section.cars.filter((car) => {
           if (filterType !== "ALL" && car.type !== filterType) {
             return false;
@@ -428,7 +430,7 @@ return (
             </>
           </View>
         );
-      })}
+        })}
     </ScrollView>
 
     <Modal
@@ -438,7 +440,7 @@ return (
       onRequestClose={() => setSelectedCar(null)}
     >
       <View style={styles.detailModalBackdrop}>
-        <View style={styles.detailModal}>
+        <View style={detailModalStyle(insets.bottom)}>
           <View style={styles.detailHeader}>
             <Text style={styles.detailTitle}>{selectedCar?.name ?? "Car Details"}</Text>
             <Pressable onPress={() => setSelectedCar(null)} hitSlop={10}>
@@ -496,7 +498,7 @@ return (
             </>
           )}
 
-          <View style={styles.detailActions}>
+          <View style={detailActionsStyle(insets.bottom)}>
             {selectedCar && (
               <Pressable
                 style={[
@@ -525,8 +527,8 @@ return (
         </View>
       </View>
     </Modal>
-  </View>
-);
+    </View>
+  );
 }
 
 interface BrowseCategoryProps {

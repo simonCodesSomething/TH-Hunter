@@ -1,4 +1,4 @@
-package com.yourcompany.hotwheelshunter
+package com.simonreact.hotwheelshunter
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

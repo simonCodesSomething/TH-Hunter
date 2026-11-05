@@ -21,7 +21,7 @@ export default function AboutScreen({
   onTermsPress,
 }: AboutScreenProps) {
   const openCoffeeLink = () => {
-    void Linking.openURL("https://www.buymeacoffee.com/");
+    void Linking.openURL("https://buymeacoffee.com/scan.minifigs");
   };
 
   return (

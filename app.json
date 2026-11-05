@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "Hot Wheels Hunter",
@@ -7,29 +8,29 @@
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "backgroundColor": "#000000",
-    "splash": {
-      "image": "./assets/ios-splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000000"
-    },
+
     "assetBundlePatterns": [
       "**/*"
     ],
+
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.hotwheelshunter"
+      "bundleIdentifier": "com.simonreact.hotwheelshunter"
     },
+
     "android": {
-      "package": "com.yourcompany.hotwheelshunter",
+      "package": "com.simonreact.hotwheelshunter",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon-foreground.png",
         "backgroundColor": "#000000"
       },
       "backgroundColor": "#000000"
     },
+
     "web": {
       "bundler": "metro"
     },
+
     "plugins": [
       "expo-font",
       "expo-image-picker",
@@ -41,9 +42,11 @@
           "imageWidth": 220,
           "resizeMode": "contain"
         }
-      ]
+      ],
+      "expo-status-bar",
+      "expo-asset"
     ],
-    
+
     "extra": {
       "eas": {
         "projectId": "a29e0632-cfa3-41b0-abb3-d831025901c3"

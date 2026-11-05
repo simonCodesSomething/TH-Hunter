@@ -724,3 +724,18 @@ export const styles = StyleSheet.create({
     paddingVertical: 22,
   },
 });
+
+export const filterModalStyle = (bottomInset: number) => [
+  styles.filterModal,
+  { paddingBottom: bottomInset + 16 },
+];
+
+export const detailModalStyle = (bottomInset: number) => [
+  styles.detailModal,
+  { paddingBottom: 28 + bottomInset },
+];
+
+export const detailActionsStyle = (bottomInset: number) => [
+  styles.detailActions,
+  { marginBottom: bottomInset },
+];
