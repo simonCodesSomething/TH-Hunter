@@ -28,6 +28,7 @@ import {
 } from "../utils/storage";
 import { useCarData } from "../data/CarDataProvider";
 import type { Car, CarType } from "../types";
+import { getAvailableYears } from "../utils/catalogYears";
 
 interface YearSection {
   year: number;
@@ -64,18 +65,21 @@ export default function BrowseScreen() {
   const [query, setQuery] = useState("");
   const [filterType, setFilterType] = useState<FilterType>("ALL");
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const years = useMemo(() => {
-    return [...new Set(typedCarData.map((car) => car.year))].sort(
-      (a, b) => b - a
-    );
-  }, [typedCarData]);
+  const years = useMemo(
+    () => getAvailableYears(typedCarData),
+    [typedCarData]
+  );
 
   useEffect(() => {
     if (years.length === 0) {
       return;
     }
 
-    setSelectedYear((current) => current ?? years[0]);
+    setSelectedYear((current) =>
+  current !== null && years.includes(current)
+    ? current
+    : years[0]
+);
   }, [years]);
   const [foundIds, setFoundIds] = useState<string[]>([]);
   const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
@@ -87,6 +91,7 @@ export default function BrowseScreen() {
     TH: true,
     STH: true,
   });
+  
 
   const scrollRef = useRef<ScrollView>(null);
 
@@ -160,11 +165,11 @@ const result = await ImagePicker.launchImageLibraryAsync({
     setShowFilterModal(false);
   };
 
-  const sections = useMemo<YearSection[]>(() => {
-    return years.map((year) => {
-      const cars = typedCarData.filter(
-        (car) => (car.year ?? 2026) === year
-      );
+const sections = useMemo<YearSection[]>(() => {
+  return years.map((year) => {
+    const cars = typedCarData.filter(
+      (car) => car.year === year
+    );
 
       return {
         year,
@@ -613,11 +618,13 @@ function BrowseCategory({
 
 function getCarNumber(car: Car, cars: Car[]): number {
   return (
-    cars.filter(
-      (item) =>
-        (item.year ?? 2026) === (car.year ?? 2026) &&
-        item.type === car.type
-    ).findIndex((item) => item.id === car.id) + 1
+    cars
+      .filter(
+        (item) =>
+          item.year === car.year &&
+          item.type === car.type
+      )
+      .findIndex((item) => item.id === car.id) + 1
   );
 }
 

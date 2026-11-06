@@ -7,9 +7,12 @@ const FOUND_KEY = "hwh_found_ids_v1";
 const PHOTO_KEY = "hwh_collection_photos_v1";
 const CAR_CATALOG_KEY = "hwh_car_catalog_v1";
 
-interface CachedCarCatalog {
+const CAR_CATALOG_CACHE_VERSION = 1;
+
+export interface CachedCarCatalog {
   version: number;
   fetchedAt: number;
+  serverUpdatedAt: string | null;
   cars: Car[];
 }
 
@@ -53,7 +56,7 @@ export async function getCachedCarCatalog(): Promise<CachedCarCatalog | null> {
     const cache = parsed as Record<string, unknown>;
 
     if (
-      cache.version !== 1 ||
+      cache.version !== CAR_CATALOG_CACHE_VERSION ||
       typeof cache.fetchedAt !== "number" ||
       !Number.isFinite(cache.fetchedAt) ||
       !Array.isArray(cache.cars) ||
@@ -63,32 +66,54 @@ export async function getCachedCarCatalog(): Promise<CachedCarCatalog | null> {
       return null;
     }
 
+    // Older cached catalogs do not contain serverUpdatedAt.
+    // Preserve those catalogs and mark their server version as unknown.
+    const serverUpdatedAt =
+      typeof cache.serverUpdatedAt === "string" &&
+      !Number.isNaN(Date.parse(cache.serverUpdatedAt))
+        ? cache.serverUpdatedAt
+        : null;
+
     return {
-      version: 1,
+      version: CAR_CATALOG_CACHE_VERSION,
       fetchedAt: cache.fetchedAt,
-      cars: cache.cars,
+      serverUpdatedAt,
+      cars: cache.cars as Car[],
     };
   } catch (error) {
-    console.warn("Failed to load cached car catalog", error);
+    console.warn("[CarData] Failed to load cached car catalog", error);
     return null;
   }
 }
 
-export async function saveCachedCarCatalog(cars: Car[]): Promise<void> {
+export async function saveCachedCarCatalog(
+  cars: Car[],
+  serverUpdatedAt: string | null = null
+): Promise<void> {
   if (cars.length === 0) {
+    console.warn("[CarData] Skipping empty catalog cache save.");
     return;
   }
 
   const cache: CachedCarCatalog = {
-    version: 1,
+    version: CAR_CATALOG_CACHE_VERSION,
     fetchedAt: Date.now(),
+    serverUpdatedAt,
     cars,
   };
 
   try {
-    await AsyncStorage.setItem(CAR_CATALOG_KEY, JSON.stringify(cache));
+    await AsyncStorage.setItem(
+      CAR_CATALOG_KEY,
+      JSON.stringify(cache)
+    );
+
+    console.log("[CarData] Catalog cache saved.", {
+      carCount: cars.length,
+      serverUpdatedAt,
+    });
   } catch (error) {
-    console.warn("Failed to save cached car catalog", error);
+    console.warn("[CarData] Failed to save cached car catalog", error);
   }
 }
 
@@ -106,7 +131,10 @@ export async function getFoundIds(): Promise<string[]> {
 
     const parsed: unknown = JSON.parse(raw);
 
-    if (!Array.isArray(parsed) || !parsed.every((id) => typeof id === "string")) {
+    if (
+      !Array.isArray(parsed) ||
+      !parsed.every((id) => typeof id === "string")
+    ) {
       return [];
     }
 
@@ -147,12 +175,18 @@ export async function getCollectionPhotos(): Promise<Record<string, string>> {
 
     const parsed: unknown = JSON.parse(raw);
 
-    if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    if (
+      parsed === null ||
+      typeof parsed !== "object" ||
+      Array.isArray(parsed)
+    ) {
       return {};
     }
 
     return Object.fromEntries(
-      Object.entries(parsed).filter(([, uri]) => typeof uri === "string")
+      Object.entries(parsed).filter(
+        ([, uri]) => typeof uri === "string"
+      )
     );
   } catch (error) {
     console.warn("Failed to load collection photos", error);
@@ -168,7 +202,10 @@ export async function saveCollectionPhoto(
   const next = { ...current, [carId]: uri };
 
   try {
-    await AsyncStorage.setItem(PHOTO_KEY, JSON.stringify(next));
+    await AsyncStorage.setItem(
+      PHOTO_KEY,
+      JSON.stringify(next)
+    );
   } catch (error) {
     console.warn("Failed to save collection photos", error);
   }
