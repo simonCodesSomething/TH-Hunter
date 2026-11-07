@@ -70,17 +70,21 @@ export default function BrowseScreen() {
     [typedCarData]
   );
 
-  useEffect(() => {
-    if (years.length === 0) {
-      return;
+  const defaultYear = useMemo(() => {
+    const currentYear = new Date().getFullYear();
+
+    if (years.includes(currentYear)) {
+      return currentYear;
     }
 
-    setSelectedYear((current) =>
-  current !== null && years.includes(current)
-    ? current
-    : years[0]
-);
+    return years.length > 0 ? Math.max(...years) : null;
   }, [years]);
+
+  useEffect(() => {
+    setSelectedYear((current) =>
+      current !== null && years.includes(current) ? current : defaultYear
+    );
+  }, [years, defaultYear]);
   const [foundIds, setFoundIds] = useState<string[]>([]);
   const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -147,7 +151,7 @@ const result = await ImagePicker.launchImageLibraryAsync({
 
   const hasActiveFilters =
     filterType !== "ALL" ||
-    (years.length > 0 && selectedYear !== null && selectedYear !== years[0]);
+    (defaultYear !== null && selectedYear !== null && selectedYear !== defaultYear);
 
   const openFilterModal = () => {
     setDraftFilterType(filterType);
@@ -157,7 +161,7 @@ const result = await ImagePicker.launchImageLibraryAsync({
 
   const applyFilters = () => {
     setFilterType(draftFilterType);
-    setSelectedYear(draftSelectedYear ?? years[0] ?? null);
+    setSelectedYear(draftSelectedYear ?? defaultYear);
     setShowFilterModal(false);
   };
 

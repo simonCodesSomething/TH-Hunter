@@ -29,15 +29,20 @@
     "plugins": [
       "expo-font",
       "expo-image-picker",
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#000000",
-          "image": "./assets/ios-splash.png",
-          "imageWidth": 220,
-          "resizeMode": "contain"
-        }
-      ],
+[
+  "expo-splash-screen",
+  {
+    "backgroundColor": "#000000",
+    "image": "./assets/splash-icon.png",
+    "imageWidth": 200,
+    "resizeMode": "contain",
+    "android": {
+      "backgroundColor": "#000000",
+      "image": "./assets/splash-icon.png",
+      "imageWidth": 200
+    }
+  }
+],
       "expo-status-bar",
       "expo-asset",
       "expo-iap",

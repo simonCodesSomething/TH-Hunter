@@ -14,7 +14,6 @@ import {
   Text,
   View,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -23,7 +22,6 @@ import {
 import {
   getCollectionPhotos,
   getFoundIds,
-  saveCollectionPhoto,
   toggleFoundId,
 } from "../utils/storage";
 import { styles } from "../styles/hunt.styles";
@@ -90,28 +88,6 @@ export default function HuntScreen() {
 
     void loadProgress();
     void getCollectionPhotos().then(setCollectionPhotos);
-  }, []);
-
-  const handlePickPhoto = useCallback(async (carId: string) => {
-    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (!permission.granted) {
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-       mediaTypes: ['images'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 0.85,
-    });
-
-    if (result.canceled) {
-      return;
-    }
-
-    const next = await saveCollectionPhoto(carId, result.assets[0].uri);
-    setCollectionPhotos(next);
   }, []);
 
     /*
@@ -254,7 +230,6 @@ export default function HuntScreen() {
      */
     const renderCarCard = (car: Car) => {
       const isFound = foundIds.includes(car.id);
-      const meta = TYPE_META[car.type];
       const photoUri = collectionPhotos[car.id];
 
       return (
@@ -272,26 +247,12 @@ export default function HuntScreen() {
               </View>
             )}
 
-            <View style={[styles.typeBadge, { backgroundColor: meta.color }]}>
-              <Text style={styles.typeBadgeText}>{car.type}</Text>
-            </View>
-
             {isFound ? (
               <View style={styles.foundBadge}>
                 <Ionicons name="checkmark" size={16} color="#111111" />
               </View>
             ) : null}
 
-            <Pressable
-              style={styles.photoButton}
-              onPress={(event) => {
-                event.stopPropagation();
-                void handlePickPhoto(car.id);
-              }}
-              hitSlop={8}
-            >
-              <Ionicons name={photoUri ? "camera" : "camera-outline"} size={16} color="#FFFFFF" />
-            </Pressable>
           </View>
 
           <Text style={styles.carName} numberOfLines={2}>

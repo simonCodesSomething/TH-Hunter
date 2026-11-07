@@ -1,84 +1,93 @@
 
-import React, { useRef, useState } from "react";
-import {
-  Animated,
-  Dimensions,
-  View,
-} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
 import {
   SafeAreaProvider,
   SafeAreaView,
 } from "react-native-safe-area-context";
 
-import BrowseScreen from "./src/screens/BrowseScreen";
-import HuntScreen from "./src/screens/HuntScreen";
-import CollectionScreen from "./src/screens/CollectionScreen";
-import CheatSheetScreen from "./src/screens/CheatSheetScreen";
+// Screens
 import AboutScreen from "./src/screens/AboutScreen";
+import BrowseScreen from "./src/screens/BrowseScreen";
+import CheatSheetScreen from "./src/screens/CheatSheetScreen";
+import CollectionScreen from "./src/screens/CollectionScreen";
+import HuntScreen from "./src/screens/HuntScreen";
 import PrivacyPolicyScreen from "./src/screens/PrivacyPolicyScreen";
-import TermsOfUseScreen from "./src/screens/TermsOfUseScreen";
 import ProgressScreen from "./src/screens/ProgressScreen";
+import TermsOfUseScreen from "./src/screens/TermsOfUseScreen";
 
-import BottomTabs from "./src/components/BottomTabs";
+// Components
 import AdBanner from "./src/components/AdBanner";
+import BottomTabs from "./src/components/BottomTabs";
 
-import type { Tab } from "./src/types/tabs";
-
+// Data
 import {
   CarDataProvider,
   useCarData,
 } from "./src/data/CarDataProvider";
 
-import { useSupportPurchase } from "./src/hooks/useSupportPurchase";
+// Hooks
 import { useAdsConsent } from "./src/hooks/useAdsConsent";
+import { useSupportPurchase } from "./src/hooks/useSupportPurchase";
+
+// Types
+import type { Tab } from "./src/types/tabs";
 
 const { width } = Dimensions.get("window");
 
+const SPLASH_DURATION = 1200;
+
+type LegalScreen = "privacy" | "terms" | null;
+
 function AppContent() {
+  // ---------------------------------------------------------
+  // DATA & SERVICES
+  // ---------------------------------------------------------
+
   const { loading, error } = useCarData();
 
+  const { supportEnabled, purchaseSupport } =
+    useSupportPurchase();
+
   const {
-    supportEnabled,
-    purchaseSupport,
-  } = useSupportPurchase();
+    canRequestAds,
+    privacyOptionsRequired,
+    showPrivacyOptions,
+  } = useAdsConsent();
 
-const {
-  canRequestAds,
-  privacyOptionsRequired,
-  showPrivacyOptions,
-} = useAdsConsent();
+  // ---------------------------------------------------------
+  // STATE
+  // ---------------------------------------------------------
 
-  const [activeTab, setActiveTab] =
-    useState<Tab>("hunt");
+  const [activeTab, setActiveTab] = useState<Tab>("hunt");
 
-  const [showProgress, setShowProgress] =
-    useState(false);
+  const [showProgress, setShowProgress] = useState(false);
 
-  const [showCheatSheet, setShowCheatSheet] =
-    useState(false);
+  const [showCheatSheet, setShowCheatSheet] = useState(false);
 
-  const [legalScreen, setLegalScreen] = useState<
-    "privacy" | "terms" | null
-  >(null);
+  const [legalScreen, setLegalScreen] =
+    useState<LegalScreen>(null);
 
   const progressTranslateX = useRef(
     new Animated.Value(width)
   ).current;
 
-  // Display banners only on Browse and Collection.
-  // Hide them whenever the Progress overlay is active.
+
+  // ---------------------------------------------------------
+  // BANNER VISIBILITY
+  // ---------------------------------------------------------
+
   const showBanner =
     !showProgress &&
-    (activeTab === "browse" ||
-      activeTab === "collection");
+    (activeTab === "browse" || activeTab === "collection");
 
-  /*
-   * Open Progress screen
-   */
+  // ---------------------------------------------------------
+  // PROGRESS SCREEN
+  // ---------------------------------------------------------
+
   const openProgress = () => {
-    setShowProgress(true);
-
     progressTranslateX.setValue(width);
+    setShowProgress(true);
 
     Animated.timing(progressTranslateX, {
       toValue: 0,
@@ -87,18 +96,21 @@ const {
     }).start();
   };
 
-  /*
-   * Close Progress screen
-   */
   const closeProgress = () => {
     Animated.timing(progressTranslateX, {
       toValue: width,
       duration: 250,
       useNativeDriver: true,
-    }).start(() => {
-      setShowProgress(false);
+    }).start(({ finished }) => {
+      if (finished) {
+        setShowProgress(false);
+      }
     });
   };
+
+  // ---------------------------------------------------------
+  // NAVIGATION
+  // ---------------------------------------------------------
 
   const handleTabChange = (tab: Tab) => {
     setShowCheatSheet(false);
@@ -106,50 +118,6 @@ const {
     setActiveTab(tab);
   };
 
-  if (loading || error) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#000000",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 24,
-        }}
-      >
-        <View style={{ alignItems: "center" }}>
-          <Animated.Text
-            style={{
-              color: "#FBBF24",
-              fontSize: 24,
-              fontWeight: "900",
-            }}
-          >
-            {error
-              ? "CAR DATA UNAVAILABLE"
-              : "LOADING CAR DATA"}
-          </Animated.Text>
-
-          {error ? (
-            <Animated.Text
-              style={{
-                color: "#A1A1A6",
-                fontSize: 14,
-                textAlign: "center",
-                marginTop: 10,
-              }}
-            >
-              {error}
-            </Animated.Text>
-          ) : null}
-        </View>
-      </View>
-    );
-  }
-
-  /*
-   * Render bottom-tab screen
-   */
   const renderTabScreen = () => {
     switch (activeTab) {
       case "browse":
@@ -160,9 +128,7 @@ const {
 
       case "collection":
         return (
-          <CollectionScreen
-            onProgressPress={openProgress}
-          />
+          <CollectionScreen onProgressPress={openProgress} />
         );
 
       case "about":
@@ -182,26 +148,24 @@ const {
           );
         }
 
-        return showCheatSheet ? (
-          <CheatSheetScreen
-            onBack={() => setShowCheatSheet(false)}
+        if (showCheatSheet) {
+          return (
+            <CheatSheetScreen
+              onBack={() => setShowCheatSheet(false)}
+            />
+          );
+        }
+
+        return (
+          <AboutScreen
+            onCheatSheetPress={() => setShowCheatSheet(true)}
+            onPrivacyPress={() => setLegalScreen("privacy")}
+            onTermsPress={() => setLegalScreen("terms")}
+            onSupportPress={purchaseSupport}
+            supportEnabled={supportEnabled}
+            onPrivacyOptionsPress={showPrivacyOptions}
+            privacyOptionsRequired={privacyOptionsRequired}
           />
-        ) : (
-<AboutScreen
-  onCheatSheetPress={() =>
-    setShowCheatSheet(true)
-  }
-  onPrivacyPress={() =>
-    setLegalScreen("privacy")
-  }
-  onTermsPress={() =>
-    setLegalScreen("terms")
-  }
-  onSupportPress={purchaseSupport}
-  supportEnabled={supportEnabled}
-  onPrivacyOptionsPress={showPrivacyOptions}
-  privacyOptionsRequired={privacyOptionsRequired}
-/>
         );
 
       default:
@@ -209,24 +173,42 @@ const {
     }
   };
 
+  // ---------------------------------------------------------
+  // SPLASH & ERROR STATES
+  // ---------------------------------------------------------
+
+if (loading) {
+  return <View style={{ flex: 1, backgroundColor: "#000000" }} />;
+}
+
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorTitle}>
+          CAR DATA UNAVAILABLE
+        </Text>
+
+        <Text style={styles.errorMessage}>
+          {error}
+        </Text>
+      </View>
+    );
+  }
+
+  // ---------------------------------------------------------
+  // MAIN APP
+  // ---------------------------------------------------------
+
   return (
     <SafeAreaProvider>
       <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: "#000000",
-        }}
+        style={styles.safeArea}
         edges={["top", "bottom"]}
       >
-        <View
-          style={{
-            flex: 1,
-            overflow: "hidden",
-          }}
-        >
+        <View style={styles.container}>
           {/* MAIN TAB CONTENT */}
 
-          <View style={{ flex: 1 }}>
+          <View style={styles.content}>
             {renderTabScreen()}
           </View>
 
@@ -252,28 +234,20 @@ const {
             />
           )}
 
-          {/* PROGRESS SCREEN */}
+          {/* PROGRESS OVERLAY */}
 
           {showProgress && (
             <Animated.View
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-                backgroundColor: "#000000",
-                transform: [
-                  {
-                    translateX:
-                    progressTranslateX,
-                  },
-                ],
-              }}
+              style={[
+                styles.progressOverlay,
+                {
+                  transform: [
+                    { translateX: progressTranslateX },
+                  ],
+                },
+              ]}
             >
-              <ProgressScreen
-                onClose={closeProgress}
-              />
+              <ProgressScreen onClose={closeProgress} />
 
               <BottomTabs
                 activeTab={activeTab}
@@ -290,6 +264,10 @@ const {
   );
 }
 
+// ---------------------------------------------------------
+// ROOT APP
+// ---------------------------------------------------------
+
 export default function App() {
   return (
     <CarDataProvider>
@@ -297,3 +275,54 @@ export default function App() {
     </CarDataProvider>
   );
 }
+
+// ---------------------------------------------------------
+// STYLES
+// ---------------------------------------------------------
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#000000",
+  },
+
+  container: {
+    flex: 1,
+    overflow: "hidden",
+  },
+
+  content: {
+    flex: 1,
+  },
+
+progressOverlay: {
+  position: "absolute",
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  backgroundColor: "#000000",
+},
+
+  errorContainer: {
+    flex: 1,
+    backgroundColor: "#000000",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 24,
+  },
+
+  errorTitle: {
+    color: "#FBBF24",
+    fontSize: 24,
+    fontWeight: "900",
+    textAlign: "center",
+  },
+
+  errorMessage: {
+    color: "#A1A1A6",
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 10,
+  },
+});
