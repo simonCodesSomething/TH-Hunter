@@ -16,6 +16,8 @@ interface AboutScreenProps {
   onTermsPress: () => void;
   onSupportPress?: () => void;
   supportEnabled?: boolean;
+  onPrivacyOptionsPress?: () => void;
+  privacyOptionsRequired?: boolean;
 }
 
 export default function AboutScreen({
@@ -24,8 +26,13 @@ export default function AboutScreen({
   onTermsPress,
   onSupportPress,
   supportEnabled = false,
+  onPrivacyOptionsPress,
+  privacyOptionsRequired = false,
 }: AboutScreenProps) {
   const canSupport = supportEnabled && !!onSupportPress;
+
+  const showPrivacyOptions =
+    privacyOptionsRequired && !!onPrivacyOptionsPress;
 
   return (
     <View style={styles.container}>
@@ -47,6 +54,8 @@ export default function AboutScreen({
             />
           </View>
         </View>
+
+        {/* SUPPORT */}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>SUPPORT</Text>
@@ -97,6 +106,8 @@ export default function AboutScreen({
           </Pressable>
         </View>
 
+        {/* ABOUT */}
+
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>ABOUT</Text>
 
@@ -114,6 +125,20 @@ export default function AboutScreen({
               label="Privacy Policy"
               onPress={onPrivacyPress}
             />
+
+            {/* GOOGLE ADMOB PRIVACY OPTIONS */}
+
+            {showPrivacyOptions && (
+              <>
+                <View style={styles.itemDivider} />
+
+                <MenuItem
+                  icon="options-outline"
+                  label="Privacy choices"
+                  onPress={onPrivacyOptionsPress!}
+                />
+              </>
+            )}
 
             <View style={styles.itemDivider} />
 
@@ -145,6 +170,7 @@ function MenuItem({
   return (
     <Pressable
       onPress={onPress}
+      accessibilityRole="button"
       style={({ pressed }) => [
         styles.menuItem,
         pressed && styles.pressed,

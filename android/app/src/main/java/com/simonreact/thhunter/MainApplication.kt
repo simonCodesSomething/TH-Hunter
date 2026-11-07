@@ -1,4 +1,4 @@
-package com.simonreact.hotwheelshunter
+package com.simonreact.thhunter
 
 import android.app.Application
 import android.content.res.Configuration
