@@ -121,11 +121,6 @@ export default function HuntScreen() {
       [selectedYearCars]
     );
 
-    const foundCars = useMemo(
-      () => selectedYearCars.filter((car) => foundIds.includes(car.id)),
-      [selectedYearCars, foundIds]
-    );
-
     const foundTH = useMemo(
       () => thCars.filter((car) => foundIds.includes(car.id)),
       [thCars, foundIds]
@@ -198,33 +193,6 @@ export default function HuntScreen() {
     const selectedTypeProgress = selectedTypeCars.length > 0
       ? Math.round((selectedTypeFound.length / selectedTypeCars.length) * 100)
       : 0;
-    /*
-     * Reset hunt progress
-     */
-    const handleResetHunt = useCallback(() => {
-      if (foundCars.length === 0) {
-        return;
-      }
-
-      Alert.alert(
-        "Reset Hunt",
-        `This will remove all ${selectedYear} TH and STH finds from your hunt progress.`,
-        [
-          { text: "Cancel", style: "cancel" },
-          {
-            text: "Reset",
-            style: "destructive",
-            onPress: async () => {
-              for (const car of foundCars) {
-                await toggleFoundId(car.id);
-              }
-              setFoundIds(await getFoundIds());
-            },
-          },
-        ]
-      );
-    }, [foundCars, selectedYear]);
-
     /*
      * Car card
      */
@@ -924,26 +892,6 @@ export default function HuntScreen() {
           </View>
         ) : null}
 
-        {/* RESET */}
-
-        {foundCars.length > 0 ? (
-          <Pressable
-            style={styles.resetButton}
-            onPress={handleResetHunt}
-          >
-            <Ionicons
-              name="refresh-outline"
-              size={19}
-              color="#8E8E93"
-            />
-
-            <Text
-              style={styles.resetText}
-            >
-              Reset {selectedYear} Hunt Progress
-            </Text>
-          </Pressable>
-        ) : null}
       </ScrollView>
     </View>
   );

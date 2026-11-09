@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   Image,
@@ -20,6 +20,8 @@ import {
 } from "../utils/storage";
 import { styles } from "../styles/collection.styles";
 import { gridStyles } from "../styles/collectionGrid.styles";
+import { quantityStyles } from "../styles/collectionQuantity.styles";
+import { getCarQuantities, saveCarQuantity } from "../utils/carQuantities";
 import { useCarData } from "../data/CarDataProvider";
 import type { Car, CarType } from "../types";
 
@@ -49,6 +51,7 @@ const TYPE_META: Record<
 interface CollectionCardProps {
   car: Car;
   photoUri?: string;
+  quantity: number;
   showDelete: boolean;
   onRemove: (id: string) => void;
   onSelect: (car: Car) => void;
@@ -57,6 +60,7 @@ interface CollectionCardProps {
 function CollectionCard({
   car,
   photoUri,
+  quantity,
   showDelete,
   onRemove,
   onSelect,
@@ -95,6 +99,12 @@ function CollectionCard({
             <Text style={[gridStyles.placeholderLetter, { color: accent }]}>
               {caseLetter}
             </Text>
+          </View>
+        )}
+
+        {quantity > 1 && (
+          <View style={quantityStyles.cardQuantityBadge}>
+            <Text style={quantityStyles.cardQuantityText}>×{quantity}</Text>
           </View>
         )}
 
@@ -157,10 +167,14 @@ export default function CollectionScreen({
   const [isEditing, setIsEditing] = useState(false);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
   const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
+  const [carQuantities, setCarQuantities] = useState<Record<string, number>>({});
+  const [savingQuantity, setSavingQuantity] = useState(false);
+  const quantityLock = useRef(false);
 
   useEffect(() => {
     void getFoundIds().then(setFoundIds);
     void getCollectionPhotos().then(setCollectionPhotos);
+    void getCarQuantities().then(setCarQuantities);
   }, []);
 
   const handlePickPhoto = useCallback(async (carId: string) => {
@@ -185,37 +199,70 @@ export default function CollectionScreen({
     setCollectionPhotos(next);
   }, []);
 
-  const handleToggleFound = useCallback(
-    async (id: string) => {
-      const next = await toggleFoundId(id);
-      setFoundIds(next);
-    },
-    []
+  // Quantities are stored locally, separately from the catalog and found-ID list.
+  // A found car without a stored quantity represents one copy (migration-safe).
+  const quantityOf = useCallback(
+    (id: string) => foundIds.includes(id) ? Math.max(1, carQuantities[id] ?? 1) : 0,
+    [foundIds, carQuantities]
   );
+
+  const removeCar = useCallback(async (id: string) => {
+    if (quantityLock.current) return;
+    quantityLock.current = true;
+    setSavingQuantity(true);
+    try {
+      // Only toggle if this car is still collected, avoiding accidental re-adds.
+      if (foundIds.includes(id)) {
+        const nextIds = await toggleFoundId(id);
+        setFoundIds(nextIds);
+      }
+      const next = await saveCarQuantity(id, 0);
+      setCarQuantities(next);
+      setSelectedCar(null);
+    } catch (error) {
+      console.error("[Collection] Unable to remove car:", error);
+      Alert.alert("Unable to update", "Please try again.");
+    } finally {
+      quantityLock.current = false;
+      setSavingQuantity(false);
+    }
+  }, [foundIds]);
 
   const handleRemoveFromCollection = useCallback(
     (car: Car) => {
       Alert.alert(
         "Remove from Collection?",
-        `Remove ${car.name} from your collection?`,
+        `Remove all copies of ${car.name} from your collection?`,
         [
           { text: "Cancel", style: "cancel" },
-          {
-            text: "Remove",
-            style: "destructive",
-            onPress: () => {
-              void (async () => {
-                const nextIds = await toggleFoundId(car.id);
-                setFoundIds(nextIds);
-                setSelectedCar(null);
-              })();
-            },
-          },
+          { text: "Remove All", style: "destructive", onPress: () => void removeCar(car.id) },
         ]
       );
     },
-    []
+    [removeCar]
   );
+
+  const changeQuantity = useCallback(async (car: Car, difference: number) => {
+    if (quantityLock.current) return;
+    const current = quantityOf(car.id);
+    const nextQuantity = current + difference;
+    if (nextQuantity <= 0) {
+      handleRemoveFromCollection(car);
+      return;
+    }
+    quantityLock.current = true;
+    setSavingQuantity(true);
+    try {
+      const next = await saveCarQuantity(car.id, nextQuantity);
+      setCarQuantities(next);
+    } catch (error) {
+      console.error("[Collection] Unable to save quantity:", error);
+      Alert.alert("Unable to update quantity", "Please try again.");
+    } finally {
+      quantityLock.current = false;
+      setSavingQuantity(false);
+    }
+  }, [quantityOf, handleRemoveFromCollection]);
 
   const collectedCars = useMemo(() => {
     return typedCarData.filter((car) =>
@@ -287,7 +334,8 @@ export default function CollectionScreen({
     [collectedCars]
   );
 
-  const totalCount = collectedCars.length;
+  const totalCount = collectedCars.length; // unique models, used for collection progress
+  const totalCopies = collectedCars.reduce((sum, car) => sum + quantityOf(car.id), 0);
 
   const hasActiveFilters =
     query.length > 0 ||
@@ -368,7 +416,7 @@ export default function CollectionScreen({
               </Text>
 
               <Text style={styles.summarySubtitle}>
-                {totalCount} cars collected
+                {totalCount} models · {totalCopies} total cars
               </Text>
             </View>
           </View>
@@ -706,8 +754,12 @@ export default function CollectionScreen({
                 key={car.id}
                 car={car}
                 photoUri={collectionPhotos[car.id]}
+                quantity={quantityOf(car.id)}
                 showDelete={isEditing}
-                onRemove={(id) => void handleToggleFound(id)}
+                onRemove={(id) => {
+                  const car = typedCarData.find((item) => item.id === id);
+                  if (car) handleRemoveFromCollection(car);
+                }}
                 onSelect={setSelectedCar}
               />
             ))}
@@ -796,8 +848,37 @@ export default function CollectionScreen({
                   </View>
                 </View>
 
-                <Text style={styles.detailNotesTitle}>Notes</Text>
-                <Text style={styles.detailNotes}>{selectedCar.idTips}</Text>
+                <View style={quantityStyles.container}>
+                  <View style={quantityStyles.headingRow}>
+                    <View>
+                      <Text style={quantityStyles.label}>QUANTITY OWNED</Text>
+                      <Text style={quantityStyles.hint}>Track duplicates of this model</Text>
+                    </View>
+                    <View style={quantityStyles.controls}>
+                      <Pressable
+                        style={[quantityStyles.adjustButton, savingQuantity && quantityStyles.disabled]}
+                        disabled={savingQuantity}
+                        onPress={() => void changeQuantity(selectedCar, -1)}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Remove one ${selectedCar.name}`}
+                      >
+                        <Ionicons name="remove" size={21} color="#FFFFFF" />
+                      </Pressable>
+                      <Text style={quantityStyles.quantityValue} accessibilityLabel={`${quantityOf(selectedCar.id)} owned`}>
+                        {quantityOf(selectedCar.id)}
+                      </Text>
+                      <Pressable
+                        style={[quantityStyles.adjustButton, quantityStyles.addButton, savingQuantity && quantityStyles.disabled]}
+                        disabled={savingQuantity}
+                        onPress={() => void changeQuantity(selectedCar, 1)}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Add one ${selectedCar.name}`}
+                      >
+                        <Ionicons name="add" size={21} color="#111111" />
+                      </Pressable>
+                    </View>
+                  </View>
+                </View>
 
 
 <View style={styles.detailActions}>
