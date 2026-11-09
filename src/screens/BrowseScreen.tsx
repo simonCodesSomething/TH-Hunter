@@ -5,7 +5,6 @@ import {
   Modal,
   Pressable,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -14,9 +13,8 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
-  detailModalStyle,
-  detailActionsStyle,
   filterModalStyle,
+  browseDetailStyles,
   styles,
 } from "../styles/browse.styles";
 
@@ -202,18 +200,6 @@ const sections = useMemo<YearSection[]>(() => {
           Treasure Hunts (TH) & Super Treasure Hunts (STH)
         </Text>
       </View>
-
-      <Pressable
-        style={styles.infoButton}
-        onPress={handleInfoPress}
-        hitSlop={10}
-      >
-        <Ionicons
-          name="information-circle-outline"
-          size={31}
-          color="#FBBF24"
-        />
-      </Pressable>
     </View>
 
     {/* SCROLLING CONTENT */}
@@ -442,97 +428,165 @@ const sections = useMemo<YearSection[]>(() => {
         })}
     </ScrollView>
 
+    {/* CAR DETAILS — MATCHES THE TREASURE BOX MODAL */}
     <Modal
       visible={selectedCar !== null}
       transparent
       animationType="slide"
       onRequestClose={() => setSelectedCar(null)}
     >
-      <View style={styles.detailModalBackdrop}>
-        <View style={detailModalStyle(insets.bottom)}>
-          <View style={styles.detailHeader}>
-            <Text style={styles.detailTitle}>{selectedCar?.name ?? "Car Details"}</Text>
-            <Pressable onPress={() => setSelectedCar(null)} hitSlop={10}>
-              <Ionicons name="close" size={24} color="#FFFFFF" />
-            </Pressable>
-          </View>
-
-          <View style={styles.detailImageWrap}>
-            {selectedCarPhoto ? (
-              <Image source={{ uri: selectedCarPhoto }} style={styles.detailImage} />
-            ) : (
-              <View style={styles.detailImagePlaceholder}>
-                <MaterialCommunityIcons name="car-sports" size={52} color="#111111" />
-              </View>
-            )}
-          </View>
-
-          {selectedCar && (
-            <>
-              <View style={styles.detailMetaRow}>
-                <View
-                  style={[
-                    styles.detailTypeBadge,
-                    { backgroundColor: TYPE_META[selectedCar.type].color },
-                  ]}
-                >
-                  <Text style={styles.detailTypeBadgeText}>{selectedCar.type}</Text>
-                </View>
-                <Text style={styles.detailYear}>{selectedCar.year}</Text>
-              </View>
-
-              <Text style={styles.detailSeries}>{selectedCar.series}</Text>
-
-              <View style={styles.detailGrid}>
-                <View style={styles.detailStat}>
-                  <Text style={styles.detailStatLabel}>Case</Text>
-                  <Text style={styles.detailStatValue}>{selectedCar.caseLetter}</Text>
-                </View>
-                <View style={styles.detailStat}>
-                  <Text style={styles.detailStatLabel}>Number</Text>
-                  <Text style={styles.detailStatValue}>
-                    {getCarNumber(selectedCar, typedCarData)}
-                  </Text>
-                </View>
-                <View style={styles.detailStat}>
-                  <Text style={styles.detailStatLabel}>Status</Text>
-                  <Text style={styles.detailStatValue}>
-                    {selectedCarIsFound ? "Collected" : "Missing"}
-                  </Text>
-                </View>
-              </View>
-
-              <Text style={styles.detailNotesTitle}>Notes</Text>
-              <Text style={styles.detailNotes}>{selectedCar.idTips}</Text>
-            </>
-          )}
-
-          <View style={detailActionsStyle(insets.bottom)}>
-            {selectedCar && (
+      <View style={browseDetailStyles.backdrop}>
+        <View
+          style={[
+            browseDetailStyles.sheet,
+            { paddingBottom: Math.max(insets.bottom, 12) + 14 },
+          ]}
+        >
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={browseDetailStyles.sheetContent}
+          >
+            <View style={browseDetailStyles.header}>
+              <Text style={browseDetailStyles.title} numberOfLines={2}>
+                {selectedCar?.name ?? "Car Details"}
+              </Text>
               <Pressable
-                style={[
-                  styles.detailToggleButton,
-                  selectedCarIsFound && styles.detailToggleButtonActive,
-                ]}
-                onPress={() => {
-                  void handleToggleFound(selectedCar.id);
-                }}
+                onPress={() => setSelectedCar(null)}
+                hitSlop={12}
+                accessibilityRole="button"
+                accessibilityLabel="Close car details"
               >
-                <Text style={styles.detailToggleButtonText}>
-                  {selectedCarIsFound ? "MARK MISSING" : "MARK FOUND"}
+                <Ionicons name="close" size={27} color="#FFFFFF" />
+              </Pressable>
+            </View>
+
+            <View style={browseDetailStyles.imageWrap}>
+              {selectedCarPhoto ? (
+                <Image
+                  source={{ uri: selectedCarPhoto }}
+                  style={browseDetailStyles.image}
+                  resizeMode="cover"
+                />
+              ) : (
+                <View style={browseDetailStyles.imagePlaceholder}>
+                  <MaterialCommunityIcons
+                    name="car-sports"
+                    size={52}
+                    color="#111111"
+                  />
+                </View>
+              )}
+            </View>
+
+            {selectedCar && (
+              <>
+                <View style={browseDetailStyles.metaRow}>
+                  <View
+                    style={[
+                      browseDetailStyles.typeBadge,
+                      { backgroundColor: TYPE_META[selectedCar.type].color },
+                    ]}
+                  >
+                    <Text style={browseDetailStyles.typeText}>
+                      {selectedCar.type}
+                    </Text>
+                  </View>
+                  <Text style={browseDetailStyles.year}>
+                    {selectedCar.year}
+                  </Text>
+                </View>
+
+                <Text style={browseDetailStyles.series}>
+                  {selectedCar.series}
                 </Text>
-              </Pressable>
-            )}
 
-            {selectedCar && (
-              <Pressable
-                style={styles.detailPhotoButton}
-                onPress={() => void handlePickPhoto(selectedCar.id)}
-              >
-                <Text style={styles.detailPhotoButtonText}>ADD PHOTO</Text>
-              </Pressable>
+                <View style={browseDetailStyles.statsRow}>
+                  <View style={browseDetailStyles.statCard}>
+                    <Text style={browseDetailStyles.statLabel}>Case</Text>
+                    <Text style={browseDetailStyles.statValue}>
+                      {selectedCar.caseLetter}
+                    </Text>
+                  </View>
+                  <View style={browseDetailStyles.statCard}>
+                    <Text style={browseDetailStyles.statLabel}>Status</Text>
+                    <Text style={browseDetailStyles.statValue}>
+                      {selectedCarIsFound ? "Collected" : "Missing"}
+                    </Text>
+                  </View>
+                </View>
+
+                <Text style={browseDetailStyles.notesTitle}>Notes</Text>
+                <Text style={browseDetailStyles.notes}>
+                  {selectedCar.idTips}
+                </Text>
+
+                <View style={browseDetailStyles.actions}>
+                  {selectedCarIsFound ? (
+                    <>
+                      <Pressable
+                        style={browseDetailStyles.photoButton}
+                        onPress={() => void handlePickPhoto(selectedCar.id)}
+                        accessibilityRole="button"
+                      >
+                        <Text style={browseDetailStyles.photoButtonText}>
+                          ADD PHOTO
+                        </Text>
+                      </Pressable>
+                      <Pressable
+                        style={browseDetailStyles.removeButton}
+                        onPress={() => {
+                          const car = selectedCar;
+                          Alert.alert(
+                            "Remove from collection?",
+                            `Remove ${car.name} from your collected cars?`,
+                            [
+                              { text: "Cancel", style: "cancel" },
+                              {
+                                text: "Remove",
+                                style: "destructive",
+                                onPress: () => {
+                                  void handleToggleFound(car.id);
+                                  setSelectedCar(null);
+                                },
+                              },
+                            ]
+                          );
+                        }}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Remove ${selectedCar.name} from collection`}
+                      >
+                        <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                        <Text style={browseDetailStyles.removeButtonText}>
+                          REMOVE FROM COLLECTION
+                        </Text>
+                      </Pressable>
+                    </>
+                  ) : (
+                    <>
+                      <Pressable
+                        style={browseDetailStyles.photoButton}
+                        onPress={() => void handleToggleFound(selectedCar.id)}
+                        accessibilityRole="button"
+                      >
+                        <Text style={browseDetailStyles.photoButtonText}>
+                          MARK FOUND
+                        </Text>
+                      </Pressable>
+                      <Pressable
+                        style={browseDetailStyles.secondaryButton}
+                        onPress={() => void handlePickPhoto(selectedCar.id)}
+                        accessibilityRole="button"
+                      >
+                        <Text style={browseDetailStyles.secondaryButtonText}>
+                          ADD PHOTO
+                        </Text>
+                      </Pressable>
+                    </>
+                  )}
+                </View>
+              </>
             )}
-          </View>
+          </ScrollView>
         </View>
       </View>
     </Modal>
@@ -619,16 +673,3 @@ function BrowseCategory({
     </View>
   );
 }
-
-function getCarNumber(car: Car, cars: Car[]): number {
-  return (
-    cars
-      .filter(
-        (item) =>
-          item.year === car.year &&
-          item.type === car.type
-      )
-      .findIndex((item) => item.id === car.id) + 1
-  );
-}
-

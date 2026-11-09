@@ -231,6 +231,8 @@ export default function HuntScreen() {
     const renderCarCard = (car: Car) => {
       const isFound = foundIds.includes(car.id);
       const photoUri = collectionPhotos[car.id];
+      const accentColor = TYPE_META[car.type].color;
+      const caseLabel = String(car.caseLetter ?? "?").toUpperCase();
 
       return (
         <Pressable
@@ -242,24 +244,62 @@ export default function HuntScreen() {
             {photoUri ? (
               <Image source={{ uri: photoUri }} style={styles.carPhoto} />
             ) : (
-              <View style={styles.carGraphic}>
-                <MaterialCommunityIcons name="car-sports" size={42} color="#111111" />
+              <View
+                style={[
+                  styles.carGraphic,
+                  {
+                    backgroundColor: car.type === "TH" ? "#282313" : "#2B1717",
+                    borderWidth: 1,
+                    borderColor: accentColor,
+                    overflow: "hidden",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                ]}
+              >
+                <MaterialCommunityIcons
+                  name="fire"
+                  size={24}
+                  color={accentColor}
+                />
+                <Text
+                  style={{
+                    color: accentColor,
+                    fontSize: 11,
+                    fontWeight: "800",
+                    letterSpacing: 2,
+                    marginTop: 4,
+                  }}
+                >
+                  CASE
+                </Text>
+                <Text
+                  style={{
+                    color: accentColor,
+                    fontSize: 46,
+                    lineHeight: 52,
+                    fontWeight: "900",
+                  }}
+                >
+                  {caseLabel}
+                </Text>
               </View>
             )}
 
-            {isFound ? (
+            {isFound && (
               <View style={styles.foundBadge}>
                 <Ionicons name="checkmark" size={16} color="#111111" />
               </View>
-            ) : null}
-
+            )}
           </View>
 
           <Text style={styles.carName} numberOfLines={2}>
             {car.name}
           </Text>
 
-          <Text style={styles.carSeries}>{car.series}</Text>
+          <Text style={styles.carSeries} numberOfLines={2}>
+            {car.series}
+          </Text>
         </Pressable>
       );
     };
@@ -367,23 +407,6 @@ export default function HuntScreen() {
             Track your Treasure Hunt finds
           </Text>
         </View>
-
-        <Pressable
-          style={styles.infoButton}
-          hitSlop={10}
-          onPress={() =>
-            Alert.alert(
-              "How Hunt Works",
-              "Tap a TH or STH to mark it as found. Your progress is saved automatically."
-            )
-          }
-        >
-          <Ionicons
-            name="information-circle-outline"
-            size={31}
-            color="#FBBF24"
-          />
-        </Pressable>
       </View>
 
       <ScrollView
@@ -811,116 +834,94 @@ export default function HuntScreen() {
             >
               Hunt Complete!
             </Text>
-
-            <Text
-              style={styles.completeText}
-            >
-              You've found every {selectedYear}{" "}
-              {TYPE_META[selectedType].title}.
-            </Text>
           </View>
         ) : null}
 
-        {/* RECENT FINDS */}
+        {/* LATEST FINDS — DISPLAY ONLY */}
 
         {selectedTypeFound.length > 0 ? (
-          <>
-            <View
-              style={styles.sectionHeader}
-            >
-              <Text
-                style={styles.sectionTitle}
+          <View style={styles.findsSection}>
+            <View style={styles.findsHeader}>
+              <Text style={styles.sectionTitle}>LATEST FINDS</Text>
+              <View
+                style={[
+                  styles.findsCountBadge,
+                  { borderColor: TYPE_META[selectedType].color },
+                ]}
               >
-                YOUR FINDS
-              </Text>
-
-              <Text
-                style={styles.sectionSubtitle}
-              >
-                {selectedTypeFound.length} found
-              </Text>
+                <Text
+                  style={[
+                    styles.findsCountText,
+                    { color: TYPE_META[selectedType].color },
+                  ]}
+                >
+                  {selectedTypeFound.length} COLLECTED
+                </Text>
+              </View>
             </View>
 
-            <View
-              style={styles.recentList}
-            >
+            <View style={styles.findsList}>
               {selectedTypeFound
                 .slice()
-                .reverse()
-                .slice(0, 5)
+                .sort(
+                  (a, b) =>
+                    foundIds.lastIndexOf(b.id) - foundIds.lastIndexOf(a.id)
+                )
+                .slice(0, 3)
                 .map((car) => {
-                  const meta =
-                    TYPE_META[car.type];
+                  const accent = TYPE_META[car.type].color;
+                  const photoUri = collectionPhotos[car.id];
+                  const caseLetter = String(car.caseLetter ?? "?").toUpperCase();
 
                   return (
-                    <Pressable
+                    <View
                       key={car.id}
-                      style={
-                        styles.recentRow
-                      }
-                      onPress={() =>
-                        void handleToggleFound(
-                          car.id
-                        )
-                      }
+                      style={[
+                        styles.findsRow,
+                        { borderLeftColor: accent },
+                      ]}
+                      accessibilityLabel={`${car.name}, case ${caseLetter}, collected`}
                     >
-                      <View
-                        style={[
-                          styles.recentIcon,
-                          {
-                            backgroundColor:
-                              meta.color,
-                          },
-                        ]}
-                      >
-                        {collectionPhotos[car.id] ? (
-                          <Image
-                            source={{ uri: collectionPhotos[car.id] }}
-                            style={styles.recentPhoto}
-                          />
-                        ) : (
-                          <MaterialCommunityIcons
-                            name="car-sports"
-                            size={22}
-                            color="#111111"
-                          />
-                        )}
-                      </View>
-
-                      <View
-                        style={
-                          styles.recentInfo
-                        }
-                      >
-                        <Text
-                          style={
-                            styles.recentName
-                          }
-                          numberOfLines={1}
+                      {photoUri ? (
+                        <Image
+                          source={{ uri: photoUri }}
+                          style={styles.findsThumbnail}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <View
+                          style={[
+                            styles.findsCaseThumbnail,
+                            {
+                              borderColor: accent,
+                              backgroundColor:
+                                car.type === "TH" ? "#282313" : "#2B1717",
+                            },
+                          ]}
                         >
+                          <Text style={[styles.findsCaseLabel, { color: accent }]}>CASE</Text>
+                          <Text style={[styles.findsCaseLetter, { color: accent }]}>
+                            {caseLetter}
+                          </Text>
+                        </View>
+                      )}
+
+                      <View style={styles.findsDetails}>
+                        <Text style={styles.findsCarName} numberOfLines={2}>
                           {car.name}
                         </Text>
-
-                        <Text
-                          style={
-                            styles.recentMeta
-                          }
-                        >
-                          {car.type} ·{" "}
+                        <Text style={styles.findsCarSeries} numberOfLines={1}>
                           {car.series}
                         </Text>
+                        <Text style={[styles.findsCollectedLabel, { color: accent }]}>
+                          COLLECTED
+                        </Text>
                       </View>
-
-                      <Ionicons
-                        name="checkmark-circle"
-                        size={23}
-                        color={meta.color}
-                      />
-                    </Pressable>
+                    </View>
                   );
                 })}
             </View>
-          </>
+          </View>
         ) : null}
 
         {/* RESET */}

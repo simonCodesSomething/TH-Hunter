@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  Alert,
   Image,
   Modal,
   Pressable,
@@ -18,6 +19,7 @@ import {
   toggleFoundId,
 } from "../utils/storage";
 import { styles } from "../styles/collection.styles";
+import { gridStyles } from "../styles/collectionGrid.styles";
 import { useCarData } from "../data/CarDataProvider";
 import type { Car, CarType } from "../types";
 
@@ -44,76 +46,88 @@ const TYPE_META: Record<
   },
 };
 
-interface CollectionRowProps {
+interface CollectionCardProps {
   car: Car;
+  photoUri?: string;
   showDelete: boolean;
   onRemove: (id: string) => void;
   onSelect: (car: Car) => void;
 }
 
-function CollectionRow({
+function CollectionCard({
   car,
+  photoUri,
   showDelete,
   onRemove,
   onSelect,
-}: CollectionRowProps) {
-  const meta = TYPE_META[car.type];
+}: CollectionCardProps) {
+  const accent = TYPE_META[car.type].color;
+  const caseLetter = String(car.caseLetter ?? "?").toUpperCase();
 
   return (
-    <Pressable style={styles.carRow} onPress={() => onSelect(car)}>
-        <View
-          style={[
-            styles.typeBadge,
-            {
-              backgroundColor: meta.color,
-            },
-          ]}
-        >
-          <MaterialCommunityIcons
-            name={meta.icon}
-            size={17}
-            color="#111111"
+    <Pressable
+      style={({ pressed }) => [
+        gridStyles.card,
+        pressed && gridStyles.cardPressed,
+      ]}
+      onPress={() => onSelect(car)}
+      accessibilityRole="button"
+      accessibilityLabel={`${car.name}, ${car.type}, case ${caseLetter}, open details`}
+    >
+      <View style={gridStyles.imageWrap}>
+        {photoUri ? (
+          <Image
+            source={{ uri: photoUri }}
+            style={gridStyles.image}
+            resizeMode="cover"
           />
-          <Text style={styles.typeBadgeText}>
-            {car.type}
-          </Text>
-        </View>
-
-        <View style={styles.carInfo}>
-          <Text
-            style={styles.carName}
-            numberOfLines={1}
+        ) : (
+          <View
+            style={[
+              gridStyles.placeholder,
+              {
+                backgroundColor:
+                  car.type === "TH" ? "#282313" : "#2B1717",
+              },
+            ]}
           >
-            {car.name}
-          </Text>
-
-          <Text style={styles.carMeta}>
-            {car.series}
-          </Text>
-
-          <Text style={styles.carNumber}>
-            Case {car.caseLetter}
-          </Text>
-        </View>
+            <Text style={[gridStyles.placeholderLabel, { color: accent }]}>CASE</Text>
+            <Text style={[gridStyles.placeholderLetter, { color: accent }]}>
+              {caseLetter}
+            </Text>
+          </View>
+        )}
 
         {showDelete && (
           <Pressable
-            style={styles.deleteButton}
+            style={gridStyles.deleteButton}
             onPress={(event) => {
               event.stopPropagation();
               onRemove(car.id);
             }}
-            hitSlop={8}
+            hitSlop={6}
             accessibilityRole="button"
             accessibilityLabel={`Remove ${car.name} from collection`}
           >
-            <Ionicons
-              name="trash-outline"
-              size={20}
-              color="#EF4444"
-            />
+            <Ionicons name="trash-outline" size={18} color="#FFFFFF" />
           </Pressable>
         )}
+      </View>
+
+      <View style={gridStyles.cardBody}>
+        <Text style={gridStyles.carName} numberOfLines={2}>
+          {car.name}
+        </Text>
+        <Text style={gridStyles.carSeries} numberOfLines={1}>
+          {car.series}
+        </Text>
+        <View style={gridStyles.cardFooter}>
+          <Text style={[gridStyles.typeLabel, { color: accent }]}>
+            {car.type}
+          </Text>
+          <Text style={gridStyles.yearLabel}>{car.year}</Text>
+        </View>
+      </View>
     </Pressable>
   );
 }
@@ -175,6 +189,30 @@ export default function CollectionScreen({
     async (id: string) => {
       const next = await toggleFoundId(id);
       setFoundIds(next);
+    },
+    []
+  );
+
+  const handleRemoveFromCollection = useCallback(
+    (car: Car) => {
+      Alert.alert(
+        "Remove from Collection?",
+        `Remove ${car.name} from your collection?`,
+        [
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Remove",
+            style: "destructive",
+            onPress: () => {
+              void (async () => {
+                const nextIds = await toggleFoundId(car.id);
+                setFoundIds(nextIds);
+                setSelectedCar(null);
+              })();
+            },
+          },
+        ]
+      );
     },
     []
   );
@@ -280,7 +318,7 @@ export default function CollectionScreen({
         <View>
           <Text style={styles.eyebrow}>TH HUNTER</Text>
           <Text style={styles.title}>
-            COLLECTION
+            TREASURE BOX
           </Text>
 
           <Text style={styles.subtitle}>
@@ -662,11 +700,12 @@ export default function CollectionScreen({
         {/* COLLECTION LIST */}
 
         {filteredCars.length > 0 && (
-          <View style={styles.list}>
+          <View style={gridStyles.grid}>
             {filteredCars.map((car) => (
-              <CollectionRow
+              <CollectionCard
                 key={car.id}
                 car={car}
+                photoUri={collectionPhotos[car.id]}
                 showDelete={isEditing}
                 onRemove={(id) => void handleToggleFound(id)}
                 onSelect={setSelectedCar}
@@ -760,14 +799,32 @@ export default function CollectionScreen({
                 <Text style={styles.detailNotesTitle}>Notes</Text>
                 <Text style={styles.detailNotes}>{selectedCar.idTips}</Text>
 
-                <View style={styles.detailActions}>
-                  <Pressable
-                    style={styles.detailPhotoButton}
-                    onPress={() => void handlePickPhoto(selectedCar.id)}
-                  >
-                    <Text style={styles.detailPhotoButtonText}>ADD PHOTO</Text>
-                  </Pressable>
-                </View>
+
+<View style={styles.detailActions}>
+  <Pressable
+    style={styles.detailPhotoButton}
+    onPress={() => void handlePickPhoto(selectedCar.id)}
+  >
+    <Text style={styles.detailPhotoButtonText}>
+      ADD PHOTO
+    </Text>
+  </Pressable>
+
+  <Pressable
+    style={gridStyles.removeButton}
+    onPress={() => handleRemoveFromCollection(selectedCar)}
+  >
+    <Ionicons
+      name="trash-outline"
+      size={20}
+      color="#EF4444"
+    />
+    <Text style={gridStyles.removeButtonText}>
+      REMOVE FROM COLLECTION
+    </Text>
+  </Pressable>
+</View>
+
               </>
             )}
           </View>

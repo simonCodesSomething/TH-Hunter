@@ -440,6 +440,108 @@ export const styles = StyleSheet.create({
     marginTop: 3,
   },
 
+
+  /* YOUR FINDS — ENHANCED COLLECTION ROWS */
+
+  findsSection: {
+    marginTop: 4,
+    marginBottom: 18,
+  },
+
+  findsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 14,
+    marginBottom: 12,
+    gap: 8,
+  },
+
+  findsCountBadge: {
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: "#191919",
+  },
+
+  findsCountText: {
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 0.7,
+  },
+
+  findsList: {
+    marginHorizontal: 14,
+    gap: 10,
+  },
+
+  findsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    gap: 12,
+    backgroundColor: "#1C1C1C",
+    borderRadius: 14,
+    borderLeftWidth: 3,
+    minHeight: 82,
+  },
+
+  findsRowPressed: {
+    opacity: 0.78,
+  },
+
+  findsThumbnail: {
+    width: 62,
+    height: 62,
+    borderRadius: 10,
+  },
+
+  findsCaseThumbnail: {
+    width: 62,
+    height: 62,
+    borderRadius: 10,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  findsCaseLabel: {
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 1,
+  },
+
+  findsCaseLetter: {
+    fontSize: 29,
+    lineHeight: 33,
+    fontWeight: "900",
+  },
+
+  findsDetails: {
+    flex: 1,
+    gap: 3,
+  },
+
+  findsCarName: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "700",
+  },
+
+  findsCarSeries: {
+    color: "#A1A1A6",
+    fontSize: 12,
+  },
+
+  findsCollectedLabel: {
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 0.7,
+    marginTop: 2,
+  },
+
+
   /* RESET */
 
   resetButton: {

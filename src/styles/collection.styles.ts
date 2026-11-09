@@ -582,20 +582,21 @@ export const styles = StyleSheet.create({
     lineHeight: 18,
   },
 
-  detailActions: {
-    flexDirection: "row",
-    gap: 10,
-    marginTop: 18,
-  },
+detailActions: {
+  flexDirection: "column",
+  width: "100%",
+  gap: 12,
+  marginTop: 20,
+},
 
-  detailPhotoButton: {
-    flex: 1,
-    height: 46,
-    borderRadius: 12,
-    backgroundColor: "#FBBF24",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+detailPhotoButton: {
+  width: "100%",
+  minHeight: 52,
+  backgroundColor: "#FBBF24",
+  borderRadius: 12,
+  alignItems: "center",
+  justifyContent: "center",
+},
 
   detailPhotoButtonText: {
     color: "#111111",

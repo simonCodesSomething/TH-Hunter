@@ -66,21 +66,32 @@ export default function ProgressScreen({
     return [...new Set(typedCarData.map((car) => car.year))].sort(
       (a, b) => b - a
     );
-  }, []);
+  }, [typedCarData]);
 
   /*
-   * Default to newest year
+   * Default to the current calendar year when available.
+   * Otherwise, use the latest available catalog year.
    */
   useEffect(() => {
-    if (
-      selectedYear === null &&
-      years.length > 0
-    ) {
-      setSelectedYear(years[0]);
-    }
-  }, [years, selectedYear]);
+    if (years.length === 0) return;
 
-  const currentYear = selectedYear ?? 2026;
+    const calendarYear = new Date().getFullYear();
+    const defaultYear = years.includes(calendarYear)
+      ? calendarYear
+      : years[0];
+
+    setSelectedYear((previous) =>
+      previous !== null && years.includes(previous)
+        ? previous
+        : defaultYear
+    );
+  }, [years]);
+
+  const currentYear =
+    selectedYear ??
+    (years.includes(new Date().getFullYear())
+      ? new Date().getFullYear()
+      : years[0] ?? new Date().getFullYear());
 
   /*
    * Overall collection
