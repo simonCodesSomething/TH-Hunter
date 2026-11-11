@@ -25,6 +25,8 @@ import {
   toggleFoundId,
 } from "../utils/storage";
 import { styles } from "../styles/hunt.styles";
+import AdBanner from "../components/AdBanner";
+import { huntAdStyles } from "../styles/huntAd.styles";
 import { useCarData } from "../data/CarDataProvider";
 import type { Car } from "../types";
 
@@ -53,7 +55,12 @@ const TYPE_META: Record<
   },
 };
 
-export default function HuntScreen() {
+interface HuntScreenProps {
+  canRequestAds?: boolean;
+}
+
+export default function HuntScreen({ canRequestAds = false }: HuntScreenProps) {
+  console.log("[HuntScreen] canRequestAds:", canRequestAds);
   const { cars } = useCarData();
   const [foundIds, setFoundIds] = useState<string[]>([]);
   const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
@@ -804,6 +811,13 @@ export default function HuntScreen() {
             </Text>
           </View>
         ) : null}
+
+        {/* INLINE AD — between Next to Hunt and Latest Finds */}
+        {canRequestAds && (
+          <View style={huntAdStyles.container}>
+            <AdBanner placement="hunt" canRequestAds={canRequestAds} />
+          </View>
+        )}
 
         {/* LATEST FINDS — DISPLAY ONLY */}
 

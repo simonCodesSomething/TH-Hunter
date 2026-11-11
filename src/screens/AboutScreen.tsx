@@ -49,10 +49,16 @@ export default function AboutScreen({
               try {
                 await resetEntireCollection();
                 onCollectionReset?.();
-                Alert.alert("Collection Reset", "All collected cars and saved quantities have been cleared. Your photos were kept.");
+                Alert.alert(
+                  "Collection Reset",
+                  "All collected cars and saved quantities have been cleared. Your photos were kept."
+                );
               } catch (error) {
                 console.error("[About] Collection reset failed:", error);
-                Alert.alert("Reset Failed", "Could not reset the collection. Please try again.");
+                Alert.alert(
+                  "Reset Failed",
+                  "Could not reset the collection. Please try again."
+                );
               } finally {
                 setResetting(false);
               }
@@ -101,15 +107,8 @@ export default function AboutScreen({
               <Text style={styles.linkSubtitle}>
                 Help keep TH Hunter updated with new Treasure Hunts.
               </Text>
-              {!canSupport && (
-                <Text style={styles.supportStatus}>Coming soon</Text>
-              )}
             </View>
-            <Ionicons
-              name={canSupport ? "chevron-forward" : "time-outline"}
-              size={22}
-              color="#64748B"
-            />
+            <Ionicons name="chevron-forward" size={22} color="#64748B" />
           </Pressable>
         </View>
 

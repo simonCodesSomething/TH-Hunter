@@ -1,21 +1,23 @@
-
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, View } from "react-native";
 import {
   BannerAd,
   BannerAdSize,
   TestIds,
 } from "react-native-google-mobile-ads";
 
-type AdPlacement = "browse" | "collection";
+import { adBannerStyles } from "../styles/adBanner.styles";
+
+type AdPlacement = "browse" | "collection" | "hunt";
 
 interface AdBannerProps {
   placement: AdPlacement;
   canRequestAds: boolean;
 }
 
-const AD_UNIT_IDS = {
+const AD_UNIT_IDS: Record<AdPlacement, string> = {
   browse: "ca-app-pub-5794787274519836/5300413110",
   collection: "ca-app-pub-5794787274519836/2674249779",
+  hunt: "ca-app-pub-5794787274519836/1857549058",
 };
 
 export default function AdBanner({
@@ -31,10 +33,10 @@ export default function AdBanner({
     : AD_UNIT_IDS[placement];
 
   return (
-    <View style={styles.container}>
+    <View style={adBannerStyles.container}>
       <BannerAd
         unitId={adUnitId}
-        size={BannerAdSize.BANNER}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}
@@ -42,12 +44,3 @@ export default function AdBanner({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#000000",
-  },
-});

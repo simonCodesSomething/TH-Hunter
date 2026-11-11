@@ -134,6 +134,16 @@ export async function toggleFoundId(id: string): Promise<string[]> {
  */
 export async function resetEntireCollection(): Promise<void> {
   await AsyncStorage.multiRemove([FOUND_KEY, CAR_QUANTITIES_STORAGE_KEY]);
+
+  // Confirm both keys really were removed before reporting success.
+  // Do not remove photos or the catalog cache.
+  const remaining = await AsyncStorage.multiGet([
+    FOUND_KEY,
+    CAR_QUANTITIES_STORAGE_KEY,
+  ]);
+  if (remaining.some(([, value]) => value !== null)) {
+    throw new Error("Collection reset could not be verified");
+  }
 }
 
 /* Personal collection photos */
