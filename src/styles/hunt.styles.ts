@@ -265,35 +265,57 @@ export const styles = StyleSheet.create({
   /* CAR CARDS */
 
   carCard: {
-    width: 142,
+    width: 160,
+    backgroundColor: "#191919",
+    borderColor: "#292929",
+    borderWidth: 1,
+    borderRadius: 14,
+    overflow: "hidden",
+    paddingBottom: 11,
   },
 
   carCardFound: {
     opacity: 0.75,
   },
 
-  carImage: {
-    height: 104,
-    backgroundColor: "#E9E9E9",
-    borderRadius: 11,
-    overflow: "hidden",
-    position: "relative",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+carImage: {
+  width: "100%",
+  aspectRatio: 3 / 4,
+  backgroundColor: "#242424",
+  overflow: "hidden",
+  position: "relative",
+  alignItems: "center",
+  justifyContent: "center",
+},
 
-  carGraphic: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#D8D8D8",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+carGraphic: {
+  width: "100%",
+  height: "100%",
+  backgroundColor: "#D8D8D8",
+  borderRadius: 10,
+  overflow: "hidden",
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+carGraphicTH: {
+  backgroundColor: "#282313",
+  borderColor: "#FBBF24",
+},
+
+carGraphicSTH: {
+  backgroundColor: "#2B1717",
+  borderColor: "#EF4444",
+},
+
+carImageTH: {},
+
+carImageSTH: {},
 
   carPhoto: {
     width: "100%",
     height: "100%",
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
 
   typeBadge: {
@@ -341,15 +363,28 @@ export const styles = StyleSheet.create({
   carName: {
     color: "#FFFFFF",
     fontSize: 13,
-    lineHeight: 17,
-    fontWeight: "700",
-    marginTop: 7,
+    lineHeight: 18,
+    fontWeight: "800",
+    marginTop: 10,
+    marginHorizontal: 11,
+    minHeight: 36,
   },
 
   carSeries: {
-    color: "#77777C",
+    color: "#A1A1A6",
     fontSize: 11,
-    marginTop: 3,
+    lineHeight: 15,
+    minHeight: 30,
+    marginTop: 4,
+    marginHorizontal: 11,
+  },
+
+  carCase: {
+    fontSize: 11,
+    fontWeight: "800",
+    letterSpacing: 0.5,
+    marginTop: 5,
+    marginHorizontal: 11,
   },
 
   /* COMPLETE */
@@ -492,9 +527,11 @@ export const styles = StyleSheet.create({
   },
 
   findsThumbnail: {
-    width: 62,
-    height: 62,
+    width: 68,
+    height: 84,
     borderRadius: 10,
+    backgroundColor: "#F4F4F4",
+    resizeMode: "contain",
   },
 
   findsCaseThumbnail: {
@@ -538,7 +575,8 @@ export const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "800",
     letterSpacing: 0.7,
-    marginTop: 2,
+    marginTop: 6,
+    marginHorizontal: 11,
   },
 
 
@@ -784,5 +822,23 @@ caseDropdownItemText: {
   color: "#FFFFFF",
   fontSize: 13,
   fontWeight: "800",
+},
+carGraphicCaseLabel: {
+  color: "#FBBF24",
+  fontSize: 11,
+  fontWeight: "800",
+  letterSpacing: 2,
+  marginTop: 4,
+},
+
+carGraphicCaseLetter: {
+  color: "#FBBF24",
+  fontSize: 46,
+  lineHeight: 52,
+  fontWeight: "900",
+},
+
+carGraphicTextSTH: {
+  color: "#EF4444",
 },
 });

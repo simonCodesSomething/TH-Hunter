@@ -485,19 +485,26 @@ export const styles = StyleSheet.create({
     marginRight: 12,
   },
 
-  detailImageWrap: {
-    height: 180,
-    borderRadius: 16,
-    overflow: "hidden",
-    backgroundColor: "#D8D8D8",
-    marginBottom: 14,
-  },
+detailImageWrap: {
+  width: "100%",
+  height: 340,
+  alignItems: "center",
+  justifyContent: "center",
+  marginBottom: 12,
+},
 
-  detailImage: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-  },
+detailPhotoFrame: {
+  height: "100%",
+  aspectRatio: 3 / 4,
+  borderRadius: 18,
+  overflow: "hidden",
+  backgroundColor: "#FFFFFF",
+},
+
+detailImage: {
+  width: "100%",
+  height: "100%",
+},
 
   detailImagePlaceholder: {
     width: "100%",

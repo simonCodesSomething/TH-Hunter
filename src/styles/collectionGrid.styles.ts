@@ -24,7 +24,7 @@ export const gridStyles = StyleSheet.create({
   },
   imageWrap: {
     width: "100%",
-    aspectRatio: 4 / 3,
+    aspectRatio: 3 / 4,
     backgroundColor: "#242424",
     position: "relative",
   },
@@ -71,7 +71,7 @@ export const gridStyles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 18,
     fontWeight: "800",
-    minHeight: 36,
+    //minHeight: 36,
   },
   carSeries: {
     color: "#A1A1A6",
@@ -112,23 +112,4 @@ export const gridStyles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "700",
   },
-  removeButton: {
-  width: "100%",
-  minHeight: 52,
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 10,
-  backgroundColor: "#241414",
-  borderWidth: 1,
-  borderColor: "#713333",
-  borderRadius: 12,
-},
-
-removeButtonText: {
-  color: "#EF4444",
-  fontSize: 13,
-  fontWeight: "800",
-  textAlign: "center",
-},
 });

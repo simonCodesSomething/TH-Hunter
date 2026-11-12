@@ -8,29 +8,47 @@ import {
 import { adBannerStyles } from "../styles/adBanner.styles";
 
 type AdPlacement = "browse" | "collection" | "hunt";
+type AdPlatform = "android" | "ios";
 
 interface AdBannerProps {
   placement: AdPlacement;
   canRequestAds: boolean;
 }
 
-const AD_UNIT_IDS: Record<AdPlacement, string> = {
-  browse: "ca-app-pub-5794787274519836/5300413110",
-  collection: "ca-app-pub-5794787274519836/2674249779",
-  hunt: "ca-app-pub-5794787274519836/1857549058",
+const AD_UNIT_IDS: Record<
+  AdPlatform,
+  Record<AdPlacement, string>
+> = {
+  android: {
+    browse: "ca-app-pub-5794787274519836/5300413110",
+    collection: "ca-app-pub-5794787274519836/2674249779",
+    hunt: "ca-app-pub-5794787274519836/1857549058",
+  },
+  ios: {
+    browse: "ca-app-pub-5794787274519836/8668168286",
+    collection: "ca-app-pub-5794787274519836/1325010672",
+    hunt: "ca-app-pub-5794787274519836/1484792771",
+  },
 };
 
 export default function AdBanner({
   placement,
   canRequestAds,
 }: AdBannerProps) {
-  if (Platform.OS !== "android" || !canRequestAds) {
+  // Only Android and iOS support native AdMob banners.
+  if (
+    (Platform.OS !== "android" && Platform.OS !== "ios") ||
+    !canRequestAds
+  ) {
     return null;
   }
 
+  const platform = Platform.OS as AdPlatform;
+
+  // Use Google's test banners in development.
   const adUnitId = __DEV__
-    ? TestIds.ADAPTIVE_BANNER
-    : AD_UNIT_IDS[placement];
+    ? TestIds.BANNER
+    : AD_UNIT_IDS[platform][placement];
 
   return (
     <View style={adBannerStyles.container}>
