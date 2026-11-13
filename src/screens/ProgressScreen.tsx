@@ -112,11 +112,11 @@ export default function ProgressScreen({ onClose }: ProgressScreenProps) {
     return { found, total: cars.length, percent: percentage(found, cars.length) };
   }, [cars, foundSet]);
 
-  const yearStats = useMemo(() => years.map((year) => {
-    const yearCars = cars.filter((car) => car.year === year);
-    const found = yearCars.filter((car) => foundSet.has(car.id)).length;
-    return { year, found, total: yearCars.length, percent: percentage(found, yearCars.length) };
-  }), [cars, foundSet, years]);
+  const selectedYearStats = useMemo<Stats>(() => {
+    const matching = cars.filter((car) => car.year === activeYear);
+    const found = matching.filter((car) => foundSet.has(car.id)).length;
+    return { found, total: matching.length, percent: percentage(found, matching.length) };
+  }, [cars, foundSet, activeYear]);
 
   const byType = useMemo(() => {
     const result = {} as Record<CarType, Stats>;
@@ -193,45 +193,19 @@ export default function ProgressScreen({ onClose }: ProgressScreenProps) {
             );
           })}
         </ScrollView>
+        <View style={styles.yearProgressCard}>
+          <View style={styles.yearProgressTop}>
+            <Text style={styles.yearProgressCount}>
+              {selectedYearStats.found} of {selectedYearStats.total} collected
+            </Text>
+            <Text style={styles.yearProgressPercent}>{selectedYearStats.percent}%</Text>
+          </View>
+          <ProgressBar percent={selectedYearStats.percent} color="#FBBF24" />
+        </View>
         <View style={styles.typeCard}>
           <TypeProgress title="TREASURE HUNTS" color={COLORS.TH} stats={byType.TH} />
           <View style={styles.cardDivider} />
           <TypeProgress title="SUPER TREASURE HUNTS" color={COLORS.STH} stats={byType.STH} />
-        </View>
-
-        <View style={styles.sectionHeading}>
-          <Text style={styles.sectionTitle}>YEAR BY YEAR</Text>
-          <Text style={styles.sectionHint}>Tap a year to view its breakdown</Text>
-        </View>
-        <View style={styles.historyCard}>
-          {yearStats.length === 0 ? (
-            <Text style={styles.emptyText}>No collection years available yet.</Text>
-          ) : yearStats.map((item) => {
-            const active = activeYear === item.year;
-            const completed = item.total > 0 && item.found === item.total;
-            return (
-              <Pressable
-                key={item.year}
-                style={[styles.historyRow, active && styles.historyRowActive]}
-                onPress={() => setSelectedYear(item.year)}
-                accessibilityRole="button"
-                accessibilityState={{ selected: active }}
-                accessibilityLabel={`${item.year}, ${item.found} of ${item.total} collected, ${item.percent} percent`}
-              >
-                <View style={styles.historyTop}>
-                  <View style={styles.historyYearWrap}>
-                    <Text style={[styles.historyYear, active && styles.historyYearActive]}>{item.year}</Text>
-                    {completed && <Ionicons name="checkmark-circle" size={16} color="#FBBF24" />}
-                  </View>
-                  <View style={styles.historyNumbers}>
-                    <Text style={styles.historyCount}>{item.found} / {item.total} collected</Text>
-                    <Text style={[styles.historyPercent, active && styles.historyPercentActive]}>{item.percent}%</Text>
-                  </View>
-                </View>
-                <ProgressBar percent={item.percent} color="#FBBF24" thin />
-              </Pressable>
-            );
-          })}
         </View>
 
         <View style={styles.sectionHeading}>
