@@ -1,475 +1,95 @@
 import { StyleSheet } from "react-native";
 
+const YELLOW = "#FBBF24";
+const BG = "#101114";
+const CARD = "#1D1E22";
+const MUTED = "#A1A1AA";
+
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000000",
-  },
-
-  content: {
-    paddingTop: 4,
-    paddingBottom: 40,
-  },
-
-  /* HEADER */
-
+  container: { flex: 1, backgroundColor: BG },
   header: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
-    paddingHorizontal: 18,
-    paddingTop: 18,
-    paddingBottom: 18,
+    borderBottomColor: "#292A2E",
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
-
-  title: {
-    color: "#FFFFFF",
-    fontSize: 32,
-    lineHeight: 36,
-    fontWeight: "900",
-    letterSpacing: 0.4,
-  },
-
-  eyebrow: {
-    color: "#FBBF24",
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 1.2,
-  },
-
-  subtitle: {
-    color: "#A1A1A6",
-    fontSize: 14,
-    marginTop: 4,
-  },
-
-  headerIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "#111111",
+  headerCopy: { flex: 1 },
+  eyebrow: { color: YELLOW, fontSize: 11, letterSpacing: 1.5, fontWeight: "800", marginBottom: 4 },
+  title: { color: "#FFFFFF", fontSize: 29, lineHeight: 34, letterSpacing: 0.5, fontWeight: "900" },
+  subtitle: { color: MUTED, fontSize: 12, marginTop: 5 },
+  closeButton: { width: 38, height: 38, alignItems: "center", justifyContent: "center" },
+  content: { paddingHorizontal: 16, paddingTop: 18, paddingBottom: 38 },
+  summaryCard: {
+    backgroundColor: CARD,
+    borderColor: "#303136",
     borderWidth: 1,
-    borderColor: "#292929",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  /* HERO */
-
-  heroCard: {
-    marginHorizontal: 14,
-    marginBottom: 22,
-    padding: 20,
-    backgroundColor: "#111111",
-    borderWidth: 1,
-    borderColor: "#292929",
-    borderRadius: 18,
-  },
-
-  heroHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-
-  heroEyebrow: {
-    color: "#FBBF24",
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 1,
-  },
-
-  heroTitle: {
-    color: "#FFFFFF",
-    fontSize: 42,
-    lineHeight: 46,
-    fontWeight: "900",
-    marginTop: 3,
-  },
-
-  heroSubtitle: {
-    color: "#8E8E93",
-    fontSize: 13,
-    marginTop: 2,
-  },
-
-  heroCircle: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    borderWidth: 5,
-    borderColor: "#FBBF24",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  heroCircleValue: {
-    color: "#FFFFFF",
-    fontSize: 23,
-    fontWeight: "900",
-  },
-
-  heroCircleLabel: {
-    color: "#77777C",
-    fontSize: 7,
-    fontWeight: "900",
-    marginTop: 1,
-  },
-
-  heroTrack: {
-    height: 9,
-    backgroundColor: "#292929",
-    borderRadius: 5,
-    overflow: "hidden",
-    marginTop: 22,
-  },
-
-  heroFill: {
-    height: "100%",
-    backgroundColor: "#FBBF24",
-    borderRadius: 5,
-  },
-
-  /* SECTIONS */
-
-  sectionHeader: {
-    paddingHorizontal: 18,
-    marginBottom: 10,
-    marginTop: 3,
-  },
-
-  sectionTitle: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "900",
-    letterSpacing: 0.4,
-  },
-
-  sectionSubtitle: {
-    color: "#77777C",
-    fontSize: 12,
-    marginTop: 3,
-  },
-
-  /* TYPE PROGRESS */
-
-  progressCard: {
-    marginHorizontal: 14,
-    marginBottom: 10,
-    padding: 16,
-    backgroundColor: "#111111",
-    borderWidth: 1,
-    borderColor: "#292929",
-    borderRadius: 14,
-  },
-
-  progressHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  progressIcon: {
-    width: 45,
-    height: 45,
-    borderRadius: 23,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 11,
-  },
-
-  progressInfo: {
-    flex: 1,
-  },
-
-  progressTitle: {
-    fontSize: 13,
-    fontWeight: "900",
-  },
-
-  progressSubtitle: {
-    color: "#8E8E93",
-    fontSize: 11,
-    marginTop: 3,
-  },
-
-  progressPercentage: {
-    fontSize: 20,
-    fontWeight: "900",
-  },
-
-  progressTrack: {
-    height: 7,
-    backgroundColor: "#292929",
-    borderRadius: 4,
-    overflow: "hidden",
-    marginTop: 14,
-  },
-
-  progressFill: {
-    height: "100%",
-    borderRadius: 4,
-  },
-
-  progressPhotos: {
-    gap: 8,
-    paddingTop: 12,
-  },
-
-  progressPhoto: {
-    width: 48,
-    height: 48,
-    borderRadius: 8,
-  },
-
-  /* YEAR HERO */
-
-  yearHeroCard: {
-    marginHorizontal: 14,
-    marginBottom: 20,
-    padding: 16,
-    backgroundColor: "#111111",
-    borderWidth: 1,
-    borderColor: "#292929",
-    borderRadius: 14,
-  },
-
-  yearHeroTop: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  yearIcon: {
-    width: 45,
-    height: 45,
-    borderRadius: 23,
-    backgroundColor: "#FBBF24",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 11,
-  },
-
-  yearInfo: {
-    flex: 1,
-  },
-
-  yearTitle: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "900",
-  },
-
-  yearSubtitle: {
-    color: "#8E8E93",
-    fontSize: 11,
-    marginTop: 3,
-  },
-
-  yearPercentage: {
-    color: "#FBBF24",
-    fontSize: 20,
-    fontWeight: "900",
-  },
-
-  /* YEAR LIST */
-
-  yearList: {
-    marginHorizontal: 14,
-    backgroundColor: "#111111",
-    borderWidth: 1,
-    borderColor: "#292929",
-    borderRadius: 14,
-    overflow: "hidden",
-    marginBottom: 20,
-  },
-
-  yearRow: {
-    minHeight: 70,
-    paddingHorizontal: 14,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderBottomColor: "#292929",
-  },
-
-  yearRowLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-  },
-
-  yearDot: {
-    width: 32,
-    height: 32,
     borderRadius: 16,
-    backgroundColor: "#292929",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
+    padding: 17,
   },
-
-  yearDotComplete: {
-    backgroundColor: "#FBBF24",
-  },
-
-  yearRowInfo: {
-    flex: 1,
-  },
-
-  yearRowTitle: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "800",
-  },
-
-  yearRowSubtitle: {
-    color: "#77777C",
-    fontSize: 10,
-    marginTop: 3,
-  },
-
-  yearRowRight: {
-    width: 90,
-    alignItems: "flex-end",
-  },
-
-  yearRowPercentage: {
-    color: "#FFFFFF",
-    fontSize: 13,
-    fontWeight: "900",
-    marginBottom: 5,
-  },
-
-  miniTrack: {
-    width: 80,
-    height: 4,
-    backgroundColor: "#292929",
-    borderRadius: 2,
-    overflow: "hidden",
-  },
-
-  miniFill: {
-    height: "100%",
-    backgroundColor: "#FBBF24",
-    borderRadius: 2,
-  },
-
-  /* MILESTONES */
-
-  milestoneGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingHorizontal: 14,
-    gap: 10,
-    marginBottom: 20,
-  },
-
-  milestone: {
-    width: "30%",
-    flexGrow: 1,
-    minHeight: 126,
-    padding: 12,
-    backgroundColor: "#111111",
-    borderWidth: 1,
-    borderColor: "#292929",
+  cardEyebrow: { color: MUTED, fontSize: 11, fontWeight: "800", letterSpacing: 1.2 },
+  summaryRow: { flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between", marginTop: 10, marginBottom: 18, gap: 8 },
+  summaryLeft: { flex: 1 },
+  summaryNumbers: { flexDirection: "row", alignItems: "baseline" },
+  summaryFound: { color: "#FFFFFF", fontSize: 33, fontWeight: "900", lineHeight: 39 },
+  summaryTotal: { color: MUTED, fontSize: 17, fontWeight: "700" },
+  summaryCaption: { color: MUTED, fontSize: 11, marginTop: 2 },
+  summaryPercent: { color: YELLOW, fontSize: 25, fontWeight: "900" },
+  track: { height: 8, backgroundColor: "#383A40", borderRadius: 99, overflow: "hidden" },
+  trackThin: { height: 5 },
+  trackFill: { height: "100%", borderRadius: 99 },
+  sectionHeading: { marginTop: 23, marginBottom: 11, flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 4 },
+  sectionTitle: { color: "#FFFFFF", fontSize: 15, fontWeight: "900", letterSpacing: 0.3 },
+  sectionHint: { color: "#85858D", fontSize: 10 },
+  yearSelector: { gap: 8, paddingRight: 16, marginBottom: 11 },
+  yearChip: { minWidth: 63, paddingHorizontal: 14, paddingVertical: 9, borderWidth: 1, borderColor: "#393A40", borderRadius: 99, backgroundColor: CARD, alignItems: "center" },
+  yearChipActive: { backgroundColor: "#2D2615", borderColor: YELLOW },
+  yearChipText: { color: MUTED, fontSize: 12, fontWeight: "800" },
+  yearChipTextActive: { color: YELLOW },
+  typeCard: { backgroundColor: CARD, borderRadius: 16, borderWidth: 1, borderColor: "#303136", paddingHorizontal: 16, paddingVertical: 16 },
+  typeBlock: { gap: 10 },
+  typeTop: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8 },
+  typeInfo: { flex: 1, gap: 4 },
+  typeName: { fontSize: 11, fontWeight: "900", letterSpacing: 0.8 },
+  typeCount: { color: "#FFFFFF", fontSize: 13, fontWeight: "700" },
+  typePercent: { fontSize: 21, fontWeight: "900" },
+  cardDivider: { height: StyleSheet.hairlineWidth, backgroundColor: "#35363B", marginVertical: 15 },
+  historyCard: { gap: 8 },
+  historyRow: {
+    backgroundColor: CARD,
     borderRadius: 13,
-    alignItems: "center",
-  },
-
-  milestoneUnlocked: {
-    borderColor: "#FBBF24",
-  },
-
-  milestoneIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: "#292929",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-
-  milestoneIconUnlocked: {
-    backgroundColor: "#FBBF24",
-  },
-
-  milestoneTitle: {
-    color: "#FFFFFF",
-    fontSize: 11,
-    fontWeight: "900",
-    textAlign: "center",
-  },
-
-  milestoneText: {
-    color: "#77777C",
-    fontSize: 9,
-    lineHeight: 12,
-    textAlign: "center",
-    marginTop: 4,
-  },
-
-  /* COMPLETED YEARS */
-
-  completedYears: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    borderWidth: 1,
+    borderColor: "#303136",
     paddingHorizontal: 14,
+    paddingVertical: 13,
+    gap: 11,
+  },
+  historyRowActive: {
+    borderColor: YELLOW,
+    backgroundColor: "#24221C",
+  },
+  historyTop: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     gap: 8,
   },
-
-  completedYear: {
-    height: 38,
-    paddingHorizontal: 13,
-    borderRadius: 19,
-    backgroundColor: "#111111",
-    borderWidth: 1,
-    borderColor: "#FBBF24",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  completedYearText: {
-    color: "#FFFFFF",
-    fontSize: 12,
-    fontWeight: "800",
-    marginLeft: 6,
-  },
-  yearSelector: {
-  paddingHorizontal: 14,
-  paddingBottom: 4,
-  gap: 8,
-},
-
-yearChip: {
-  minWidth: 72,
-  height: 38,
-  paddingHorizontal: 16,
-  borderRadius: 19,
-  backgroundColor: "#111111",
-  borderWidth: 1,
-  borderColor: "#292929",
-  alignItems: "center",
-  justifyContent: "center",
-},
-
-yearChipActive: {
-  backgroundColor: "#FBBF24",
-  borderColor: "#FBBF24",
-},
-
-yearChipText: {
-  color: "#8E8E93",
-  fontSize: 13,
-  fontWeight: "800",
-},
-
-yearChipTextActive: {
-  color: "#111111",
-},
-
-yearRowActive: {
-  borderColor: "#FBBF24",
-  borderWidth: 1,
-},
+  historyYearWrap: { flexDirection: "row", alignItems: "center", gap: 7 },
+  historyYear: { color: "#FFFFFF", fontSize: 15, fontWeight: "900" },
+  historyYearActive: { color: YELLOW },
+  historyNumbers: { flexDirection: "row", alignItems: "center", gap: 12 },
+  historyCount: { color: MUTED, fontSize: 11, fontWeight: "600", textAlign: "right" },
+  historyPercent: { color: "#FFFFFF", fontSize: 14, fontWeight: "900", width: 44, textAlign: "right" },
+  historyPercentActive: { color: YELLOW },
+  emptyText: { color: MUTED, textAlign: "center", paddingVertical: 18 },
+  milestoneGrid: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", rowGap: 9 },
+  milestone: { width: "31.5%", backgroundColor: CARD, borderRadius: 13, borderWidth: 1, borderColor: "#303136", alignItems: "center", justifyContent: "center", minHeight: 104, paddingHorizontal: 4, paddingVertical: 12, gap: 7 },
+  milestoneUnlocked: { borderColor: "#60502C" },
+  milestoneName: { color: "#FFFFFF", textAlign: "center", fontSize: 11, fontWeight: "800", lineHeight: 14 },
+  milestoneState: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 3 },
+  milestoneProgress: { color: MUTED, fontSize: 9, fontWeight: "600" },
+  milestoneProgressUnlocked: { color: YELLOW },
 });

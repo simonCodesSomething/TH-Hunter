@@ -15,6 +15,8 @@ interface AdBannerProps {
   canRequestAds: boolean;
 }
 
+const SCREEN_RECORDING_MODE = false;
+
 const AD_UNIT_IDS: Record<
   AdPlatform,
   Record<AdPlacement, string>
@@ -36,12 +38,13 @@ export default function AdBanner({
   canRequestAds,
 }: AdBannerProps) {
   // Only Android and iOS support native AdMob banners.
-  if (
-    (Platform.OS !== "android" && Platform.OS !== "ios") ||
-    !canRequestAds
-  ) {
-    return null;
-  }
+if (
+  SCREEN_RECORDING_MODE ||
+  (Platform.OS !== "android" && Platform.OS !== "ios") ||
+  !canRequestAds
+) {
+  return null;
+}
 
   const platform = Platform.OS as AdPlatform;
 

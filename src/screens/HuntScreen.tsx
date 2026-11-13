@@ -446,7 +446,14 @@ export default function HuntScreen({ canRequestAds = false }: HuntScreenProps) {
 
           key={car.id}
 
-          style={[styles.carCard, isFound ? styles.carCardFound : undefined]}
+          style={[
+  styles.carCard,
+  isFound && styles.carCardFound,
+  photoUri && {
+    borderWidth: 2,
+    borderColor: accentColor,
+  },
+]}
 
           onPress={() => void handleToggleFound(car.id)}
 
@@ -1733,7 +1740,13 @@ export default function HuntScreen({ canRequestAds = false }: HuntScreenProps) {
 
                       key={car.id}
 
-                      style={styles.carCard}
+                      style={[
+  styles.carCard,
+  photoUri && {
+    borderWidth: 2,
+    borderColor: accent,
+  },
+]}
 
                       accessibilityLabel={`${car.name}, case ${caseLetter}, collected`}
 

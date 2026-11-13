@@ -1,856 +1,266 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Pressable, ScrollView, Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { getCollectionPhotos, getFoundIds } from "../utils/storage";
-import { styles } from "../styles/progress.styles";
 import { useCarData } from "../data/CarDataProvider";
-import type { Car, CarType } from "../types";
+import { getFoundIds } from "../utils/storage";
+import { styles } from "../styles/progress.styles";
+import type { CarType } from "../types";
 
-const TYPE_META: Record<
-  CarType,
-  {
-    title: string;
-    color: string;
-    icon: keyof typeof MaterialCommunityIcons.glyphMap;
-  }
-> = {
-  TH: {
-    title: "TREASURE HUNTS",
-    color: "#FBBF24",
-    icon: "fire",
-  },
-
-  STH: {
-    title: "SUPER TREASURE HUNTS",
-    color: "#EF4444",
-    icon: "fire",
-  },
+const COLORS: Record<CarType, string> = {
+  TH: "#FBBF24",
+  STH: "#EF4444",
 };
-interface ProgressScreenProps {
-  onClose: () => void;
+
+type Stats = { found: number; total: number; percent: number };
+
+function percentage(found: number, total: number): number {
+  return total > 0 ? Math.round((found / total) * 100) : 0;
 }
 
-export default function ProgressScreen({
-  onClose,
-}: ProgressScreenProps) {
-  const { cars: typedCarData } = useCarData();
-  const [foundIds, setFoundIds] = useState<string[]>([]);
-  const [collectionPhotos, setCollectionPhotos] = useState<Record<string, string>>({});
-  const [selectedYear, setSelectedYear] = useState<number | null>(
-    null
-  );
-
-  /*
-   * Load collection progress
-   */
-  useEffect(() => {
-    void getFoundIds().then(setFoundIds);
-    void getCollectionPhotos().then(setCollectionPhotos);
-  }, []);
-
-  /*
-   * Available years
-   */
-  const years = useMemo(() => {
-    return [...new Set(typedCarData.map((car) => car.year))].sort(
-      (a, b) => b - a
-    );
-  }, [typedCarData]);
-
-  /*
-   * Default to the current calendar year when available.
-   * Otherwise, use the latest available catalog year.
-   */
-  useEffect(() => {
-    if (years.length === 0) return;
-
-    const calendarYear = new Date().getFullYear();
-    const defaultYear = years.includes(calendarYear)
-      ? calendarYear
-      : years[0];
-
-    setSelectedYear((previous) =>
-      previous !== null && years.includes(previous)
-        ? previous
-        : defaultYear
-    );
-  }, [years]);
-
-  const currentYear =
-    selectedYear ??
-    (years.includes(new Date().getFullYear())
-      ? new Date().getFullYear()
-      : years[0] ?? new Date().getFullYear());
-
-  /*
-   * Overall collection
-   *
-   * This intentionally includes every year.
-   */
-  const totalCars = typedCarData.length;
-
-  const totalFound = useMemo(() => {
-    return typedCarData.filter((car) =>
-      foundIds.includes(car.id)
-    ).length;
-  }, [foundIds]);
-
-  const overallPercentage =
-    totalCars > 0
-      ? Math.round((totalFound / totalCars) * 100)
-      : 0;
-
-  /*
-   * Cars for selected year
-   */
-  const selectedYearCars = useMemo(() => {
-    return typedCarData.filter(
-      (car) => car.year === currentYear
-    );
-  }, [currentYear]);
-
-  /*
-   * Selected year TH
-   */
-  const thCars = useMemo(() => {
-    return selectedYearCars.filter(
-      (car) => car.type === "TH"
-    );
-  }, [selectedYearCars]);
-
-  /*
-   * Selected year STH
-   */
-  const sthCars = useMemo(() => {
-    return selectedYearCars.filter(
-      (car) => car.type === "STH"
-    );
-  }, [selectedYearCars]);
-
-  /*
-   * Selected year found TH
-   */
-  const thFound = useMemo(() => {
-    return thCars.filter((car) =>
-      foundIds.includes(car.id)
-    );
-  }, [thCars, foundIds]);
-
-  /*
-   * Selected year found STH
-   */
-  const sthFound = useMemo(() => {
-    return sthCars.filter((car) =>
-      foundIds.includes(car.id)
-    );
-  }, [sthCars, foundIds]);
-
-  /*
-   * Selected year stats
-   */
-  const currentYearFound =
-    thFound.length + sthFound.length;
-
-  const currentYearTotal =
-    thCars.length + sthCars.length;
-
-  const currentYearPercentage =
-    currentYearTotal > 0
-      ? Math.round(
-          (currentYearFound / currentYearTotal) * 100
-        )
-      : 0;
-
-  /*
-   * Type percentages
-   */
-  const thPercentage =
-    thCars.length > 0
-      ? Math.round(
-          (thFound.length / thCars.length) * 100
-        )
-      : 0;
-
-  const sthPercentage =
-    sthCars.length > 0
-      ? Math.round(
-          (sthFound.length / sthCars.length) * 100
-        )
-      : 0;
-
-  /*
-   * Year statistics
-   */
-  const getYearStats = (year: number) => {
-    const cars = typedCarData.filter(
-      (car) => car.year === year
-    );
-
-    const found = cars.filter((car) =>
-      foundIds.includes(car.id)
-    );
-
-    return {
-      total: cars.length,
-      found: found.length,
-      percentage:
-        cars.length > 0
-          ? Math.round(
-              (found.length / cars.length) * 100
-            )
-          : 0,
-    };
-  };
-
-  /*
-   * Completed years
-   */
-  const completedYears = years.filter((year) => {
-    const stats = getYearStats(year);
-
-    return (
-      stats.total > 0 &&
-      stats.found === stats.total
-    );
-  });
-
-  /*
-   * Completion milestones
-   */
-  const allTHCars = typedCarData.filter(
-    (car) => car.type === "TH"
-  );
-
-  const allSTHCars = typedCarData.filter(
-    (car) => car.type === "STH"
-  );
-
-  const allTHFound = allTHCars.filter((car) =>
-    foundIds.includes(car.id)
-  );
-
-  const allSTHFound = allSTHCars.filter((car) =>
-    foundIds.includes(car.id)
-  );
-
-  const completedTH =
-    allTHCars.length > 0 &&
-    allTHFound.length === allTHCars.length;
-
-  const completedSTH =
-    allSTHCars.length > 0 &&
-    allSTHFound.length === allSTHCars.length;
-
+function ProgressBar({ percent, color, thin = false }: { percent: number; color: string; thin?: boolean }) {
   return (
-    <View
-      style={styles.container}
-    >
-      {/* HEADER */}
-
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.eyebrow}>TH HUNTER</Text>
-          <Text style={styles.title}>
-            PROGRESS
-          </Text>
-
-          <Text style={styles.subtitle}>
-            Track your collection journey
-          </Text>
-        </View>
-
-<Pressable
-  style={styles.headerIcon}
-  onPress={onClose}
-  hitSlop={10}
->
-  <Ionicons
-    name="close"
-    size={28}
-    color="#FFFFFF"
-  />
-</Pressable>
-      </View>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}
-      >
-        {/* YEAR SELECTOR */}
-
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            SELECT YEAR
-          </Text>
-
-          <Text style={styles.sectionSubtitle}>
-            View progress by release year
-          </Text>
-        </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.yearSelector}
-        >
-          {years.map((year) => {
-            const active =
-              selectedYear === year;
-
-            return (
-              <Pressable
-                key={year}
-                style={[
-                  styles.yearChip,
-                  active &&
-                    styles.yearChipActive,
-                ]}
-                onPress={() =>
-                  setSelectedYear(year)
-                }
-              >
-                <Text
-                  style={[
-                    styles.yearChipText,
-                    active &&
-                      styles.yearChipTextActive,
-                  ]}
-                >
-                  {year}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
-
-        {/* OVERALL */}
-
-        <View style={styles.heroCard}>
-          <View style={styles.heroHeader}>
-            <View>
-              <Text style={styles.heroEyebrow}>
-                ALL YEARS
-              </Text>
-
-              <Text style={styles.heroTitle}>
-                {overallPercentage}%
-              </Text>
-
-              <Text style={styles.heroSubtitle}>
-                {totalFound} of {totalCars} cars
-                collected
-              </Text>
-            </View>
-
-            <View style={styles.heroCircle}>
-              <Text
-                style={styles.heroCircleValue}
-              >
-                {overallPercentage}
-              </Text>
-
-              <Text
-                style={styles.heroCircleLabel}
-              >
-                PERCENT
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.heroTrack}>
-            <View
-              style={[
-                styles.heroFill,
-                {
-                  width: `${overallPercentage}%`,
-                },
-              ]}
-            />
-          </View>
-        </View>
-
-        {/* SELECTED YEAR */}
-
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            {currentYear} PROGRESS
-          </Text>
-
-          <Text style={styles.sectionSubtitle}>
-            Your {currentYear} Treasure Hunt
-            collection
-          </Text>
-        </View>
-
-        <View style={styles.yearHeroCard}>
-          <View style={styles.yearHeroTop}>
-            <View style={styles.yearIcon}>
-              <MaterialCommunityIcons
-                name="calendar-star"
-                size={25}
-                color="#111111"
-              />
-            </View>
-
-            <View style={styles.yearInfo}>
-              <Text style={styles.yearTitle}>
-                {currentYear} Collection
-              </Text>
-
-              <Text style={styles.yearSubtitle}>
-                {currentYearFound} of{" "}
-                {currentYearTotal} collected
-              </Text>
-            </View>
-
-            <Text style={styles.yearPercentage}>
-              {currentYearPercentage}%
-            </Text>
-          </View>
-
-          <View style={styles.progressTrack}>
-            <View
-              style={[
-                styles.progressFill,
-                {
-                  width: `${currentYearPercentage}%`,
-                },
-              ]}
-            />
-          </View>
-        </View>
-
-        {/* TYPE PROGRESS */}
-
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            BY TYPE
-          </Text>
-
-          <Text style={styles.sectionSubtitle}>
-            {currentYear} Treasure Hunts
-          </Text>
-        </View>
-
-        <ProgressCard
-          title={TYPE_META.TH.title}
-          color={TYPE_META.TH.color}
-          icon={TYPE_META.TH.icon}
-          found={thFound.length}
-          total={thCars.length}
-          percentage={thPercentage}
-          photoUris={thCars
-            .map((car) => collectionPhotos[car.id])
-            .filter((uri): uri is string => Boolean(uri))}
-        />
-
-        <ProgressCard
-          title={TYPE_META.STH.title}
-          color={TYPE_META.STH.color}
-          icon={TYPE_META.STH.icon}
-          found={sthFound.length}
-          total={sthCars.length}
-          percentage={sthPercentage}
-          photoUris={sthCars
-            .map((car) => collectionPhotos[car.id])
-            .filter((uri): uri is string => Boolean(uri))}
-        />
-
-        {/* YEAR HISTORY */}
-
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            YEAR BY YEAR
-          </Text>
-
-          <Text style={styles.sectionSubtitle}>
-            Collection progress by release year
-          </Text>
-        </View>
-
-        <View style={styles.yearList}>
-          {years.map((year) => {
-            const stats = getYearStats(year);
-            const active =
-              selectedYear === year;
-
-            return (
-              <Pressable
-                key={year}
-                style={[
-                  styles.yearRow,
-                  active &&
-                    styles.yearRowActive,
-                ]}
-                onPress={() =>
-                  setSelectedYear(year)
-                }
-              >
-                <View
-                  style={styles.yearRowLeft}
-                >
-                  <View
-                    style={[
-                      styles.yearDot,
-                      stats.percentage === 100 &&
-                        styles.yearDotComplete,
-                    ]}
-                  >
-                    {stats.percentage ===
-                      100 && (
-                      <Ionicons
-                        name="checkmark"
-                        size={12}
-                        color="#111111"
-                      />
-                    )}
-                  </View>
-
-                  <View
-                    style={styles.yearRowInfo}
-                  >
-                    <Text
-                      style={
-                        styles.yearRowTitle
-                      }
-                    >
-                      {year}
-                    </Text>
-
-                    <Text
-                      style={
-                        styles.yearRowSubtitle
-                      }
-                    >
-                      {stats.found} of{" "}
-                      {stats.total} collected
-                    </Text>
-                  </View>
-                </View>
-
-                <View
-                  style={styles.yearRowRight}
-                >
-                  <Text
-                    style={
-                      styles.yearRowPercentage
-                    }
-                  >
-                    {stats.percentage}%
-                  </Text>
-
-                  <View
-                    style={styles.miniTrack}
-                  >
-                    <View
-                      style={[
-                        styles.miniFill,
-                        {
-                          width: `${stats.percentage}%`,
-                        },
-                      ]}
-                    />
-                  </View>
-                </View>
-              </Pressable>
-            );
-          })}
-        </View>
-
-        {/* MILESTONES */}
-
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            MILESTONES
-          </Text>
-
-          <Text style={styles.sectionSubtitle}>
-            Collection achievements
-          </Text>
-        </View>
-
-        <View style={styles.milestoneGrid}>
-          <Milestone
-            icon="trophy-outline"
-            title="First Find"
-            text={
-              totalFound > 0
-                ? "Unlocked"
-                : "Collect your first car"
-            }
-            unlocked={totalFound > 0}
-          />
-
-          <Milestone
-            icon="car-outline"
-            title="10 Cars"
-            text={
-              totalFound >= 10
-                ? "Unlocked"
-                : `${10 - totalFound} more to go`
-            }
-            unlocked={totalFound >= 10}
-          />
-
-          <Milestone
-            icon="layers-outline"
-            title="25 Cars"
-            text={
-              totalFound >= 25
-                ? "Unlocked"
-                : `${Math.max(
-                    25 - totalFound,
-                    0
-                  )} more to go`
-            }
-            unlocked={totalFound >= 25}
-          />
-
-          <Milestone
-            icon="star-outline"
-            title="50 Cars"
-            text={
-              totalFound >= 50
-                ? "Unlocked"
-                : `${Math.max(
-                    50 - totalFound,
-                    0
-                  )} more to go`
-            }
-            unlocked={totalFound >= 50}
-          />
-
-          <Milestone
-            icon="flame-outline"
-            title="All TH"
-            text={
-              completedTH
-                ? "Collection complete"
-                : `${allTHFound.length} of ${allTHCars.length}`
-            }
-            unlocked={completedTH}
-          />
-
-          <Milestone
-            icon="diamond-outline"
-            title="All STH"
-            text={
-              completedSTH
-                ? "Collection complete"
-                : `${allSTHFound.length} of ${allSTHCars.length}`
-            }
-            unlocked={completedSTH}
-          />
-        </View>
-
-        {/* COMPLETED YEARS */}
-
-        {completedYears.length > 0 && (
-          <>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>
-                COMPLETED YEARS
-              </Text>
-
-              <Text
-                style={styles.sectionSubtitle}
-              >
-                Years you've completely collected
-              </Text>
-            </View>
-
-            <View
-              style={styles.completedYears}
-            >
-              {completedYears.map((year) => (
-                <Pressable
-                  key={year}
-                  style={styles.completedYear}
-                  onPress={() =>
-                    setSelectedYear(year)
-                  }
-                >
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={20}
-                    color="#FBBF24"
-                  />
-
-                  <Text
-                    style={
-                      styles.completedYearText
-                    }
-                  >
-                    {year}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
-          </>
-        )}
-      </ScrollView>
+    <View style={[styles.track, thin && styles.trackThin]}>
+      <View style={[styles.trackFill, { width: `${Math.max(0, Math.min(percent, 100))}%`, backgroundColor: color }]} />
     </View>
   );
 }
 
-/*
- * TYPE PROGRESS CARD
- */
-
-interface ProgressCardProps {
-  title: string;
-  color: string;
-  icon: keyof typeof MaterialCommunityIcons.glyphMap;
-  found: number;
-  total: number;
-  percentage: number;
-  photoUris: string[];
-}
-
-function ProgressCard({
-  title,
-  color,
-  icon,
-  found,
-  total,
-  percentage,
-  photoUris,
-}: ProgressCardProps) {
+function TypeProgress({ title, color, stats }: { title: string; color: string; stats: Stats }) {
   return (
-    <View style={styles.progressCard}>
-      <View style={styles.progressHeader}>
-        <View
-          style={[
-            styles.progressIcon,
-            {
-              backgroundColor: color,
-            },
-          ]}
-        >
-          <MaterialCommunityIcons
-            name={icon}
-            size={23}
-            color="#111111"
-          />
+    <View style={styles.typeBlock}>
+      <View style={styles.typeTop}>
+        <View style={styles.typeInfo}>
+          <Text style={[styles.typeName, { color }]}>{title}</Text>
+          <Text style={styles.typeCount}>{stats.found} of {stats.total} collected</Text>
         </View>
-
-        <View style={styles.progressInfo}>
-          <Text
-            style={[
-              styles.progressTitle,
-              { color },
-            ]}
-          >
-            {title}
-          </Text>
-
-          <Text style={styles.progressSubtitle}>
-            {found} of {total} collected
-          </Text>
-        </View>
-
-        <Text
-          style={[
-            styles.progressPercentage,
-            { color },
-          ]}
-        >
-          {percentage}%
-        </Text>
+        <Text style={[styles.typePercent, { color }]}>{stats.percent}%</Text>
       </View>
-
-      <View style={styles.progressTrack}>
-        <View
-          style={[
-            styles.progressFill,
-            {
-              width: `${percentage}%`,
-              backgroundColor: color,
-            },
-          ]}
-        />
-      </View>
-
-      {photoUris.length > 0 && (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.progressPhotos}
-        >
-          {photoUris.map((uri, index) => (
-            <Image
-              key={`${uri}-${index}`}
-              source={{ uri }}
-              style={styles.progressPhoto}
-            />
-          ))}
-        </ScrollView>
-      )}
+      <ProgressBar percent={stats.percent} color={color} />
     </View>
   );
 }
 
-/*
- * MILESTONE
- */
-
-interface MilestoneProps {
-  icon: keyof typeof Ionicons.glyphMap;
-  title: string;
-  text: string;
-  unlocked: boolean;
-}
+type IconName = keyof typeof Ionicons.glyphMap;
 
 function Milestone({
   icon,
   title,
-  text,
+  progress,
   unlocked,
-}: MilestoneProps) {
+}: {
+  icon: IconName;
+  title: string;
+  progress: string;
+  unlocked: boolean;
+}) {
   return (
-    <View
-      style={[
-        styles.milestone,
-        unlocked &&
-          styles.milestoneUnlocked,
-      ]}
-    >
-      <View
-        style={[
-          styles.milestoneIcon,
-          unlocked &&
-            styles.milestoneIconUnlocked,
-        ]}
-      >
+    <View style={[styles.milestone, unlocked && styles.milestoneUnlocked]}>
+      <Ionicons name={icon} size={23} color={unlocked ? "#FBBF24" : "#85858D"} />
+      <Text style={styles.milestoneName} numberOfLines={2}>{title}</Text>
+      <View style={styles.milestoneState}>
         <Ionicons
-          name={icon}
-          size={21}
-          color={
-            unlocked
-              ? "#111111"
-              : "#77777C"
-          }
+          name={unlocked ? "checkmark-circle" : "lock-closed-outline"}
+          size={12}
+          color={unlocked ? "#FBBF24" : "#85858D"}
         />
+        <Text style={[styles.milestoneProgress, unlocked && styles.milestoneProgressUnlocked]} numberOfLines={1}>
+          {unlocked ? "Unlocked" : progress}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+interface ProgressScreenProps {
+  onClose: () => void;
+}
+
+export default function ProgressScreen({ onClose }: ProgressScreenProps) {
+  const { cars } = useCarData();
+  const [foundIds, setFoundIds] = useState<string[]>([]);
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    void getFoundIds().then((ids) => {
+      if (mounted) setFoundIds(ids);
+    });
+    return () => { mounted = false; };
+  }, []);
+
+  const foundSet = useMemo(() => new Set(foundIds), [foundIds]);
+  const years = useMemo(
+    () => [...new Set(cars.map((car) => car.year))].sort((a, b) => b - a),
+    [cars]
+  );
+
+  useEffect(() => {
+    const calendarYear = new Date().getFullYear();
+    const defaultYear = years.includes(calendarYear) ? calendarYear : (years[0] ?? null);
+    setSelectedYear((previous) =>
+      previous !== null && years.includes(previous) ? previous : defaultYear
+    );
+  }, [years]);
+
+  const activeYear = selectedYear !== null && years.includes(selectedYear)
+    ? selectedYear
+    : (years.includes(new Date().getFullYear()) ? new Date().getFullYear() : (years[0] ?? null));
+
+  const overall = useMemo<Stats>(() => {
+    const found = cars.filter((car) => foundSet.has(car.id)).length;
+    return { found, total: cars.length, percent: percentage(found, cars.length) };
+  }, [cars, foundSet]);
+
+  const yearStats = useMemo(() => years.map((year) => {
+    const yearCars = cars.filter((car) => car.year === year);
+    const found = yearCars.filter((car) => foundSet.has(car.id)).length;
+    return { year, found, total: yearCars.length, percent: percentage(found, yearCars.length) };
+  }), [cars, foundSet, years]);
+
+  const byType = useMemo(() => {
+    const result = {} as Record<CarType, Stats>;
+    for (const type of ["TH", "STH"] as CarType[]) {
+      const matching = cars.filter((car) => car.year === activeYear && car.type === type);
+      const found = matching.filter((car) => foundSet.has(car.id)).length;
+      result[type] = { found, total: matching.length, percent: percentage(found, matching.length) };
+    }
+    return result;
+  }, [cars, foundSet, activeYear]);
+
+  const allTypeStats = useMemo(() => {
+    const result = {} as Record<CarType, Stats>;
+    for (const type of ["TH", "STH"] as CarType[]) {
+      const matching = cars.filter((car) => car.type === type);
+      const found = matching.filter((car) => foundSet.has(car.id)).length;
+      result[type] = { found, total: matching.length, percent: percentage(found, matching.length) };
+    }
+    return result;
+  }, [cars, foundSet]);
+
+  const milestones = [
+    { icon: "trophy-outline" as IconName, title: "First Find", target: 1 },
+    { icon: "car-sport-outline" as IconName, title: "10 Cars", target: 10 },
+    { icon: "layers-outline" as IconName, title: "25 Cars", target: 25 },
+    { icon: "star-outline" as IconName, title: "50 Cars", target: 50 },
+  ];
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.headerCopy}>
+          <Text style={styles.eyebrow}>TH HUNTER</Text>
+          <Text style={styles.title}>PROGRESS</Text>
+          <Text style={styles.subtitle}>Your collection at a glance</Text>
+        </View>
+        <Pressable style={styles.closeButton} onPress={onClose} hitSlop={10} accessibilityRole="button" accessibilityLabel="Close progress">
+          <Ionicons name="close" size={27} color="#FFFFFF" />
+        </Pressable>
       </View>
 
-      <Text style={styles.milestoneTitle}>
-        {title}
-      </Text>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.summaryCard}>
+          <Text style={styles.cardEyebrow}>OVERALL COLLECTION</Text>
+          <View style={styles.summaryRow}>
+            <View style={styles.summaryLeft}>
+              <View style={styles.summaryNumbers}>
+                <Text style={styles.summaryFound}>{overall.found}</Text>
+                <Text style={styles.summaryTotal}> / {overall.total}</Text>
+              </View>
+              <Text style={styles.summaryCaption}>Cars collected across all years</Text>
+            </View>
+            <Text style={styles.summaryPercent}>{overall.percent}%</Text>
+          </View>
+          <ProgressBar percent={overall.percent} color="#FBBF24" />
+        </View>
 
-      <Text style={styles.milestoneText}>
-        {text}
-      </Text>
+        <View style={styles.sectionHeading}>
+          <Text style={styles.sectionTitle}>{activeYear === null ? "YEAR COLLECTION" : `${activeYear} COLLECTION`}</Text>
+        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.yearSelector}>
+          {years.map((year) => {
+            const active = year === activeYear;
+            return (
+              <Pressable
+                key={year}
+                style={[styles.yearChip, active && styles.yearChipActive]}
+                onPress={() => setSelectedYear(year)}
+                accessibilityRole="button"
+                accessibilityState={{ selected: active }}
+              >
+                <Text style={[styles.yearChipText, active && styles.yearChipTextActive]}>{year}</Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+        <View style={styles.typeCard}>
+          <TypeProgress title="TREASURE HUNTS" color={COLORS.TH} stats={byType.TH} />
+          <View style={styles.cardDivider} />
+          <TypeProgress title="SUPER TREASURE HUNTS" color={COLORS.STH} stats={byType.STH} />
+        </View>
+
+        <View style={styles.sectionHeading}>
+          <Text style={styles.sectionTitle}>YEAR BY YEAR</Text>
+          <Text style={styles.sectionHint}>Tap a year to view its breakdown</Text>
+        </View>
+        <View style={styles.historyCard}>
+          {yearStats.length === 0 ? (
+            <Text style={styles.emptyText}>No collection years available yet.</Text>
+          ) : yearStats.map((item) => {
+            const active = activeYear === item.year;
+            const completed = item.total > 0 && item.found === item.total;
+            return (
+              <Pressable
+                key={item.year}
+                style={[styles.historyRow, active && styles.historyRowActive]}
+                onPress={() => setSelectedYear(item.year)}
+                accessibilityRole="button"
+                accessibilityState={{ selected: active }}
+                accessibilityLabel={`${item.year}, ${item.found} of ${item.total} collected, ${item.percent} percent`}
+              >
+                <View style={styles.historyTop}>
+                  <View style={styles.historyYearWrap}>
+                    <Text style={[styles.historyYear, active && styles.historyYearActive]}>{item.year}</Text>
+                    {completed && <Ionicons name="checkmark-circle" size={16} color="#FBBF24" />}
+                  </View>
+                  <View style={styles.historyNumbers}>
+                    <Text style={styles.historyCount}>{item.found} / {item.total} collected</Text>
+                    <Text style={[styles.historyPercent, active && styles.historyPercentActive]}>{item.percent}%</Text>
+                  </View>
+                </View>
+                <ProgressBar percent={item.percent} color="#FBBF24" thin />
+              </Pressable>
+            );
+          })}
+        </View>
+
+        <View style={styles.sectionHeading}>
+          <Text style={styles.sectionTitle}>MILESTONES</Text>
+        </View>
+        <View style={styles.milestoneGrid}>
+          {milestones.map((milestone) => (
+            <Milestone
+              key={milestone.title}
+              icon={milestone.icon}
+              title={milestone.title}
+              unlocked={overall.found >= milestone.target}
+              progress={`${Math.max(milestone.target - overall.found, 0)} to go`}
+            />
+          ))}
+          <Milestone
+            icon="flame-outline"
+            title="All TH"
+            unlocked={allTypeStats.TH.total > 0 && allTypeStats.TH.found === allTypeStats.TH.total}
+            progress={`${allTypeStats.TH.found}/${allTypeStats.TH.total}`}
+          />
+          <Milestone
+            icon="diamond-outline"
+            title="All STH"
+            unlocked={allTypeStats.STH.total > 0 && allTypeStats.STH.found === allTypeStats.STH.total}
+            progress={`${allTypeStats.STH.found}/${allTypeStats.STH.total}`}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
