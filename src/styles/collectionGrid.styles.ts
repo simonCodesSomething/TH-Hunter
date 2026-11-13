@@ -24,9 +24,10 @@ export const gridStyles = StyleSheet.create({
   },
   imageWrap: {
     width: "100%",
-    aspectRatio: 3 / 4,
-    backgroundColor: "#242424",
+    aspectRatio: 4 / 3,
+    backgroundColor: "#FFFFFF",
     position: "relative",
+    overflow: "hidden",
   },
   image: {
     width: "100%",
@@ -71,7 +72,6 @@ export const gridStyles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 18,
     fontWeight: "800",
-    //minHeight: 36,
   },
   carSeries: {
     color: "#A1A1A6",

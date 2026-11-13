@@ -265,13 +265,13 @@ export const styles = StyleSheet.create({
   /* CAR CARDS */
 
   carCard: {
-    width: 160,
+    width: 140,
     backgroundColor: "#191919",
     borderColor: "#292929",
     borderWidth: 1,
     borderRadius: 14,
     overflow: "hidden",
-    paddingBottom: 11,
+    paddingBottom: 8,
   },
 
   carCardFound: {
@@ -280,7 +280,7 @@ export const styles = StyleSheet.create({
 
 carImage: {
   width: "100%",
-  aspectRatio: 3 / 4,
+  height: 150,
   backgroundColor: "#242424",
   overflow: "hidden",
   position: "relative",
@@ -365,17 +365,15 @@ carImageSTH: {},
     fontSize: 13,
     lineHeight: 18,
     fontWeight: "800",
-    marginTop: 10,
+    marginTop: 7,
     marginHorizontal: 11,
-    minHeight: 36,
   },
 
   carSeries: {
     color: "#A1A1A6",
     fontSize: 11,
     lineHeight: 15,
-    minHeight: 30,
-    marginTop: 4,
+    marginTop: 3,
     marginHorizontal: 11,
   },
 

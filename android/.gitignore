@@ -79,3 +79,9 @@ coverage/
 *.swp
 *.swo
 .cache/
+
+# Local scripts
+/scripts/
+
+# Hot Wheels source images
+/Treasures/

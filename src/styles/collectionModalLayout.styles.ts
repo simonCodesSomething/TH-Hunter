@@ -1,25 +1,28 @@
 import { StyleSheet } from "react-native";
 
-// Layout overrides only: colors, type, borders and button visuals still come
-// from collection.styles, collectionGrid.styles and collectionQuantity.styles.
+// TH Hunter Collection detail modal: compact, frameless car information.
+// Image frame uses the same 4:3 landscape ratio as the Collection grid.
+// Case, Status and Quantity are content-driven rather than forced to match the photo height.
 export const modalLayout = StyleSheet.create({
   mainRow: {
     flexDirection: "row",
-    alignItems: "stretch",
+    alignItems: "flex-start",
     gap: 12,
-    marginBottom: 6,
+    marginBottom: 8,
   },
   imageColumn: {
     width: "45%",
     height: undefined,
-    aspectRatio: 3 / 4,
+    maxHeight: undefined,
+    aspectRatio: 4 / 3,
     marginBottom: 0,
     flexShrink: 0,
+    alignSelf: "flex-start",
   },
   photoFrame: {
     width: "100%",
     height: "100%",
-    aspectRatio: undefined,
+    aspectRatio: 4 / 3,
     borderRadius: 18,
     overflow: "hidden",
     backgroundColor: "#FFFFFF",
@@ -27,9 +30,9 @@ export const modalLayout = StyleSheet.create({
   infoColumn: {
     flex: 1,
     minWidth: 0,
-    alignSelf: "stretch",
+    alignSelf: "flex-start",
     justifyContent: "flex-start",
-    gap: 8,
+    gap: 9,
   },
   metaRow: {
     flexWrap: "wrap",
@@ -58,39 +61,89 @@ export const modalLayout = StyleSheet.create({
     flexShrink: 1,
     textAlign: "left",
   },
+  sectionDivider: {
+    height: StyleSheet.hairlineWidth,
+    width: "100%",
+    backgroundColor: "#46464A",
+    marginVertical: 2,
+  },
   detailsGrid: {
     flexDirection: "column",
-    gap: 8,
-    // Push Case, Status, and the following Quantity frame down together.
-    // The column gap still gives Status-to-Quantity exactly 8px.
-    marginTop: "auto",
+    gap: 9,
+    marginTop: 0,
     marginBottom: 0,
   },
   detailStat: {
     flex: 0,
     width: "100%",
-    paddingVertical: 6,
-    paddingHorizontal: 9,
     minHeight: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 6,
+    paddingVertical: 1,
+    paddingHorizontal: 0,
+    borderWidth: 0,
+    borderRadius: 0,
+    backgroundColor: "transparent",
+    elevation: 0,
+  },
+  statLabel: {
+    color: "#A1A1A6",
+    fontSize: 10,
+    fontWeight: "600",
+    letterSpacing: 0.5,
+    marginBottom: 0,
+  },
+  statValue: {
+    color: "#FFFFFF",
+    fontSize: 12,
+    fontWeight: "700",
+    textAlign: "right",
+    flexShrink: 1,
+  },
+  statusValue: {
+    color: "#FBBF24",
+    fontSize: 11,
+    fontWeight: "700",
+    textAlign: "right",
+    flexShrink: 1,
   },
   quantityContainer: {
     marginTop: 0,
     marginBottom: 0,
-    paddingHorizontal: 4,
-    paddingVertical: 6,
-    minHeight: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    minHeight: 52, // Full-width centered quantity section.
+    borderWidth: 0,
+    borderRadius: 0,
+    backgroundColor: "transparent",
+    elevation: 0,
+    shadowOpacity: 0,
     alignItems: "center",
+    alignSelf: "stretch",
+    width: "100%",
+    justifyContent: "center",
   },
   quantityRow: {
-    flexDirection: "column",
+    flex: 1,
+    width: "100%",
+    alignSelf: "stretch",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 0,
     paddingVertical: 0,
   },
   quantityControls: {
-    alignSelf: "center",
+    // Center the control group across the full modal width.
+    width: "100%",
+    alignSelf: "stretch",
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "center",
+    flexGrow: 0,
+    flexShrink: 0,
   },
   fullWidthActions: {
     width: "100%",

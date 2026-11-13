@@ -18,6 +18,7 @@ import {
 
   View,
 
+
 } from "react-native";
 
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -90,32 +91,39 @@ const TYPE_META: Record<
 
 };
 
-// Personal photos take priority; otherwise use the full public catalog URL.
+// Only HTTP(S) URLs are actual catalog photos; NULL and "placeholder" use a fallback.
+// Use loose photos in both the Collection grid and details modal.
+// Support both camelCase mapped records and raw Supabase snake_case records.
+type CarWithPhotoVariants = Car & {
+  imageLoose?: string | null;
+  image_loose?: string | null;
+};
 
-// Records without an image retain the existing case placeholder.
+function validPhotoUrl(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const url = value.trim();
+  return /^https?:\/\//i.test(url) ? url : undefined;
+}
 
-function getCarPhoto(
-
-  car: Car | null,
-
+function getCollectionCardPhoto(
+  car: Car,
   collectionPhotos: Record<string, string>
-
 ): string | undefined {
+  // Local image-picker URIs use file:// or content://, not HTTP(S).
+  if (collectionPhotos[car.id]?.trim()) return collectionPhotos[car.id].trim();
 
+  const record = car as CarWithPhotoVariants;
+  return validPhotoUrl(record.imageLoose ?? record.image_loose);
+}
+
+function getDetailPhoto(
+  car: Car | null,
+  collectionPhotos: Record<string, string>
+): string | undefined {
   if (!car) return undefined;
-
-  const personalPhoto = collectionPhotos[car.id];
-
-  if (personalPhoto) return personalPhoto;
-
-  const imageKey = car.imageKey;
-
-  return typeof imageKey === "string" && /^https?:\/\//i.test(imageKey.trim())
-
-    ? imageKey.trim()
-
-    : undefined;
-
+  // Match the Collection grid: personal photo first, then Supabase loose image.
+  // NULL / "placeholder" resolves to the existing modal fallback.
+  return getCollectionCardPhoto(car, collectionPhotos);
 }
 
 interface CollectionCardProps {
@@ -154,6 +162,10 @@ function CollectionCard({
 
   const caseLetter = String(car.caseLetter ?? "?").toUpperCase();
 
+  // Reset image errors whenever this card receives a new photo URL.
+  const [failedPhoto, setFailedPhoto] = useState<string | null>(null);
+  const showPhoto = Boolean(photoUri && failedPhoto !== photoUri);
+
   return (
 
     <Pressable
@@ -174,17 +186,26 @@ function CollectionCard({
 
     >
 
-      <View style={[gridStyles.imageWrap, photoUri && { backgroundColor: "#FFFFFF" }]}>
+      <View style={[gridStyles.imageWrap, showPhoto && { backgroundColor: "#FFFFFF" }]}>
 
-        {photoUri ? (
+        {showPhoto ? (
 
           <Image
 
-            source={{ uri: photoUri }}
+            source={{ uri: photoUri! }}
 
             style={gridStyles.image}
 
             resizeMode="contain"
+
+            onError={({ nativeEvent }) => {
+              console.warn("[Collection] Loose image load failed", {
+                carId: car.id,
+                uri: photoUri,
+                error: nativeEvent.error,
+              });
+              setFailedPhoto(photoUri ?? null);
+            }}
 
           />
 
@@ -308,6 +329,7 @@ export default function CollectionScreen({
 
 }: CollectionScreenProps) {
 
+
   const { cars: typedCarData } = useCarData();
 
   const [foundIds, setFoundIds] = useState<string[]>([]);
@@ -343,6 +365,8 @@ export default function CollectionScreen({
   const [carQuantities, setCarQuantities] = useState<Record<string, number>>({});
 
   const [savingQuantity, setSavingQuantity] = useState(false);
+
+  // Keep the photo frame and the quantity controls aligned on all screen widths.
 
   const quantityLock = useRef(false);
 
@@ -388,6 +412,18 @@ export default function CollectionScreen({
 
     setCollectionPhotos(next);
 
+  }, []);
+
+  // Clear the locally saved photo override. An empty URI is treated as absent by
+  // getCollectionCardPhoto()/getDetailPhoto(), so the correct Supabase image (or placeholder) appears again.
+  const handleRemovePhoto = useCallback(async (carId: string) => {
+    try {
+      const next = await saveCollectionPhoto(carId, "");
+      setCollectionPhotos(next);
+    } catch (error) {
+      console.error("[Collection] Unable to remove personal photo:", error);
+      Alert.alert("Unable to remove photo", "Please try again.");
+    }
   }, []);
 
   // Quantities are stored locally, separately from the catalog and found-ID list.
@@ -1380,7 +1416,7 @@ export default function CollectionScreen({
 
                 car={car}
 
-                photoUri={getCarPhoto(car, collectionPhotos)}
+                photoUri={getCollectionCardPhoto(car, collectionPhotos)}
 
                 quantity={quantityOf(car.id)}
 
@@ -1446,7 +1482,18 @@ export default function CollectionScreen({
 
         <View style={styles.detailModalBackdrop}>
 
-          <View style={styles.detailModal}>
+          <View
+            style={[
+              styles.detailModal,
+              // Content-sized modal: no fixed height or inner scrolling.
+              {
+                height: undefined,
+                minHeight: 0,
+                maxHeight: "90%",
+                paddingBottom: 16,
+              },
+            ]}
+          >
 
             <View style={styles.detailHeader}>
 
@@ -1462,7 +1509,7 @@ export default function CollectionScreen({
 
             {selectedCar && (
 
-              <>
+              <View style={{ width: "100%" }}>
 
                 {/* Photo and details side by side. Original component styles retained. */}
 
@@ -1470,13 +1517,13 @@ export default function CollectionScreen({
 
                   <View style={[styles.detailImageWrap, modalLayout.imageColumn]}>
 
-                    {getCarPhoto(selectedCar, collectionPhotos) ? (
+                    {getDetailPhoto(selectedCar, collectionPhotos) ? (
 
                       <View style={[styles.detailPhotoFrame, modalLayout.photoFrame]}>
 
                         <Image
 
-                          source={{ uri: getCarPhoto(selectedCar, collectionPhotos)! }}
+                          source={{ uri: getDetailPhoto(selectedCar, collectionPhotos)! }}
 
                           style={styles.detailImage}
 
@@ -1558,13 +1605,15 @@ export default function CollectionScreen({
 
                     </View>
 
+                    <View style={modalLayout.sectionDivider} />
+
                     <View style={[styles.detailGrid, modalLayout.detailsGrid]}>
 
                       <View style={[styles.detailStat, modalLayout.detailStat]}>
 
-                        <Text style={styles.detailStatLabel}>Case</Text>
+                        <Text style={[styles.detailStatLabel, modalLayout.statLabel]}>CASE</Text>
 
-                        <Text style={styles.detailStatValue}>
+                        <Text style={[styles.detailStatValue, modalLayout.statValue]}>
 
                           {selectedCar.caseLetter}
 
@@ -1574,83 +1623,9 @@ export default function CollectionScreen({
 
                       <View style={[styles.detailStat, modalLayout.detailStat]}>
 
-                        <Text style={styles.detailStatLabel}>Status</Text>
+                        <Text style={[styles.detailStatLabel, modalLayout.statLabel]}>STATUS</Text>
 
-                        <Text style={styles.detailStatValue}>Collected</Text>
-
-                      </View>
-
-                    </View>
-
-                    <View style={[quantityStyles.container, modalLayout.quantityContainer]}>
-
-                      <View style={[quantityStyles.headingRow, modalLayout.quantityRow]}>
-
-                        <View style={[quantityStyles.controls, modalLayout.quantityControls]}>
-
-                          <Pressable
-
-                            style={[
-
-                              quantityStyles.adjustButton,
-
-                              savingQuantity && quantityStyles.disabled,
-
-                            ]}
-
-                            disabled={savingQuantity}
-
-                            onPress={() => void changeQuantity(selectedCar, -1)}
-
-                            accessibilityRole="button"
-
-                            accessibilityLabel={`Remove one ${selectedCar.name}`}
-
-                          >
-
-                            <Ionicons name="remove" size={21} color="#FFFFFF" />
-
-                          </Pressable>
-
-                          <Text
-
-                            style={quantityStyles.quantityValue}
-
-                            accessibilityLabel={`${quantityOf(selectedCar.id)} owned`}
-
-                          >
-
-                            {quantityOf(selectedCar.id)}
-
-                          </Text>
-
-                          <Pressable
-
-                            style={[
-
-                              quantityStyles.adjustButton,
-
-                              quantityStyles.addButton,
-
-                              savingQuantity && quantityStyles.disabled,
-
-                            ]}
-
-                            disabled={savingQuantity}
-
-                            onPress={() => void changeQuantity(selectedCar, 1)}
-
-                            accessibilityRole="button"
-
-                            accessibilityLabel={`Add one ${selectedCar.name}`}
-
-                          >
-
-                            <Ionicons name="add" size={21} color="#111111" />
-
-                          </Pressable>
-
-                        </View>
+                        <Text style={[styles.detailStatValue, modalLayout.statusValue]}>Collected</Text>
 
                       </View>
 
@@ -1660,25 +1635,148 @@ export default function CollectionScreen({
 
                 </View>
 
+                {/* Full-width quantity controls, centered below the photo and details. */}
+                <View style={modalLayout.sectionDivider} />
+
+                <View style={[quantityStyles.container, modalLayout.quantityContainer]}>
+
+                  <View style={[quantityStyles.headingRow, modalLayout.quantityRow]}>
+
+                    <View style={[quantityStyles.controls, modalLayout.quantityControls]}>
+
+                      <Pressable
+
+                        style={[
+
+                          quantityStyles.adjustButton,
+
+                          savingQuantity && quantityStyles.disabled,
+
+                        ]}
+
+                        disabled={savingQuantity}
+
+                        onPress={() => void changeQuantity(selectedCar, -1)}
+
+                        accessibilityRole="button"
+
+                        accessibilityLabel={`Remove one ${selectedCar.name}`}
+
+                      >
+
+                        <Ionicons name="remove" size={21} color="#FFFFFF" />
+
+                      </Pressable>
+
+                      <Text
+
+                        style={quantityStyles.quantityValue}
+
+                        accessibilityLabel={`${quantityOf(selectedCar.id)} owned`}
+
+                      >
+
+                        {quantityOf(selectedCar.id)}
+
+                      </Text>
+
+                      <Pressable
+
+                        style={[
+
+                          quantityStyles.adjustButton,
+
+                          quantityStyles.addButton,
+
+                          savingQuantity && quantityStyles.disabled,
+
+                        ]}
+
+                        disabled={savingQuantity}
+
+                        onPress={() => void changeQuantity(selectedCar, 1)}
+
+                        accessibilityRole="button"
+
+                        accessibilityLabel={`Add one ${selectedCar.name}`}
+
+                      >
+
+                        <Ionicons name="add" size={21} color="#111111" />
+
+                      </Pressable>
+
+                    </View>
+
+                  </View>
+
+                </View>
+
                 {/* Both original buttons remain full modal width, below the two columns. */}
 
-                <View style={[styles.detailActions, modalLayout.fullWidthActions]}>
+                <View style={[styles.detailActions, modalLayout.fullWidthActions, { marginTop: 8, gap: 8, marginBottom: 0 }]}>
 
                   <Pressable
 
-                    style={[styles.detailPhotoButton, modalLayout.fullWidthButton]}
+                    style={[styles.detailPhotoButton, modalLayout.fullWidthButton, { height: 46, minHeight: 46, borderRadius: 10, marginTop: 0, marginBottom: 0, paddingVertical: 0, justifyContent: "center", alignItems: "center" }]}
 
                     onPress={() => void handlePickPhoto(selectedCar.id)}
 
                   >
 
-                    <Text style={styles.detailPhotoButtonText}>ADD PHOTO</Text>
+                    <Text style={styles.detailPhotoButtonText}>
+                      {collectionPhotos[selectedCar.id] ? "CHANGE PHOTO" : "ADD PHOTO"}
+                    </Text>
 
                   </Pressable>
 
                   <Pressable
+                    style={[
+                      modalLayout.fullWidthButton,
+                      {
+                        height: 46,
+                        minHeight: 46,
+                        borderRadius: 10,
+                        marginTop: 0,
+                        marginBottom: 0,
+                        paddingVertical: 0,
+                        borderWidth: 1,
+                        borderColor: collectionPhotos[selectedCar.id] ? "#56565B" : "#343438",
+                        backgroundColor: collectionPhotos[selectedCar.id] ? "transparent" : "#262629",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "row",
+                        gap: 8,
+                        opacity: collectionPhotos[selectedCar.id] ? 1 : 0.55,
+                      },
+                    ]}
+                    disabled={!Boolean(collectionPhotos[selectedCar.id])}
+                    onPress={() =>
+                      Alert.alert(
+                        "Remove personal photo?",
+                        "The original catalog image or case placeholder will be shown instead.",
+                        [
+                          { text: "Cancel", style: "cancel" },
+                          {
+                            text: "Remove Photo",
+                            onPress: () => void handleRemovePhoto(selectedCar.id),
+                          },
+                        ]
+                      )
+                    }
+                    accessibilityRole="button"
+                    accessibilityState={{ disabled: !Boolean(collectionPhotos[selectedCar.id]) }}
+                    accessibilityLabel={`Remove personal photo for ${selectedCar.name}`}
+                  >
+                    <Ionicons name="image-outline" size={18} color={collectionPhotos[selectedCar.id] ? "#FFFFFF" : "#88888C"} />
+                    <Text style={{ color: collectionPhotos[selectedCar.id] ? "#FFFFFF" : "#88888C", fontWeight: "700", fontSize: 13 }}>
+                      REMOVE PHOTO
+                    </Text>
+                  </Pressable>
 
-                    style={[gridStyles.detailRemoveButton, modalLayout.fullWidthButton]}
+                  <Pressable
+
+                    style={[gridStyles.detailRemoveButton, modalLayout.fullWidthButton, { height: 46, minHeight: 46, borderRadius: 10, marginTop: 0, marginBottom: 0, paddingVertical: 0 }]}
 
                     onPress={() => handleRemoveFromCollection(selectedCar)}
 
@@ -1696,7 +1794,7 @@ export default function CollectionScreen({
 
                 </View>
 
-              </>
+              </View>
 
             )}
 
