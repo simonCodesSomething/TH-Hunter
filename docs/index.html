@@ -1,81 +1,173 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Privacy Policy for TH Hunter, a Treasure Hunt and Super Treasure Hunt collection tracking app.">
-  <title>Privacy Policy | TH Hunter</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101827" />
+  <meta name="description" content="TH Hunter helps collectors browse Treasure Hunts and Super Treasure Hunts, track discoveries, and organize their collection." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="TH Hunter — Your Treasure Hunt Companion" />
+  <meta property="og:description" content="Browse Treasure Hunts, track your finds, and keep your collection organized." />
+  <title>TH Hunter | Your Treasure Hunt Companion</title>
   <style>
-    :root { color-scheme: dark; --bg: #000; --panel: #111; --text: #a1a1a6; --white: #fff; --gold: #fbbf24; --border: #292929; }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    main { max-width: 760px; margin: 0 auto; padding: 48px 22px 80px; }
-    .eyebrow { margin: 0 0 3px; color: var(--gold); font-size: 12px; font-weight: 900; letter-spacing: 1.5px; }
-    h1 { margin: 0; color: var(--white); font-size: clamp(28px, 5vw, 42px); line-height: 1.2; font-weight: 900; }
-    .updated { margin: 15px 0 26px; color: #88888e; font-size: 12px; }
-    .intro { margin-bottom: 28px; }
-    section { border-top: 1px solid var(--border); padding: 19px 0; }
-    h2 { color: var(--white); font-size: 17px; margin: 0 0 8px; line-height: 1.4; }
-    p { margin: 0 0 12px; }
-    p:last-child { margin-bottom: 0; }
-    a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
-    a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
-    footer { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 20px; font-size: 12px; color: #77777c; }
+    :root {
+      color-scheme: dark;
+      --bg: #0a1120;
+      --surface: #111d30;
+      --surface-2: #17253a;
+      --border: rgba(184, 200, 225, .15);
+      --ink: #f5f8ff;
+      --muted: #a8b8cc;
+      --gold: #ffcc53;
+      --red: #fb6a67;
+      --cyan: #83dfe9;
+      --width: 1100px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; border-radius: 3px; }
+    .wrap { width: min(calc(100% - 40px), var(--width)); margin-inline: auto; }
+    .topbar { border-bottom: 1px solid var(--border); background: rgba(10,17,32,.92); }
+    .nav { display: flex; justify-content: space-between; align-items: center; min-height: 76px; gap: 20px; }
+    .brand { display: inline-flex; gap: 11px; align-items: center; font-size: 1.14rem; font-weight: 800; letter-spacing: -.03em; }
+    .brandmark { width: 36px; height: 36px; border-radius: 11px; background: linear-gradient(145deg, #ffe38e, #f4a737); display: grid; place-items: center; color: #1b2130; font-weight: 900; font-size: 18px; box-shadow: 0 5px 16px rgba(255,193,69,.15); }
+    .navlinks { display: flex; align-items: center; gap: 25px; font-size: .92rem; color: var(--muted); }
+    .navlinks a:hover, footer a:hover { color: var(--gold); }
+    .hero { position: relative; overflow: hidden; padding: 96px 0 96px; background: radial-gradient(ellipse at 82% 25%, rgba(255,190,64,.12), transparent 44%), radial-gradient(ellipse at 20% 78%, rgba(75,146,214,.09), transparent 50%); }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 65px; align-items: center; }
+    .eyebrow { color: var(--gold); font-weight: 800; text-transform: uppercase; font-size: .77rem; letter-spacing: .16em; }
+    h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); line-height: 1.07; letter-spacing: -.05em; margin: 18px 0 22px; max-width: 720px; }
+    h1 span { color: var(--gold); }
+    .lead { font-size: 1.13rem; color: var(--muted); max-width: 530px; margin: 0 0 30px; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; padding: 12px 21px; border-radius: 11px; font-weight: 750; border: 1px solid var(--border); transition: transform .15s ease, background .15s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .primary { background: var(--gold); color: #172032; border-color: var(--gold); }
+    .secondary { background: rgba(255,255,255,.035); color: var(--ink); }
+    .micro { color: var(--muted); font-size: .85rem; margin-top: 17px; }
+    .mockup { position: relative; border: 1px solid rgba(255,255,255,.16); background: linear-gradient(155deg, #1c2c45, #101a2b); padding: 20px; border-radius: 24px; box-shadow: 0 30px 75px rgba(0,0,0,.3); transform: rotate(2deg); }
+    .mock-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .mock-head strong { font-size: 1.25rem; }
+    .mock-head span { font-size: .8rem; color: var(--muted); }
+    .car-row { display: flex; gap: 12px; align-items: center; padding: 14px; margin-top: 10px; border: 1px solid var(--border); border-radius: 14px; background: rgba(255,255,255,.035); }
+    .car-thumb { display: grid; place-items: center; width: 60px; height: 54px; border-radius: 12px; background: rgba(255,204,83,.12); flex-shrink: 0; font-size: 1.7rem; }
+    .car-thumb.red { background: rgba(251,106,103,.12); }
+    .car-row .car-info { flex: 1; min-width: 0; }
+    .car-row b { font-size: .92rem; display: block; }
+    .car-row small { font-size: .77rem; color: var(--muted); display: block; }
+    .pill { font-size: .7rem; font-weight: 800; border-radius: 6px; background: rgba(255,204,83,.15); color: var(--gold); padding: 4px 7px; }
+    .pill.red { color: var(--red); background: rgba(251,106,103,.14); }
+    .mock-note { margin-top: 15px; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: .8rem; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
+    section.features { padding: 76px 0 85px; }
+    .section-heading { max-width: 680px; margin-bottom: 29px; }
+    h2 { font-size: clamp(1.85rem, 3vw, 2.65rem); line-height: 1.2; letter-spacing: -.035em; margin: 10px 0 12px; }
+    .section-heading p { color: var(--muted); margin: 0; }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
+    .card { border: 1px solid var(--border); background: var(--surface); border-radius: 18px; padding: 25px; }
+    .card-icon { display: grid; place-items: center; background: var(--surface-2); border-radius: 12px; width: 46px; height: 46px; font-size: 23px; margin-bottom: 16px; }
+    .card h3 { font-size: 1.13rem; margin: 0 0 8px; }
+    .card p { font-size: .94rem; color: var(--muted); margin: 0; }
+    .about { padding: 0 0 80px; }
+    .about-panel { border: 1px solid var(--border); border-radius: 22px; padding: 34px 40px; background: linear-gradient(115deg, rgba(255,204,83,.075), rgba(255,255,255,.02)); display: flex; gap: 32px; align-items: center; justify-content: space-between; }
+    .about-panel h2 { margin: 0 0 10px; }
+    .about-panel p { color: var(--muted); margin: 0; max-width: 690px; }
+    .about-panel .button { white-space: nowrap; }
+    footer { padding: 27px 0 40px; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
+    .footer-grid { display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
+    .footer-links { display: flex; gap: 19px; flex-wrap: wrap; }
+    .disclaimer { max-width: 780px; margin: 16px 0 0; font-size: .77rem; opacity: .8; }
+    @media (max-width: 800px) {
+      .hero { padding: 65px 0 70px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 45px; }
+      .mockup { max-width: 470px; transform: none; }
+      .cards { grid-template-columns: 1fr; }
+      .about-panel { flex-direction: column; align-items: flex-start; padding: 27px; }
+    }
+    @media (max-width: 480px) {
+      .wrap { width: min(calc(100% - 30px), var(--width)); }
+      .nav { min-height: 70px; }
+      .navlinks { gap: 12px; font-size: .83rem; }
+      .navlinks a:nth-child(1) { display: none; }
+      .brand { font-size: 1.04rem; }
+      .car-row { padding: 11px; }
+      .car-thumb { width: 48px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
   </style>
 </head>
 <body>
+  <header class="topbar">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="./" aria-label="TH Hunter home"><span class="brandmark" aria-hidden="true">TH</span> TH Hunter</a>
+      <div class="navlinks">
+        <a href="#features">Features</a>
+        <a href="./privacy-policy/">Privacy</a>
+        <a href="./support/">Support</a>
+      </div>
+    </nav>
+  </header>
+
   <main>
-    <header>
-      <p class="eyebrow">TH HUNTER</p>
-      <h1>PRIVACY POLICY</h1>
-      <p class="updated">Last updated: November 9, 2026</p>
-    </header>
-    <p class="intro">TH Hunter helps users browse Hot Wheels Treasure Hunt and Super Treasure Hunt cars and track their personal collections. This policy explains how information is stored, accessed, and processed when you use the app.</p>
-
-    <section><h2>Collection information</h2><p>Your collected-car selections, collection progress, and collection photos are stored locally on your device. TH Hunter does not require an account or upload your personal collection to our backend. Removing the app may delete this locally stored information.</p></section>
-
-    <section><h2>Photos</h2><p>You may choose photos from your device's photo library to associate with your collection. These photos are used locally within the app and are not uploaded to our servers. Photo access is requested only when needed for this feature.</p></section>
-
-    <section><h2>Catalog and backend services</h2><p>TH Hunter uses Supabase to retrieve reference information, including car listings and catalog updates. The app does not send your personal collection or selected photos to Supabase. Network requests may involve technical information such as IP addresses and request metadata processed by the service provider.</p></section>
-
-    <section>
-      <h2>Advertising</h2>
-      <p>TH Hunter displays advertisements provided by Google AdMob. Google and its advertising partners may collect, use, and share information such as advertising identifiers, IP addresses, device information, app interactions, and diagnostic information.</p>
-      <p>This information may be used to deliver advertisements, measure advertising performance, provide analytics, and prevent fraud or invalid advertising activity. IP addresses may also be used to estimate a device's approximate geographic location.</p>
-      <p>Depending on your location, applicable laws, device settings, and available privacy choices, advertisements may be personalized or non-personalized. Limiting ad personalization does not necessarily prevent all information collection or processing.</p>
-      <p>Learn more in the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>.</p>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Built for collectors</div>
+          <h1>The hunt is on. <span>Track every find.</span></h1>
+          <p class="lead">TH Hunter is your companion for discovering Treasure Hunts and Super Treasure Hunts, browsing releases by year, and keeping your collection organized.</p>
+          <div class="buttons">
+            <a class="button primary" href="#features">Explore Features</a>
+            <a class="button secondary" href="./support/">Get Support</a>
+          </div>
+          <p class="micro">Designed for collectors, from casual hunters to dedicated enthusiasts.</p>
+        </div>
+        <div class="mockup" aria-label="Illustrative preview showing TH and STH collection categories">
+          <div class="mock-head"><strong>Your Collection</strong><span>Finds at a glance</span></div>
+          <div class="car-row"><span class="car-thumb" aria-hidden="true">🏎️</span><div class="car-info"><b>Treasure Hunts</b><small>Keep track of your finds</small></div><span class="pill">TH</span></div>
+          <div class="car-row"><span class="car-thumb red" aria-hidden="true">🏁</span><div class="car-info"><b>Super Treasure Hunts</b><small>Find those special releases</small></div><span class="pill red">STH</span></div>
+          <div class="mock-note"><span class="dot" aria-hidden="true"></span> Your collection, in one place</div>
+        </div>
+      </div>
     </section>
 
-    <section><h2>Advertising privacy choices</h2><p>Depending on your location and applicable privacy laws, Google may provide additional choices regarding the use of your information for advertising.</p><p>Where available, you can access these controls through the Privacy choices option in TH Hunter's About screen. You may also manage certain advertising preferences through your device and Google account settings.</p></section>
-
-    <section><h2>Optional support purchases</h2><p>TH Hunter offers an optional support purchase processed through Google Play Billing. This contribution supports app development and does not unlock additional features or remove advertisements. You can choose to contribute more than once.</p><p>Google Play processes payment and transaction information according to its own policies. TH Hunter receives purchase status and transaction information needed to complete the purchase. We do not directly receive or store your full payment card details.</p></section>
-
-    <section><h2>Accounts and personal information</h2><p>TH Hunter does not require account creation, and we do not operate a user account database for the app. Third-party services such as Google AdMob and Google Play may process information as described in this policy.</p></section>
-
-    <section><h2>Data sharing</h2><p>TH Hunter does not sell your personal collection information or upload your collection photos to third parties.</p><p>Advertising, billing, and backend providers may process technical or transaction information as necessary to provide their respective services, subject to their privacy policies and applicable law.</p></section>
-
-    <section>
-      <h2>Data security</h2>
-      <p>TH Hunter uses encrypted HTTPS connections to communicate with its backend and integrated services.</p>
-      <p>Your collection information and personal collection photos are stored locally on your device. Their protection also depends on your device's security settings and operating system.</p>
-      <p>We take reasonable measures to protect information processed through the app. However, no electronic storage or transmission method can be guaranteed to be completely secure.</p>
+    <section class="features" id="features">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow">What you can do</div>
+          <h2>Everything you need for your next hunt.</h2>
+          <p>Explore cars, remember what you've found, and keep your collection easy to manage.</p>
+        </div>
+        <div class="cards">
+          <article class="card"><div class="card-icon" aria-hidden="true">🔎</div><h3>Browse by Year</h3><p>Explore Treasure Hunt and Super Treasure Hunt releases by year, type, and searchable car details.</p></article>
+          <article class="card"><div class="card-icon" aria-hidden="true">✅</div><h3>Track Your Collection</h3><p>Mark cars as found and keep your personal collection organized as your hunt continues.</p></article>
+          <article class="card"><div class="card-icon" aria-hidden="true">📷</div><h3>Add Your Photos</h3><p>Personalize your finds with your own photos, stored locally on your device.</p></article>
+        </div>
+      </div>
     </section>
 
-    <section><h2>Data retention and deletion</h2><p>Collection information and photos stored locally remain on your device until you remove them through available app controls, clear the app's data, or uninstall the app, subject to your device's backup settings.</p><p>Data processed by Google and other service providers may be retained according to their respective policies. For questions about information associated with TH Hunter, you may contact us using the email below.</p></section>
-
-    <section>
-      <h2>Children's privacy</h2>
-      <p>TH Hunter is intended for collectors aged 18 and older and is not directed toward children.</p>
-      <p>We do not knowingly solicit personal information directly from children. Third-party advertising and purchase services process information according to their applicable policies.</p>
-      <p>If you believe that a child has provided personal information directly to us, please contact us using the email address below.</p>
+    <section class="about">
+      <div class="wrap">
+        <div class="about-panel">
+          <div><h2>Made for the thrill of the find.</h2><p>Whether you're searching for your first Treasure Hunt or keeping tabs on a growing collection, TH Hunter gives you a simple place to follow along.</p></div>
+          <a class="button secondary" href="./support/">Questions? Contact Support</a>
+        </div>
+      </div>
     </section>
-
-    <section><h2>Changes to this policy</h2><p>We may update this Privacy Policy to reflect changes in TH Hunter, its services, or applicable requirements. Updated versions will include a revised date and will be made available through the app and on this page.</p></section>
-
-    <section><h2>Contact</h2><p>If you have questions about this Privacy Policy or TH Hunter's data practices, contact:</p><p><a href="mailto:developerSims@icloud.com?subject=TH%20Hunter%20Privacy%20Inquiry">developerSims@icloud.com</a></p></section>
-
-    <footer>TH Hunter · Privacy Policy</footer>
   </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <span>© <span id="year">2026</span> TH Hunter. All rights reserved.</span>
+        <div class="footer-links"><a href="./privacy-policy/">Privacy Policy</a><a href="./support/">Support</a></div>
+      </div>
+      <p class="disclaimer">TH Hunter is an independent collector utility and is not affiliated with, endorsed by, or sponsored by Mattel or Hot Wheels. Hot Wheels is a trademark of Mattel, Inc.</p>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
