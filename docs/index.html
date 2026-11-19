@@ -1,173 +1,670 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#101827" />
-  <meta name="description" content="TH Hunter helps collectors browse Treasure Hunts and Super Treasure Hunts, track discoveries, and organize their collection." />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="TH Hunter — Your Treasure Hunt Companion" />
-  <meta property="og:description" content="Browse Treasure Hunts, track your finds, and keep your collection organized." />
-  <title>TH Hunter | Your Treasure Hunt Companion</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #0a1120;
-      --surface: #111d30;
-      --surface-2: #17253a;
-      --border: rgba(184, 200, 225, .15);
-      --ink: #f5f8ff;
-      --muted: #a8b8cc;
-      --gold: #ffcc53;
-      --red: #fb6a67;
-      --cyan: #83dfe9;
-      --width: 1100px;
-    }
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
-    a { color: inherit; text-decoration: none; }
-    a:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; border-radius: 3px; }
-    .wrap { width: min(calc(100% - 40px), var(--width)); margin-inline: auto; }
-    .topbar { border-bottom: 1px solid var(--border); background: rgba(10,17,32,.92); }
-    .nav { display: flex; justify-content: space-between; align-items: center; min-height: 76px; gap: 20px; }
-    .brand { display: inline-flex; gap: 11px; align-items: center; font-size: 1.14rem; font-weight: 800; letter-spacing: -.03em; }
-    .brandmark { width: 36px; height: 36px; border-radius: 11px; background: linear-gradient(145deg, #ffe38e, #f4a737); display: grid; place-items: center; color: #1b2130; font-weight: 900; font-size: 18px; box-shadow: 0 5px 16px rgba(255,193,69,.15); }
-    .navlinks { display: flex; align-items: center; gap: 25px; font-size: .92rem; color: var(--muted); }
-    .navlinks a:hover, footer a:hover { color: var(--gold); }
-    .hero { position: relative; overflow: hidden; padding: 96px 0 96px; background: radial-gradient(ellipse at 82% 25%, rgba(255,190,64,.12), transparent 44%), radial-gradient(ellipse at 20% 78%, rgba(75,146,214,.09), transparent 50%); }
-    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 65px; align-items: center; }
-    .eyebrow { color: var(--gold); font-weight: 800; text-transform: uppercase; font-size: .77rem; letter-spacing: .16em; }
-    h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); line-height: 1.07; letter-spacing: -.05em; margin: 18px 0 22px; max-width: 720px; }
-    h1 span { color: var(--gold); }
-    .lead { font-size: 1.13rem; color: var(--muted); max-width: 530px; margin: 0 0 30px; }
-    .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
-    .button { display: inline-flex; align-items: center; justify-content: center; padding: 12px 21px; border-radius: 11px; font-weight: 750; border: 1px solid var(--border); transition: transform .15s ease, background .15s ease; }
-    .button:hover { transform: translateY(-2px); }
-    .primary { background: var(--gold); color: #172032; border-color: var(--gold); }
-    .secondary { background: rgba(255,255,255,.035); color: var(--ink); }
-    .micro { color: var(--muted); font-size: .85rem; margin-top: 17px; }
-    .mockup { position: relative; border: 1px solid rgba(255,255,255,.16); background: linear-gradient(155deg, #1c2c45, #101a2b); padding: 20px; border-radius: 24px; box-shadow: 0 30px 75px rgba(0,0,0,.3); transform: rotate(2deg); }
-    .mock-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .mock-head strong { font-size: 1.25rem; }
-    .mock-head span { font-size: .8rem; color: var(--muted); }
-    .car-row { display: flex; gap: 12px; align-items: center; padding: 14px; margin-top: 10px; border: 1px solid var(--border); border-radius: 14px; background: rgba(255,255,255,.035); }
-    .car-thumb { display: grid; place-items: center; width: 60px; height: 54px; border-radius: 12px; background: rgba(255,204,83,.12); flex-shrink: 0; font-size: 1.7rem; }
-    .car-thumb.red { background: rgba(251,106,103,.12); }
-    .car-row .car-info { flex: 1; min-width: 0; }
-    .car-row b { font-size: .92rem; display: block; }
-    .car-row small { font-size: .77rem; color: var(--muted); display: block; }
-    .pill { font-size: .7rem; font-weight: 800; border-radius: 6px; background: rgba(255,204,83,.15); color: var(--gold); padding: 4px 7px; }
-    .pill.red { color: var(--red); background: rgba(251,106,103,.14); }
-    .mock-note { margin-top: 15px; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: .8rem; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
-    section.features { padding: 76px 0 85px; }
-    .section-heading { max-width: 680px; margin-bottom: 29px; }
-    h2 { font-size: clamp(1.85rem, 3vw, 2.65rem); line-height: 1.2; letter-spacing: -.035em; margin: 10px 0 12px; }
-    .section-heading p { color: var(--muted); margin: 0; }
-    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
-    .card { border: 1px solid var(--border); background: var(--surface); border-radius: 18px; padding: 25px; }
-    .card-icon { display: grid; place-items: center; background: var(--surface-2); border-radius: 12px; width: 46px; height: 46px; font-size: 23px; margin-bottom: 16px; }
-    .card h3 { font-size: 1.13rem; margin: 0 0 8px; }
-    .card p { font-size: .94rem; color: var(--muted); margin: 0; }
-    .about { padding: 0 0 80px; }
-    .about-panel { border: 1px solid var(--border); border-radius: 22px; padding: 34px 40px; background: linear-gradient(115deg, rgba(255,204,83,.075), rgba(255,255,255,.02)); display: flex; gap: 32px; align-items: center; justify-content: space-between; }
-    .about-panel h2 { margin: 0 0 10px; }
-    .about-panel p { color: var(--muted); margin: 0; max-width: 690px; }
-    .about-panel .button { white-space: nowrap; }
-    footer { padding: 27px 0 40px; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
-    .footer-grid { display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
-    .footer-links { display: flex; gap: 19px; flex-wrap: wrap; }
-    .disclaimer { max-width: 780px; margin: 16px 0 0; font-size: .77rem; opacity: .8; }
-    @media (max-width: 800px) {
-      .hero { padding: 65px 0 70px; }
-      .hero-grid { grid-template-columns: 1fr; gap: 45px; }
-      .mockup { max-width: 470px; transform: none; }
-      .cards { grid-template-columns: 1fr; }
-      .about-panel { flex-direction: column; align-items: flex-start; padding: 27px; }
-    }
-    @media (max-width: 480px) {
-      .wrap { width: min(calc(100% - 30px), var(--width)); }
-      .nav { min-height: 70px; }
-      .navlinks { gap: 12px; font-size: .83rem; }
-      .navlinks a:nth-child(1) { display: none; }
-      .brand { font-size: 1.04rem; }
-      .car-row { padding: 11px; }
-      .car-thumb { width: 48px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
-    }
-  </style>
-</head>
-<body>
-  <header class="topbar">
-    <nav class="nav wrap" aria-label="Main navigation">
-      <a class="brand" href="./" aria-label="TH Hunter home"><span class="brandmark" aria-hidden="true">TH</span> TH Hunter</a>
-      <div class="navlinks">
-        <a href="#features">Features</a>
-        <a href="./privacy-policy/">Privacy</a>
-        <a href="./support/">Support</a>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <div class="eyebrow">Built for collectors</div>
-          <h1>The hunt is on. <span>Track every find.</span></h1>
-          <p class="lead">TH Hunter is your companion for discovering Treasure Hunts and Super Treasure Hunts, browsing releases by year, and keeping your collection organized.</p>
-          <div class="buttons">
-            <a class="button primary" href="#features">Explore Features</a>
-            <a class="button secondary" href="./support/">Get Support</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101010" />
+    <meta
+      name="description"
+      content="TH Hunter helps Hot Wheels collectors browse Treasure Hunts and Super Treasure Hunts, track finds, and organize their collection."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TH Hunter — The hunt is on" />
+    <meta
+      property="og:description"
+      content="Browse Treasure Hunts, track your finds, and keep your collection organized."
+    />
+    <link rel="icon" type="image/png" href="./splash-icon.png" />
+    <title>TH Hunter | Track Every Find</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0d0d0e;
+        --panel: #191919;
+        --panel2: #202022;
+        --line: #353539;
+        --text: #f8f8f9;
+        --muted: #a6a6af;
+        --yellow: #fbbf24;
+        --red: #ef4444;
+        --max: 1080px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          16px/1.6 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      a:focus-visible {
+        outline: 3px solid var(--yellow);
+        outline-offset: 4px;
+        border-radius: 5px;
+      }
+      .container {
+        width: min(calc(100% - 40px), var(--max));
+        margin: auto;
+      }
+      .nav-wrap {
+        border-bottom: 1px solid var(--line);
+        background: #101011;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        min-height: 84px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.16rem;
+        font-weight: 900;
+        letter-spacing: 0.015em;
+      }
+      .logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 13px;
+        object-fit: contain;
+        background: #191919;
+        box-shadow: 0 0 0 1px #393939;
+      }
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        color: #c3c3c8;
+        font-size: 0.91rem;
+        font-weight: 650;
+      }
+      .nav-links a:hover,
+      .footer-links a:hover {
+        color: var(--yellow);
+      }
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 90px 0 92px;
+        background:
+          radial-gradient(
+            circle at 73% 32%,
+            rgba(251, 191, 36, 0.085),
+            transparent 33%
+          ),
+          radial-gradient(
+            circle at 95% 87%,
+            rgba(239, 68, 68, 0.07),
+            transparent 34%
+          );
+      }
+      .hero:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.27;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          120deg,
+          transparent 0 80px,
+          rgba(255, 255, 255, 0.014) 81px 82px
+        );
+      }
+      .hero-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1.12fr 0.88fr;
+        gap: 64px;
+        align-items: center;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--yellow);
+        font-weight: 850;
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .eyebrow:before {
+        content: "";
+        width: 25px;
+        height: 3px;
+        border-radius: 3px;
+        background: var(--yellow);
+      }
+      h1 {
+        font-size: clamp(2.8rem, 6vw, 5.1rem);
+        line-height: 1.03;
+        letter-spacing: -0.055em;
+        margin: 22px 0 24px;
+        font-weight: 900;
+      }
+      h1 span {
+        color: var(--yellow);
+      }
+      .intro {
+        color: var(--muted);
+        font-size: 1.13rem;
+        max-width: 540px;
+        margin: 0 0 30px;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 13px;
+      }
+      .cta {
+        min-height: 54px;
+        padding: 13px 20px;
+        border-radius: 12px;
+        display: inline-flex;
+        gap: 11px;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.96rem;
+        font-weight: 800;
+        border: 1px solid var(--line);
+        transition:
+          transform 0.16s,
+          border-color 0.16s;
+      }
+      .cta:hover {
+        transform: translateY(-2px);
+      }
+      .cta svg {
+        height: 22px;
+        width: 22px;
+        flex-shrink: 0;
+      }
+      .cta.primary {
+        background: var(--yellow);
+        color: #111;
+        border-color: var(--yellow);
+      }
+      .cta.secondary {
+        background: #202021;
+        color: #f7f7f7;
+      }
+      .cta.secondary:hover {
+        border-color: #666;
+      }
+      .hero-note {
+        font-size: 0.84rem;
+        color: #8e8e98;
+        margin-top: 19px;
+      }
+      .showcase {
+        border: 1px solid #37373b;
+        border-radius: 24px;
+        background: #151516;
+        padding: 22px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.42);
+        position: relative;
+      }
+      .showcase:before {
+        content: "";
+        position: absolute;
+        width: 65%;
+        height: 4px;
+        top: 0;
+        left: 17.5%;
+        background: linear-gradient(90deg, var(--yellow), var(--red));
+        border-radius: 0 0 8px 8px;
+      }
+      .showcase-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .showcase-head strong {
+        font-size: 1.22rem;
+      }
+      .showcase-head small {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .mini-card {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding: 13px;
+        border: 2px solid var(--yellow);
+        border-radius: 14px;
+        background: var(--panel);
+        margin-bottom: 12px;
+      }
+      .mini-card.sth {
+        border-color: var(--red);
+      }
+      .mini-art {
+        height: 66px;
+        width: 82px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        background: #282313;
+        border-radius: 9px;
+        text-align: center;
+        color: var(--yellow);
+        font-weight: 900;
+        line-height: 1.1;
+        font-size: 1.08rem;
+      }
+      .mini-card.sth .mini-art {
+        background: #2b1717;
+        color: var(--red);
+      }
+      .mini-art small {
+        font-size: 0.64rem;
+        letter-spacing: 0.13em;
+      }
+      .mini-info {
+        min-width: 0;
+      }
+      .mini-info strong {
+        display: block;
+        font-size: 1.02rem;
+      }
+      .mini-info span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.79rem;
+      }
+      .mini-info b {
+        display: block;
+        font-size: 0.75rem;
+        margin-top: 4px;
+        color: var(--yellow);
+      }
+      .mini-card.sth .mini-info b {
+        color: var(--red);
+      }
+      .showcase-bottom {
+        padding: 8px 2px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        font-size: 0.8rem;
+        color: #a2a2aa;
+      }
+      .status-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        background: var(--yellow);
+        border-radius: 100%;
+        margin-right: 7px;
+      }
+      .section {
+        padding: 76px 0;
+      }
+      .section-head {
+        max-width: 700px;
+        margin-bottom: 28px;
+      }
+      .section h2 {
+        font-size: clamp(1.85rem, 3.5vw, 2.8rem);
+        line-height: 1.17;
+        letter-spacing: -0.04em;
+        margin: 12px 0;
+      }
+      .section-head p {
+        color: var(--muted);
+        margin: 0;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 17px;
+      }
+      .feature-card {
+        padding: 27px;
+        border: 1px solid var(--line);
+        border-radius: 17px;
+        background: var(--panel);
+      }
+      .feature-card:nth-child(1) {
+        border-top: 3px solid var(--yellow);
+      }
+      .feature-card:nth-child(2) {
+        border-top: 3px solid var(--red);
+      }
+      .feature-card:nth-child(3) {
+        border-top: 3px solid var(--yellow);
+      }
+      .feature-icon {
+        font-size: 25px;
+        width: 49px;
+        height: 49px;
+        border-radius: 12px;
+        background: #292624;
+        display: grid;
+        place-items: center;
+        margin-bottom: 18px;
+      }
+      .feature-card h3 {
+        margin: 0 0 9px;
+        font-size: 1.13rem;
+      }
+      .feature-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.93rem;
+      }
+      .support-section {
+        padding: 0 0 80px;
+      }
+      .support-box {
+        background: linear-gradient(110deg, #212021, #171719);
+        border: 1px solid #434043;
+        border-radius: 21px;
+        padding: 34px 37px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 26px;
+      }
+      .support-box h2 {
+        margin: 0 0 9px;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        letter-spacing: -0.03em;
+      }
+      .support-box p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 590px;
+      }
+      .support-box .cta {
+        white-space: nowrap;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 27px 0 40px;
+        color: #a0a0a8;
+        font-size: 0.84rem;
+      }
+      .footer-top {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .footer-links {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .disclaimer {
+        font-size: 0.76rem;
+        max-width: 800px;
+        margin: 18px 0 0;
+        color: #777781;
+      }
+      @media (max-width: 800px) {
+        .hero {
+          padding: 65px 0 70px;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 45px;
+        }
+        .showcase {
+          max-width: 540px;
+        }
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+        .support-box {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+      @media (max-width: 520px) {
+        .container {
+          width: min(calc(100% - 30px), var(--max));
+        }
+        .nav {
+          min-height: 75px;
+        }
+        .logo {
+          width: 42px;
+          height: 42px;
+        }
+        .nav-links {
+          gap: 15px;
+          font-size: 0.82rem;
+        }
+        .nav-links a[href="#features"] {
+          display: none;
+        }
+        .hero {
+          padding-top: 55px;
+        }
+        .actions {
+          align-items: stretch;
+        }
+        .actions .cta {
+          width: 100%;
+        }
+        .showcase {
+          padding: 15px;
+        }
+        .mini-art {
+          width: 68px;
+        }
+        .support-box {
+          padding: 25px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .cta {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav-wrap">
+      <nav class="nav container" aria-label="Main navigation">
+        <a class="brand" href="./" aria-label="TH Hunter home"
+          ><img class="logo" src="./splash-icon.png" alt="TH Hunter app icon" />
+          <span>TH HUNTER</span></a
+        >
+        <div class="nav-links">
+          <a href="#features">Features</a><a href="./privacy-policy/">Privacy</a
+          ><a href="./support/">Support</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">Your collecting companion</div>
+            <h1>THE HUNT<br />IS <span>ON.</span></h1>
+            <p class="intro">
+              Track Hot Wheels Treasure Hunts and Super Treasure Hunts. Discover
+              releases by year, mark your finds, and keep your collection
+              organized in one place.
+            </p>
+            <div class="actions">
+              <a
+                class="cta primary"
+                href="https://play.google.com/store/apps/details?id=com.simonreact.hotwheelshunter"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View TH Hunter on Google Play"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+                  <path d="M3.5 2.6v18.8L13.6 12 3.5 2.6Z" fill="#238b5c" />
+                  <path d="m3.5 2.6 12.3 7.3-2.2 2.1L3.5 2.6Z" fill="#3178c6" />
+                  <path
+                    d="m3.5 21.4 12.3-7.3-2.2-2.1L3.5 21.4Z"
+                    fill="#e24756"
+                  />
+                  <path
+                    d="m15.8 9.9 4.2 2.4c.5.3.5.9 0 1.2l-4.2 2.4-3.3-3 3.3-3Z"
+                    fill="#f5be34"
+                  />
+                </svg>
+                View on Google Play
+              </a>
+              <a class="cta secondary" href="./support/"
+                >Get Support <span aria-hidden="true">↗</span></a
+              >
+            </div>
+            <p class="hero-note">
+              Built for collectors. Your collection and personal photos stay on
+              your device.
+            </p>
           </div>
-          <p class="micro">Designed for collectors, from casual hunters to dedicated enthusiasts.</p>
+          <div
+            class="showcase"
+            aria-label="Illustrative collection cards for Treasure Hunts and Super Treasure Hunts"
+          >
+            <div class="showcase-head">
+              <strong>YOUR TREASURE BOX</strong
+              ><small>COLLECTION PREVIEW</small>
+            </div>
+            <div class="mini-card">
+              <div class="mini-art">
+                <div>
+                  <small>CASE</small>
+                  <div>A</div>
+                </div>
+              </div>
+              <div class="mini-info">
+                <strong>Treasure Hunt</strong
+                ><span>Track cars you've found</span><b>TH · YELLOW</b>
+              </div>
+            </div>
+            <div class="mini-card sth">
+              <div class="mini-art">
+                <div>
+                  <small>CASE</small>
+                  <div>B</div>
+                </div>
+              </div>
+              <div class="mini-info">
+                <strong>Super Treasure Hunt</strong
+                ><span>Keep tabs on rare finds</span><b>STH · RED</b>
+              </div>
+            </div>
+            <div class="showcase-bottom">
+              <span><i class="status-dot"></i>Finds at a glance</span
+              ><span>TH / STH</span>
+            </div>
+          </div>
         </div>
-        <div class="mockup" aria-label="Illustrative preview showing TH and STH collection categories">
-          <div class="mock-head"><strong>Your Collection</strong><span>Finds at a glance</span></div>
-          <div class="car-row"><span class="car-thumb" aria-hidden="true">🏎️</span><div class="car-info"><b>Treasure Hunts</b><small>Keep track of your finds</small></div><span class="pill">TH</span></div>
-          <div class="car-row"><span class="car-thumb red" aria-hidden="true">🏁</span><div class="car-info"><b>Super Treasure Hunts</b><small>Find those special releases</small></div><span class="pill red">STH</span></div>
-          <div class="mock-note"><span class="dot" aria-hidden="true"></span> Your collection, in one place</div>
+      </section>
+      <section class="section" id="features">
+        <div class="container">
+          <div class="section-head">
+            <div class="eyebrow">Built for the hunt</div>
+            <h2>Everything you need to keep collecting.</h2>
+            <p>
+              Browse the catalog, stay on top of your finds, and manage your
+              growing collection without extra clutter.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">🔎</div>
+              <h3>Browse by Year</h3>
+              <p>
+                Explore TH and STH releases, search by name, and filter by year
+                or type.
+              </p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">🏁</div>
+              <h3>Track Your Finds</h3>
+              <p>
+                Mark cars as collected, follow your progress, and track
+                duplicate quantities.
+              </p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">📷</div>
+              <h3>Add Your Photos</h3>
+              <p>
+                Make your Treasure Box personal with photos stored locally on
+                your device.
+              </p>
+            </article>
+          </div>
         </div>
+      </section>
+      <section class="support-section">
+        <div class="container">
+          <div class="support-box">
+            <div>
+              <h2>Made for the thrill of the find.</h2>
+              <p>
+                Need help with TH Hunter, have feedback, or want to learn more?
+                Visit the support page.
+              </p>
+            </div>
+            <a class="cta secondary" href="./support/"
+              >Visit Support <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="container">
+        <div class="footer-top">
+          <span
+            >© <span id="year">2026</span> TH Hunter. All rights reserved.</span
+          >
+          <div class="footer-links">
+            <a href="./privacy-policy/">Privacy Policy</a
+            ><a href="./support/">Support</a
+            ><a
+              href="https://play.google.com/store/apps/details?id=com.simonreact.hotwheelshunter"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Google Play</a
+            >
+          </div>
+        </div>
+        <p class="disclaimer">
+          TH Hunter is an independent collector utility and is not affiliated
+          with, endorsed by, or sponsored by Mattel or Hot Wheels. Hot Wheels is
+          a trademark of Mattel, Inc.
+        </p>
       </div>
-    </section>
-
-    <section class="features" id="features">
-      <div class="wrap">
-        <div class="section-heading">
-          <div class="eyebrow">What you can do</div>
-          <h2>Everything you need for your next hunt.</h2>
-          <p>Explore cars, remember what you've found, and keep your collection easy to manage.</p>
-        </div>
-        <div class="cards">
-          <article class="card"><div class="card-icon" aria-hidden="true">🔎</div><h3>Browse by Year</h3><p>Explore Treasure Hunt and Super Treasure Hunt releases by year, type, and searchable car details.</p></article>
-          <article class="card"><div class="card-icon" aria-hidden="true">✅</div><h3>Track Your Collection</h3><p>Mark cars as found and keep your personal collection organized as your hunt continues.</p></article>
-          <article class="card"><div class="card-icon" aria-hidden="true">📷</div><h3>Add Your Photos</h3><p>Personalize your finds with your own photos, stored locally on your device.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="about">
-      <div class="wrap">
-        <div class="about-panel">
-          <div><h2>Made for the thrill of the find.</h2><p>Whether you're searching for your first Treasure Hunt or keeping tabs on a growing collection, TH Hunter gives you a simple place to follow along.</p></div>
-          <a class="button secondary" href="./support/">Questions? Contact Support</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap">
-      <div class="footer-grid">
-        <span>© <span id="year">2026</span> TH Hunter. All rights reserved.</span>
-        <div class="footer-links"><a href="./privacy-policy/">Privacy Policy</a><a href="./support/">Support</a></div>
-      </div>
-      <p class="disclaimer">TH Hunter is an independent collector utility and is not affiliated with, endorsed by, or sponsored by Mattel or Hot Wheels. Hot Wheels is a trademark of Mattel, Inc.</p>
-    </div>
-  </footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-</body>
+    </footer>
+    <script>
+      document.getElementById("year").textContent = String(
+        new Date().getFullYear(),
+      );
+    </script>
+  </body>
 </html>

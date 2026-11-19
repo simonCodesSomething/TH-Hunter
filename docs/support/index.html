@@ -1,113 +1,360 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#0a1120" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="description" content="Get help with TH Hunter, the Hot Wheels Treasure Hunt and Super Treasure Hunt collection tracking app." />
-  <title>Support | TH Hunter</title>
-  <style>
-    :root { color-scheme: dark; --bg:#0a1120; --surface:#111d30; --border:rgba(184,200,225,.17); --ink:#f5f8ff; --muted:#a8b8cc; --gold:#ffcc53; --cyan:#83dfe9; }
-    *, *::before, *::after { box-sizing:border-box; }
-    body { margin:0; font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--ink); }
-    a { color:var(--gold); text-underline-offset:3px; overflow-wrap:anywhere; }
-    a:focus-visible, summary:focus-visible { outline:2px solid var(--cyan); outline-offset:4px; border-radius:3px; }
-    .wrap { width:min(calc(100% - 40px), 800px); margin-inline:auto; }
-    .topbar { border-bottom:1px solid var(--border); }
-    .nav { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .brand { display:inline-flex; align-items:center; gap:11px; text-decoration:none; color:var(--ink); font-weight:800; font-size:1.15rem; }
-    .brandmark { width:36px; height:36px; border-radius:11px; background:linear-gradient(145deg,#ffe38e,#f4a737); color:#1b2130; display:grid; place-items:center; font-weight:900; }
-    .navlinks { display:flex; gap:22px; flex-wrap:wrap; }
-    .navlinks a { color:var(--muted); text-decoration:none; font-size:.92rem; }
-    .navlinks a:hover, .navlinks a[aria-current] { color:var(--gold); }
-    main { padding:62px 0 85px; }
-    .eyebrow { margin:0 0 12px; color:var(--gold); font-size:.76rem; font-weight:800; letter-spacing:.17em; text-transform:uppercase; }
-    h1 { font-size:clamp(2.3rem,6vw,3.8rem); letter-spacing:-.045em; line-height:1.1; margin:0 0 16px; }
-    h2 { font-size:1.35rem; letter-spacing:-.02em; margin:0 0 14px; }
-    p { color:var(--muted); margin:0 0 16px; }
-    .lead { font-size:1.08rem; max-width:650px; margin-bottom:30px; }
-    .contact { padding:27px; border:1px solid rgba(255,204,83,.32); border-radius:18px; background:linear-gradient(125deg,rgba(255,204,83,.095),rgba(255,204,83,.025)); }
-    .contact p { margin-bottom:18px; }
-    .button { display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:var(--gold); color:#172032; font-weight:800; text-decoration:none; padding:11px 19px; }
-    .button:hover { background:#ffe08b; }
-    .hint { font-size:.86rem; margin:16px 0 0 !important; }
-    .faq { margin-top:52px; }
-    details { border:1px solid var(--border); border-radius:12px; background:var(--surface); margin:11px 0; padding:0 18px; }
-    summary { cursor:pointer; font-weight:700; padding:18px 25px 18px 0; position:relative; list-style:none; }
-    summary::-webkit-details-marker { display:none; }
-    summary::after { content:'+'; position:absolute; right:0; top:14px; color:var(--gold); font-size:1.55rem; font-weight:400; }
-    details[open] summary::after { content:'−'; }
-    details p { padding-bottom:18px; margin:0; font-size:.96rem; }
-    .note { margin-top:32px; padding-top:24px; border-top:1px solid var(--border); }
-    footer { border-top:1px solid var(--border); padding:26px 0 36px; color:var(--muted); font-size:.85rem; }
-    .footer-row { display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; }
-    .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
-    @media (max-width:520px) { .nav { align-items:flex-start; flex-direction:column; justify-content:center; padding:18px 0; } main { padding-top:42px; } .contact { padding:22px; } }
-    @media (prefers-reduced-motion: no-preference) { .button { transition:background .15s ease; } }
-  </style>
-</head>
-<body>
-  <header class="topbar">
-    <nav class="nav wrap" aria-label="Main navigation">
-      <a class="brand" href="../"><span class="brandmark" aria-hidden="true">TH</span><span>TH Hunter</span></a>
-      <div class="navlinks">
-        <a href="../">Home</a>
-        <a href="../privacy-policy/">Privacy</a>
-        <a href="./" aria-current="page">Support</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a1120" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Get help with TH Hunter, the Hot Wheels Treasure Hunt and Super Treasure Hunt collection tracking app."
+    />
+    <title>Support | TH Hunter</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0a1120;
+        --surface: #111d30;
+        --border: rgba(184, 200, 225, 0.17);
+        --ink: #f5f8ff;
+        --muted: #a8b8cc;
+        --gold: #ffcc53;
+        --cyan: #83dfe9;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          16px/1.65 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      a {
+        color: var(--gold);
+        text-underline-offset: 3px;
+        overflow-wrap: anywhere;
+      }
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid var(--cyan);
+        outline-offset: 4px;
+        border-radius: 3px;
+      }
+      .wrap {
+        width: min(calc(100% - 40px), 800px);
+        margin-inline: auto;
+      }
+      .topbar {
+        border-bottom: 1px solid var(--border);
+      }
+      .nav {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        text-decoration: none;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 1.15rem;
+      }
+      .brandmark {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        background: linear-gradient(145deg, #ffe38e, #f4a737);
+        color: #1b2130;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+      }
+      .navlinks {
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+      }
+      .navlinks a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.92rem;
+      }
+      .navlinks a:hover,
+      .navlinks a[aria-current] {
+        color: var(--gold);
+      }
+      main {
+        padding: 62px 0 85px;
+      }
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--gold);
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.17em;
+        text-transform: uppercase;
+      }
+      h1 {
+        font-size: clamp(2.3rem, 6vw, 3.8rem);
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+        margin: 0 0 16px;
+      }
+      h2 {
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+        margin: 0 0 14px;
+      }
+      p {
+        color: var(--muted);
+        margin: 0 0 16px;
+      }
+      .lead {
+        font-size: 1.08rem;
+        max-width: 650px;
+        margin-bottom: 30px;
+      }
+      .contact {
+        padding: 27px;
+        border: 1px solid rgba(255, 204, 83, 0.32);
+        border-radius: 18px;
+        background: linear-gradient(
+          125deg,
+          rgba(255, 204, 83, 0.095),
+          rgba(255, 204, 83, 0.025)
+        );
+      }
+      .contact p {
+        margin-bottom: 18px;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: var(--gold);
+        color: #172032;
+        font-weight: 800;
+        text-decoration: none;
+        padding: 11px 19px;
+      }
+      .button:hover {
+        background: #ffe08b;
+      }
+      .hint {
+        font-size: 0.86rem;
+        margin: 16px 0 0 !important;
+      }
+      .faq {
+        margin-top: 52px;
+      }
+      details {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+        margin: 11px 0;
+        padding: 0 18px;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 700;
+        padding: 18px 25px 18px 0;
+        position: relative;
+        list-style: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      summary::after {
+        content: "+";
+        position: absolute;
+        right: 0;
+        top: 14px;
+        color: var(--gold);
+        font-size: 1.55rem;
+        font-weight: 400;
+      }
+      details[open] summary::after {
+        content: "−";
+      }
+      details p {
+        padding-bottom: 18px;
+        margin: 0;
+        font-size: 0.96rem;
+      }
+      .note {
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 26px 0 36px;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      .footer-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+      .footer-links {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      @media (max-width: 520px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          justify-content: center;
+          padding: 18px 0;
+        }
+        main {
+          padding-top: 42px;
+        }
+        .contact {
+          padding: 22px;
+        }
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .button {
+          transition: background 0.15s ease;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="nav wrap" aria-label="Main navigation">
+        <a class="brand" href="../"
+          ><span class="brandmark" aria-hidden="true">TH</span
+          ><span>TH Hunter</span></a
+        >
+        <div class="navlinks">
+          <a href="../">Home</a>
+          <a href="../privacy-policy/">Privacy</a>
+          <a href="./" aria-current="page">Support</a>
+        </div>
+      </nav>
+    </header>
+    <main class="wrap">
+      <p class="eyebrow">TH Hunter · Help center</p>
+      <h1>How can we help?</h1>
+      <p class="lead">
+        Questions, bug reports, or suggestions for TH Hunter? Contact us
+        directly, or check the answers to common questions below.
+      </p>
+
+      <section class="contact" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Contact support</h2>
+        <p>
+          For help with the app, missing car information, or purchase issues,
+          email us at
+          <a href="mailto:developerSims@icloud.com">developerSims@icloud.com</a
+          >.
+        </p>
+        <a
+          class="button"
+          href="mailto:developerSims@icloud.com?subject=TH%20Hunter%20Support"
+          >Email support</a
+        >
+        <p class="hint">
+          To help us investigate, include your device model, Android or iOS
+          version, app version, and a description of the issue. Screenshots are
+          helpful, but please don't send passwords or payment details.
+        </p>
+      </section>
+
+      <section class="faq" aria-labelledby="faq-heading">
+        <h2 id="faq-heading">Frequently asked questions</h2>
+        <details>
+          <summary>Where is my collection information stored?</summary>
+          <p>
+            Your found-car selections and collection information are stored
+            locally on your device. TH Hunter does not require an account to
+            track your collection. Uninstalling the app or clearing its data may
+            remove that information.
+          </p>
+        </details>
+        <details>
+          <summary>Are my collection photos uploaded?</summary>
+          <p>
+            No. Photos you choose for your collection remain on your device and
+            are not uploaded to TH Hunter's backend. Be aware that your device's
+            own photo backup settings may apply.
+          </p>
+        </details>
+        <details>
+          <summary>Why isn't a car or year appearing?</summary>
+          <p>
+            TH Hunter's catalog is updated as reference information becomes
+            available. If a car is missing or a listing seems incorrect, email
+            support with the car name, year, and whether it is a Treasure Hunt
+            (TH) or Super Treasure Hunt (STH).
+          </p>
+        </details>
+        <details>
+          <summary>How do I change advertising privacy choices?</summary>
+          <p>
+            Open TH Hunter's About screen and select Privacy Choices where
+            available. You can also review advertising preferences through your
+            device or Google account settings.
+          </p>
+        </details>
+        <details>
+          <summary>What if my optional support purchase has an issue?</summary>
+          <p>
+            Please contact support and describe what happened, including the app
+            version and platform. Purchases are processed by the relevant app
+            store. Do not email payment card numbers or other sensitive payment
+            information.
+          </p>
+        </details>
+        <details>
+          <summary>Can I transfer my collection to a new phone?</summary>
+          <p>
+            TH Hunter does not currently provide account-based collection
+            syncing. Because collection data is stored locally, do not assume it
+            will transfer automatically to another device.
+          </p>
+        </details>
+      </section>
+
+      <div class="note">
+        <h2>Privacy</h2>
+        <p>
+          To learn more about local storage, advertising, and third-party
+          services, read our <a href="../privacy-policy/">Privacy Policy</a>.
+        </p>
       </div>
-    </nav>
-  </header>
-  <main class="wrap">
-    <p class="eyebrow">TH Hunter · Help center</p>
-    <h1>How can we help?</h1>
-    <p class="lead">Questions, bug reports, or suggestions for TH Hunter? Contact us directly, or check the answers to common questions below.</p>
-
-    <section class="contact" aria-labelledby="contact-heading">
-      <h2 id="contact-heading">Contact support</h2>
-      <p>For help with the app, missing car information, or purchase issues, email us at <a href="mailto:developerSims@icloud.com">developerSims@icloud.com</a>.</p>
-      <a class="button" href="mailto:developerSims@icloud.com?subject=TH%20Hunter%20Support">Email support</a>
-      <p class="hint">To help us investigate, include your device model, Android or iOS version, app version, and a description of the issue. Screenshots are helpful, but please don't send passwords or payment details.</p>
-    </section>
-
-    <section class="faq" aria-labelledby="faq-heading">
-      <h2 id="faq-heading">Frequently asked questions</h2>
-      <details>
-        <summary>Where is my collection information stored?</summary>
-        <p>Your found-car selections and collection information are stored locally on your device. TH Hunter does not require an account to track your collection. Uninstalling the app or clearing its data may remove that information.</p>
-      </details>
-      <details>
-        <summary>Are my collection photos uploaded?</summary>
-        <p>No. Photos you choose for your collection remain on your device and are not uploaded to TH Hunter's backend. Be aware that your device's own photo backup settings may apply.</p>
-      </details>
-      <details>
-        <summary>Why isn't a car or year appearing?</summary>
-        <p>TH Hunter's catalog is updated as reference information becomes available. If a car is missing or a listing seems incorrect, email support with the car name, year, and whether it is a Treasure Hunt (TH) or Super Treasure Hunt (STH).</p>
-      </details>
-      <details>
-        <summary>How do I change advertising privacy choices?</summary>
-        <p>Open TH Hunter's About screen and select Privacy Choices where available. You can also review advertising preferences through your device or Google account settings.</p>
-      </details>
-      <details>
-        <summary>What if my optional support purchase has an issue?</summary>
-        <p>Please contact support and describe what happened, including the app version and platform. Purchases are processed by the relevant app store. Do not email payment card numbers or other sensitive payment information.</p>
-      </details>
-      <details>
-        <summary>Can I transfer my collection to a new phone?</summary>
-        <p>TH Hunter does not currently provide account-based collection syncing. Because collection data is stored locally, do not assume it will transfer automatically to another device.</p>
-      </details>
-    </section>
-
-    <div class="note">
-      <h2>Privacy</h2>
-      <p>To learn more about local storage, advertising, and third-party services, read our <a href="../privacy-policy/">Privacy Policy</a>.</p>
-    </div>
-  </main>
-  <footer>
-    <div class="wrap footer-row">
-      <span>© 2026 TH Hunter</span>
-      <div class="footer-links"><a href="../">Home</a><a href="../privacy-policy/">Privacy Policy</a><a href="mailto:developerSims@icloud.com?subject=TH%20Hunter%20Support">Email support</a></div>
-    </div>
-  </footer>
-</body>
+    </main>
+    <footer>
+      <div class="wrap footer-row">
+        <span>© 2026 TH Hunter</span>
+        <div class="footer-links">
+          <a href="../">Home</a><a href="../privacy-policy/">Privacy Policy</a
+          ><a
+            href="mailto:developerSims@icloud.com?subject=TH%20Hunter%20Support"
+            >Email support</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

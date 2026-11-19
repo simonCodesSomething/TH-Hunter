@@ -11,14 +11,14 @@ export const gridStyles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "stretch",
   },
-  card: {
-    width: "48%",
-    backgroundColor: "#191919",
-    borderColor: "#292929",
-    borderWidth: 1,
-    borderRadius: 14,
-    overflow: "hidden",
-  },
+card: {
+  width: "48%",
+  backgroundColor: "#191919",
+  borderColor: "#3A3A40",
+  borderWidth: 1,
+  borderRadius: 14,
+  overflow: "hidden",
+},
   cardPressed: {
     opacity: 0.82,
   },
