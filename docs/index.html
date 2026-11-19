@@ -207,6 +207,23 @@
       .cta.secondary:hover {
         border-color: #666;
       }
+      /* Official Google Play badge: constrain its intrinsic image size. */
+      .play-store-link {
+        display: inline-flex;
+        align-items: center;
+        flex: 0 0 auto;
+        line-height: 0;
+      }
+      .play-store-badge {
+        display: block;
+        width: 180px;
+        max-width: 100%;
+        height: auto;
+        transition: transform 0.16s ease;
+      }
+      .play-store-link:hover .play-store-badge {
+        transform: translateY(-2px);
+      }
       .hero-note {
         font-size: 0.84rem;
         color: #8e8e98;
@@ -639,7 +656,7 @@
             <a href="./privacy-policy/">Privacy Policy</a
             ><a href="./support/">Support</a
             ><a
-              href="https://play.google.com/store/apps/details?id=com.simonreact.hotwheelshunter"
+              href="https://play.google.com/store/apps/details?id=com.simonreact.thhunter"
               target="_blank"
               rel="noopener noreferrer"
               >Google Play</a
