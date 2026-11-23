@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import type { Car } from "../types";
+import { recordNewFoundCarForReview } from "../services/appReview";
 import { CAR_QUANTITIES_STORAGE_KEY } from "./carQuantities";
 
 const FOUND_KEY = "hwh_found_ids_v1";
@@ -115,7 +116,8 @@ export async function getFoundIds(): Promise<string[]> {
 
 export async function toggleFoundId(id: string): Promise<string[]> {
   const current = await getFoundIds();
-  const next = current.includes(id)
+  const wasFound = current.includes(id);
+  const next = wasFound
     ? current.filter((existingId) => existingId !== id)
     : [...current, id];
 
@@ -123,7 +125,15 @@ export async function toggleFoundId(id: string): Promise<string[]> {
     await AsyncStorage.setItem(FOUND_KEY, JSON.stringify(next));
   } catch (error) {
     console.warn("Failed to save found list", error);
+    return current;
   }
+
+  // Record only a successfully saved, newly found car. This function
+  // independently deduplicates IDs across removal and re-addition.
+  if (!wasFound) {
+    await recordNewFoundCarForReview(id);
+  }
+
   return next;
 }
 

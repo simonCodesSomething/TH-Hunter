@@ -736,89 +736,42 @@ caseDropdownText: {
 },
 
 caseDropdownMenu: {
-  backgroundColor: "#101010",
-  borderColor: "#292929",
-  borderRadius: 10,
-},
-
-caseModalContent: {
-  width: "92%",
-  height: "50%",
-  backgroundColor: "#101010",
-  borderRadius: 22,
-  overflow: "hidden",
-},
-
-caseModalOverlay: {
-  flex: 1,
-  alignItems: "center",
-  justifyContent: "center",
-},
-
-caseModalBackdrop: {
-  ...StyleSheet.absoluteFill,
-  backgroundColor: "rgba(0, 0, 0, 0.72)",
-},
-
-caseModalHeader: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  paddingHorizontal: 20,
-  paddingVertical: 18,
-  borderBottomWidth: 1,
-  borderBottomColor: "#292929",
-},
-
-caseModalTitle: {
-  color: "#FFFFFF",
-  fontSize: 14,
-  fontWeight: "900",
-  letterSpacing: 1,
-},
-
-caseModalClose: {
-  width: 30,
-  height: 30,
-  alignItems: "center",
-  justifyContent: "center",
-},
-
-caseCarousel: {
-  alignItems: "center",
-  paddingVertical: 12,
-  gap: 4,
-},
-
-caseCarouselItem: {
-  width: "100%",
-  height: 52,
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: "#1B1B1B",
+  position: "absolute",
+  backgroundColor: "#1A1A1A",
   borderWidth: 1,
   borderColor: "#292929",
-  borderRadius: 16,
+  borderRadius: 12,
+  paddingVertical: 4,
+  overflow: "hidden",
+  elevation: 12,
+  shadowColor: "#000000",
+  shadowOpacity: 0.3,
+  shadowRadius: 12,
+  shadowOffset: { width: 0, height: 6 },
 },
 
-caseCarouselText: {
-  color: "#FFFFFF",
-  fontSize: 15,
-  fontWeight: "900",
-  letterSpacing: 0.4,
-},
-
-caseCarouselTextActive: {
-  color: "#111111",
+caseDropdownOverlay: {
+  flex: 1,
+  backgroundColor: "transparent",
 },
 
 caseDropdownItem: {
-  minHeight: 42,
+  minHeight: 48,
+  paddingHorizontal: 16,
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
 },
 
 caseDropdownItemText: {
   color: "#FFFFFF",
-  fontSize: 13,
+  fontSize: 14,
+  fontWeight: "600",
+  letterSpacing: 0.5,
+},
+
+caseDropdownItemTextActive: {
+  color: "#111111",
   fontWeight: "800",
 },
 carGraphicCaseLabel: {

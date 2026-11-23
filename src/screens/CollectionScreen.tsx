@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { maybeRequestAppReview } from "../services/appReview";
 import {
   getCollectionPhotos,
   getFoundIds,
@@ -176,10 +177,13 @@ function CollectionCard({
 }
 interface CollectionScreenProps {
   onProgressPress: () => void;
+  /** Pass false when Collection stays mounted behind another custom tab. */
+  isActive?: boolean;
   //onProgressPress={()=>setActiveTab("collection")};
 }
 export default function CollectionScreen({
   onProgressPress,
+  isActive = true,
 }: CollectionScreenProps) {
   const { cars: typedCarData } = useCarData();
   const [foundIds, setFoundIds] = useState<string[]>([]);
@@ -201,6 +205,20 @@ export default function CollectionScreen({
   const [savingQuantity, setSavingQuantity] = useState(false);
   // Keep the photo frame and the quantity controls aligned on all screen widths.
   const quantityLock = useRef(false);
+  // Only request a review when this screen is actually visible and
+  // there are no open dialogs or collection-editing interactions.
+  useEffect(() => {
+    if (!isActive || selectedCar || showFilterModal || isEditing || savingQuantity) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      void maybeRequestAppReview();
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [isActive, selectedCar, showFilterModal, isEditing, savingQuantity]);
+
   useEffect(() => {
     void getFoundIds().then(setFoundIds);
     void getCollectionPhotos().then(setCollectionPhotos);

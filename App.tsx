@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from "react";
 import { Animated, Dimensions, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -20,32 +21,50 @@ import type { Tab } from "./src/types/tabs";
 import { styles } from "./src/styles/app.styles";
 
 const { width } = Dimensions.get("window");
+
 type LegalScreen = "privacy" | "terms" | null;
 
 function AppContent() {
   const { loading, error } = useCarData();
+
   const { supportEnabled, purchaseSupport } = useSupportPurchase();
-  const { canRequestAds, privacyOptionsRequired, showPrivacyOptions } = useAdsConsent();
+
+  const {
+    canRequestAds,
+    privacyOptionsRequired,
+    showPrivacyOptions,
+  } = useAdsConsent();
 
   const [activeTab, setActiveTab] = useState<Tab>("hunt");
   const [showProgress, setShowProgress] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
   const [legalScreen, setLegalScreen] = useState<LegalScreen>(null);
 
-  // Increment after a successful collection reset. This remounts each
-  // collection-dependent screen next time it is rendered, forcing it to
-  // reload found IDs and quantities from local storage.
+  // Increment after a successful collection reset.
+  // Collection-dependent screens reload their locally stored data.
   const [collectionRevision, setCollectionRevision] = useState(0);
+
   const onCollectionReset = () => {
     setCollectionRevision((revision) => revision + 1);
   };
 
-  const progressTranslateX = useRef(new Animated.Value(width)).current;
-  const showBanner = !showProgress && (activeTab === "browse" || activeTab === "collection");
+  const progressTranslateX = useRef(
+    new Animated.Value(width)
+  ).current;
+
+  const showBanner =
+    !showProgress &&
+    (activeTab === "browse" || activeTab === "collection");
+
+  // Review eligibility should only be checked when
+  // Collection is visible and not covered by Progress.
+  const collectionIsActive =
+    activeTab === "collection" && !showProgress;
 
   const openProgress = () => {
     progressTranslateX.setValue(width);
     setShowProgress(true);
+
     Animated.timing(progressTranslateX, {
       toValue: 0,
       duration: 280,
@@ -59,7 +78,9 @@ function AppContent() {
       duration: 250,
       useNativeDriver: true,
     }).start(({ finished }) => {
-      if (finished) setShowProgress(false);
+      if (finished) {
+        setShowProgress(false);
+      }
     });
   };
 
@@ -72,7 +93,12 @@ function AppContent() {
   const renderTabScreen = () => {
     switch (activeTab) {
       case "browse":
-        return <BrowseScreen key={`browse-${collectionRevision}`} />;
+        return (
+          <BrowseScreen
+            key={`browse-${collectionRevision}`}
+          />
+        );
+
       case "hunt":
         return (
           <HuntScreen
@@ -80,23 +106,41 @@ function AppContent() {
             canRequestAds={canRequestAds}
           />
         );
+
       case "collection":
         return (
           <CollectionScreen
             key={`collection-${collectionRevision}`}
+            isActive={collectionIsActive}
             onProgressPress={openProgress}
           />
         );
+
       case "about":
         if (legalScreen === "privacy") {
-          return <PrivacyPolicyScreen onBack={() => setLegalScreen(null)} />;
+          return (
+            <PrivacyPolicyScreen
+              onBack={() => setLegalScreen(null)}
+            />
+          );
         }
+
         if (legalScreen === "terms") {
-          return <TermsOfUseScreen onBack={() => setLegalScreen(null)} />;
+          return (
+            <TermsOfUseScreen
+              onBack={() => setLegalScreen(null)}
+            />
+          );
         }
+
         if (showCheatSheet) {
-          return <CheatSheetScreen onBack={() => setShowCheatSheet(false)} />;
+          return (
+            <CheatSheetScreen
+              onBack={() => setShowCheatSheet(false)}
+            />
+          );
         }
+
         return (
           <AboutScreen
             onCheatSheetPress={() => setShowCheatSheet(true)}
@@ -109,49 +153,85 @@ function AppContent() {
             onCollectionReset={onCollectionReset}
           />
         );
+
       default:
-        return <BrowseScreen key={`browse-${collectionRevision}`} />;
+        return (
+          <BrowseScreen
+            key={`browse-${collectionRevision}`}
+          />
+        );
     }
   };
 
   if (loading) {
-    return <View style={{ flex: 1, backgroundColor: "#000000" }} />;
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#000000",
+        }}
+      />
+    );
   }
 
   if (error) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorTitle}>CAR DATA UNAVAILABLE</Text>
-        <Text style={styles.errorMessage}>{error}</Text>
+        <Text style={styles.errorTitle}>
+          CAR DATA UNAVAILABLE
+        </Text>
+        <Text style={styles.errorMessage}>
+          {error}
+        </Text>
       </View>
     );
   }
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.safeArea} edges={["top", "bottom"]}>
+      <SafeAreaView
+        style={styles.safeArea}
+        edges={["top", "bottom"]}
+      >
         <View style={styles.container}>
-          <View style={styles.content}>{renderTabScreen()}</View>
+          <View style={styles.content}>
+            {renderTabScreen()}
+          </View>
 
           {showBanner && canRequestAds && (
             <AdBanner
-              placement={activeTab === "browse" ? "browse" : "collection"}
+              placement={
+                activeTab === "browse"
+                  ? "browse"
+                  : "collection"
+              }
               canRequestAds={canRequestAds}
             />
           )}
 
           {!showProgress && (
-            <BottomTabs activeTab={activeTab} onTabChange={handleTabChange} />
+            <BottomTabs
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+            />
           )}
 
           {showProgress && (
             <Animated.View
               style={[
                 styles.progressOverlay,
-                { transform: [{ translateX: progressTranslateX }] },
+                {
+                  transform: [
+                    { translateX: progressTranslateX },
+                  ],
+                },
               ]}
             >
-              <ProgressScreen key={`progress-${collectionRevision}`} onClose={closeProgress} />
+              <ProgressScreen
+                key={`progress-${collectionRevision}`}
+                onClose={closeProgress}
+              />
+
               <BottomTabs
                 activeTab={activeTab}
                 onTabChange={(tab) => {
@@ -174,4 +254,3 @@ export default function App() {
     </CarDataProvider>
   );
 }
-
