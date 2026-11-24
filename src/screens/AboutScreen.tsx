@@ -15,7 +15,7 @@ import { styles } from "../styles/about.styles";
 import { resetStyles } from "../styles/aboutReset.styles";
 import { resetEntireCollection } from "../utils/storage";
 
-const ANDROID_PACKAGE_ID = "com.simonreact.hotwheelshunter";
+const ANDROID_PACKAGE_ID = "com.simonreact.thhunter";
 
 interface AboutScreenProps {
   onCheatSheetPress: () => void;
