@@ -51,16 +51,98 @@ const TYPE_META: Record<
     color: "#EF4444",
   },
 };
-// Browse and Collection show loose images. Personal photos override the catalog.
+// Browse shows loose catalog images; personal photos always take priority.
+const CAR_IMAGE_BASE = "https://lcqurdjjxsxuwdaevchw.supabase.co/storage/v1/object/public/car-images/";
+
 type CarWithLoose = Car & { imageLoose?: string | null; image_loose?: string | null };
-function getPhoto(car: Car | null, photos: Record<string, string>): string | undefined {
-  if (!car) return undefined;
-  if (photos[car.id]?.trim()) return photos[car.id].trim();
-  const record = car as CarWithLoose;
-  const candidate = record.imageLoose ?? record.image_loose;
-  return typeof candidate === "string" && /^https?:\/\//i.test(candidate.trim())
-    ? candidate.trim() : undefined;
+
+function isPlaceholderImage(value: string): boolean {
+  return /(?:^|\/)placeholder-[a-q]\.webp(?:[?#].*)?$/i.test(value);
 }
+
+function getPhoto(car: Car, photos: Record<string, string>) {
+  const personal = photos[car.id]?.trim();
+  if (personal) return { uri: personal, isPlaceholder: false };
+
+  const record = car as CarWithLoose;
+  const loose = (record.imageLoose ?? record.image_loose ?? "").trim();
+  const key = car.imageKey?.trim() ?? "";
+  // Prefer a real loose photo, never substitute a packaged car photo.
+  if (/^https?:\/\//i.test(loose) && !isPlaceholderImage(loose)) {
+    return { uri: loose, isPlaceholder: false };
+  }
+  for (const candidate of [loose, key]) {
+    if (!isPlaceholderImage(candidate)) continue;
+    if (/^https?:\/\//i.test(candidate)) {
+      return { uri: candidate, isPlaceholder: true };
+    }
+    if (/^placeholders\/placeholder-[a-q]\.webp$/i.test(candidate)) {
+      return { uri: CAR_IMAGE_BASE + candidate, isPlaceholder: true };
+    }
+  }
+  return { uri: undefined, isPlaceholder: false };
+}
+
+function BrowseCarImage({ car, photos, detail = false }: {
+  car: Car;
+  photos: Record<string, string>;
+  detail?: boolean;
+}) {
+  const { uri, isPlaceholder } = getPhoto(car, photos);
+  const [failedUri, setFailedUri] = useState<string | undefined>();
+  useEffect(() => setFailedUri(undefined), [uri]);
+  const accent = TYPE_META[car.type].color;
+  const backgroundColor = car.type === "TH" ? "#282313" : "#2B1717";
+  const showPhoto = !!uri && failedUri !== uri;
+
+  if (showPhoto && uri) {
+    const image = (
+      <Image
+        source={{ uri }}
+        style={[
+          detail ? collectionStyles.detailImage : gridStyles.image,
+          isPlaceholder && { tintColor: accent, backgroundColor: "transparent" },
+        ]}
+        resizeMode="contain"
+        onError={() => setFailedUri(uri)}
+      />
+    );
+    if (detail) {
+      return (
+        <View style={[
+          collectionStyles.detailPhotoFrame,
+          modalLayout.photoFrame,
+          isPlaceholder && { backgroundColor },
+        ]}>
+          {image}
+        </View>
+      );
+    }
+    return isPlaceholder ? (
+      <View style={[gridStyles.placeholder, { backgroundColor }]}>{image}</View>
+    ) : image;
+  }
+
+  if (detail) {
+    return (
+      <View style={[collectionStyles.detailImagePlaceholder, modalLayout.photoFrame, { backgroundColor }]}>
+        <Text style={[gridStyles.placeholderLabel, { color: accent }]}>CASE</Text>
+        <Text style={[gridStyles.placeholderLetter, { color: accent }]}>
+          {String(car.caseLetter ?? "?").toUpperCase()}
+        </Text>
+      </View>
+    );
+  }
+  return (
+    <View style={[gridStyles.placeholder, { backgroundColor }]}>
+      <Text style={[gridStyles.placeholderLabel, { color: accent }]}>CASE</Text>
+      <Text style={[gridStyles.placeholderLetter, { color: accent }]}>
+        {String(car.caseLetter ?? "?").toUpperCase()}
+      </Text>
+    </View>
+  );
+}
+
 export default function BrowseScreen() {
   const { cars: typedCarData } = useCarData();
   const [query, setQuery] = useState("");
@@ -200,7 +282,6 @@ const sections = useMemo<YearSection[]>(() => {
       };
     });
   }, [years, typedCarData]);
-  const selectedCarPhoto = getPhoto(selectedCar, collectionPhotos);
   const selectedCarIsFound = selectedCar ? foundIds.includes(selectedCar.id) : false;
   return (
     <View style={styles.container}>
@@ -404,16 +485,7 @@ const sections = useMemo<YearSection[]>(() => {
             <View style={{ width: "100%" }}>
               <View style={modalLayout.mainRow}>
                 <View style={[collectionStyles.detailImageWrap, modalLayout.imageColumn]}>
-                  {selectedCarPhoto ? (
-                    <View style={[collectionStyles.detailPhotoFrame, modalLayout.photoFrame]}>
-                      <Image source={{ uri: selectedCarPhoto }}
-                        style={collectionStyles.detailImage} resizeMode="contain" />
-                    </View>
-                  ) : (
-                    <View style={[collectionStyles.detailImagePlaceholder, modalLayout.photoFrame]}>
-                      <MaterialCommunityIcons name="car-sports" size={42} color="#111111" />
-                    </View>
-                  )}
+                  <BrowseCarImage car={selectedCar} photos={collectionPhotos} detail />
                 </View>
                 <View style={modalLayout.infoColumn}>
                   <View style={[collectionStyles.detailMetaRow, modalLayout.metaRow]}>
@@ -552,8 +624,7 @@ function BrowseCategory({ type, cars, foundIds, collectionPhotos, onSelectCar,
       {expanded && (
         <View style={[gridStyles.grid, browseGridStyles.grid]}>
           {cars.map((car) => {
-            const photoUri = getPhoto(car, collectionPhotos);
-            const collected = foundIds.includes(car.id);
+              const collected = foundIds.includes(car.id);
             const accent = TYPE_META[car.type].color;
             const caseLetter = String(car.caseLetter ?? "?").toUpperCase();
             return (
@@ -566,18 +637,7 @@ function BrowseCategory({ type, cars, foundIds, collectionPhotos, onSelectCar,
                 accessibilityRole="button"
                 accessibilityLabel={`${car.name}, case ${caseLetter}, ${collected ? "collected" : "missing"}`}>
                 <View style={gridStyles.imageWrap}>
-                  {photoUri ? (
-                    <Image source={{ uri: photoUri }} style={gridStyles.image}
-                      resizeMode="contain" />
-                  ) : (
-                    <View style={[gridStyles.placeholder,
-                      { backgroundColor: car.type === "TH" ? "#282313" : "#2B1717" }]}>
-                      <Text style={[gridStyles.placeholderLabel, { color: accent }]}>CASE</Text>
-                      <Text style={[gridStyles.placeholderLetter, { color: accent }]}>
-                        {caseLetter}
-                      </Text>
-                    </View>
-                  )}
+                  <BrowseCarImage car={car} photos={collectionPhotos} />
                   {collected && (
                     <View style={browseGridStyles.collectedBadge}>
                       <Ionicons name="checkmark" size={12} color="#111111" />

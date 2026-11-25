@@ -32,14 +32,60 @@ import type { Car } from "../types";
 type CarType = "TH" | "STH";
 type HuntView = CarType;
 const CURRENT_YEAR = new Date().getFullYear();
-// Prefer personal collection photos, then public catalog images.
-// Keep the existing case artwork when a car has no image yet.
-function getCarPhoto(car: Car, collectionPhotos: Record<string, string>): string | null {
+// Accept both mapped public URLs and the new relative placeholder keys.
+const CAR_IMAGE_BASE = "https://lcqurdjjxsxuwdaevchw.supabase.co/storage/v1/object/public/car-images/";
+
+function getCarPhoto(car: Car, collectionPhotos: Record<string, string>) {
   const personalPhoto = collectionPhotos[car.id];
-  if (personalPhoto) return personalPhoto;
-  const catalogUrl = car.imageKey?.trim();
-  return catalogUrl && /^https?:\/\//i.test(catalogUrl) ? catalogUrl : null;
+  if (personalPhoto) return { uri: personalPhoto, isPlaceholder: false };
+
+  const key = car.imageKey?.trim() ?? "";
+  const isPlaceholder = /(?:^|\/)placeholder-[a-q]\.webp(?:[?#].*)?$/i.test(key);
+  if (/^https?:\/\//i.test(key)) return { uri: key, isPlaceholder };
+  if (/^placeholders\/placeholder-[a-q]\.webp$/i.test(key)) {
+    return { uri: CAR_IMAGE_BASE + key, isPlaceholder: true };
+  }
+  return { uri: null, isPlaceholder: false };
 }
+
+function HuntCarImage({ car, collectionPhotos }: {
+  car: Car;
+  collectionPhotos: Record<string, string>;
+}) {
+  const { uri, isPlaceholder } = getCarPhoto(car, collectionPhotos);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [uri]);
+  const accent = TYPE_META[car.type].color;
+  const showPhoto = !!uri && !failed;
+  return (
+    <View style={[
+      styles.carImage,
+      car.type === "TH" ? styles.carImageTH : styles.carImageSTH,
+      showPhoto && !isPlaceholder && { backgroundColor: "#FFFFFF" },
+    ]}>
+      {showPhoto && uri ? (
+        <Image
+          source={{ uri }}
+          style={[styles.carPhoto, isPlaceholder && { tintColor: accent }]}
+          resizeMode="contain"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <View style={[
+          styles.carGraphic,
+          car.type === "TH" ? styles.carGraphicTH : styles.carGraphicSTH,
+        ]}>
+          <MaterialCommunityIcons name="fire" size={24} color={accent} />
+          <Text style={[styles.carGraphicCaseLabel, car.type === "STH" && styles.carGraphicTextSTH]}>CASE</Text>
+          <Text style={[styles.carGraphicCaseLetter, car.type === "STH" && styles.carGraphicTextSTH]}>
+            {String(car.caseLetter ?? "?").toUpperCase()}
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+}
+
 const TYPE_META: Record<
   CarType,
   {
@@ -202,7 +248,7 @@ export default function HuntScreen({ canRequestAds = false }: HuntScreenProps) {
      */
     const renderCarCard = (car: Car) => {
       const isFound = foundIds.includes(car.id);
-      const photoUri = getCarPhoto(car, collectionPhotos);
+      const { uri: photoUri } = getCarPhoto(car, collectionPhotos);
       const accentColor = TYPE_META[car.type].color;
       const caseLabel = String(car.caseLetter ?? "?").toUpperCase();
       return (
@@ -218,49 +264,8 @@ export default function HuntScreen({ canRequestAds = false }: HuntScreenProps) {
 ]}
           onPress={() => void handleToggleFound(car.id)}
         >
-<View
-  style={[
-    styles.carImage,
-    car.type === "TH" ? styles.carImageTH : styles.carImageSTH,
-    ...(photoUri ? [{ backgroundColor: "#FFFFFF" }] : []),
-  ]}
->
-  {photoUri ? (
-    <Image source={{ uri: photoUri }} style={styles.carPhoto} resizeMode="contain" />
-  ) : (
-    <View
-      style={[
-        styles.carGraphic,
-        car.type === "TH"
-          ? styles.carGraphicTH
-          : styles.carGraphicSTH,
-      ]}
-    >
-      <MaterialCommunityIcons
-        name="fire"
-        size={24}
-        color={accentColor}
-      />
-<Text
-  style={[
-    styles.carGraphicCaseLabel,
-    car.type === "STH" && styles.carGraphicTextSTH,
-  ]}
->
-  CASE
-</Text>
-      <Text
-  style={[
-    styles.carGraphicCaseLetter,
-    car.type === "STH" && styles.carGraphicTextSTH,
-  ]}
->
-  {caseLabel}
-</Text>
-    </View>
-  )}
-</View>
-          <Text style={[styles.carCase, { color: accentColor }]}>
+<HuntCarImage car={car} collectionPhotos={collectionPhotos} />
+<Text style={[styles.carCase, { color: accentColor }]}>
             CASE {caseLabel}
           </Text>
           <Text style={styles.carName} numberOfLines={2}>
@@ -821,7 +826,7 @@ export default function HuntScreen({ canRequestAds = false }: HuntScreenProps) {
                 .slice(0, 5)
                 .map((car) => {
                   const accent = TYPE_META[car.type].color;
-                  const photoUri = getCarPhoto(car, collectionPhotos);
+                  const { uri: photoUri } = getCarPhoto(car, collectionPhotos);
                   const caseLetter = String(car.caseLetter ?? "?").toUpperCase();
                   return (
                     // Display only: no onPress, so a find cannot be removed here.
@@ -836,53 +841,8 @@ export default function HuntScreen({ canRequestAds = false }: HuntScreenProps) {
 ]}
                       accessibilityLabel={`${car.name}, case ${caseLetter}, collected`}
                     >
-                      <View
-                        style={[
-                          styles.carImage,
-                          car.type === "TH" ? styles.carImageTH : styles.carImageSTH,
-                          ...(photoUri ? [{ backgroundColor: "#FFFFFF" }] : []),
-                        ]}
-                      >
-                        {photoUri ? (
-                          <Image
-                            source={{ uri: photoUri }}
-                            style={styles.carPhoto}
-                            resizeMode="contain"
-                          />
-                        ) : (
-                          <View
-                            style={[
-                              styles.carGraphic,
-                              car.type === "TH"
-                                ? styles.carGraphicTH
-                                : styles.carGraphicSTH,
-                            ]}
-                          >
-                            <MaterialCommunityIcons
-                              name="fire"
-                              size={24}
-                              color={accent}
-                            />
-                            <Text
-                              style={[
-                                styles.carGraphicCaseLabel,
-                                car.type === "STH" && styles.carGraphicTextSTH,
-                              ]}
-                            >
-                              CASE
-                            </Text>
-                            <Text
-                              style={[
-                                styles.carGraphicCaseLetter,
-                                car.type === "STH" && styles.carGraphicTextSTH,
-                              ]}
-                            >
-                              {caseLetter}
-                            </Text>
-                          </View>
-                        )}
-                      </View>
-                      <Text style={[styles.carCase, { color: accent }]}>
+                      <HuntCarImage car={car} collectionPhotos={collectionPhotos} />
+<Text style={[styles.carCase, { color: accent }]}>
                         CASE {caseLetter}
                       </Text>
                       <Text style={styles.carName} numberOfLines={2}>

@@ -691,6 +691,7 @@ export const styles = StyleSheet.create({
   category: {
     borderTopWidth: 1,
     borderTopColor: "#292929",
+    paddingHorizontal: 10,
     paddingTop: 14,
     paddingBottom: 14,
   },
@@ -698,7 +699,7 @@ export const styles = StyleSheet.create({
   categoryHeader: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 14,
+    paddingHorizontal: 4,
     marginBottom: 12,
   },
 
